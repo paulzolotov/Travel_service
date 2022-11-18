@@ -1,6 +1,12 @@
 #! /usr/local/bin/python3
 
-def my_map(func, *iterables):
+'''
+Реализовать функцию, которая будет работать аналогично функции map, 
+без использования map (возвращаемым объектом может быть список)
+'''
+
+
+def my_map(func, *iterables) -> list:
     '''
     This function is similar built-in function 'map'.
     Make an iterator that computes the function using arguments from each of the iterables.

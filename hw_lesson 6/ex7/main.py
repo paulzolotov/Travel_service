@@ -1,5 +1,8 @@
 #! /usr/local/bin/python3
 
+'''Создать функцию для нахождения двойного факториала'''
+
+
 def factorial2(n):
     if n <= 2:
         return n

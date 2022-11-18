@@ -1,5 +1,31 @@
 #! /usr/local/bin/python3
 
+'''
+Создайте декоратор, remember_result который будет сохраняет результат последнего вызова
+декорированной функции и выводить его в консоль перед каждым новым вызовом
+
+@remember_result
+def sum_list(*args):
+     result = ""
+     for item in args:
+          result += item
+          print(f"Current result = '{result}'")
+     return result
+
+sum_list("a", "b")
+Last result = 'None'
+Current result = 'ab'
+
+sum_list("abc", "cde")
+Last result = 'ab'
+Current result = 'abccde'
+
+sum_list(3, 4, 5)
+Last result = 'abccde'
+Current result = '12'
+'''
+
+
 def remember_result(res_list):
     def my_decorator(function):
         def wrapper(*args, **kwargs):
