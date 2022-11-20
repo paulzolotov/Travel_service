@@ -12,7 +12,7 @@ Wiley
 '''
 
 with open('unsorted_names.txt', mode='r') as un_sort_file:
-    sorted_names = sorted(un_sort_file.readlines())[1:]
+    sorted_names = sorted([name for name in un_sort_file.readlines() if name.strip()])
 with open('sorted_names.txt', mode='w') as sort_file:
     sort_file.write(''.join(sorted_names))
 
