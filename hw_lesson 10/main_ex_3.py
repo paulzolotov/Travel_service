@@ -42,21 +42,21 @@ class Counter:
             self.value += 1
 
     def get(self):
-        print(self.value)
+        return self.value
 
 
 c = Counter(start=42)
 c.increment()
-c.get()  # 43
+print(c.get())  # 43
 
 c = Counter()
 c.increment()
-c.get()  # 1
+print(c.get())  # 1
 c.increment()
-c.get()  # 2
+print(c.get())  # 2
 
 c = Counter(start=42, stop=43)
 c.increment()
-c.get()  # 43
+print(c.get())  # 43
 c.increment()  # Maximal value is reached.
-c.get()  # 43
+print(c.get())  # 43

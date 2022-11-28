@@ -28,7 +28,7 @@ class Auto:
         print(f'Car {self.brand} {self.mark} drives.')
 
     def use(self):
-        print(f'The car has been in use since {self.age}.')
+        print(f'The car has been in use since {self.age+1}.')
 
     def stop(self):
         print(f'Car {self.brand} {self.mark} stops.')
@@ -40,7 +40,8 @@ class Truck(Auto):
     max_load = 20e3  # Масса загрузки прицепа учитывается в кг
 
     def drive(self):
-        print('Attention!', f'Car {self.brand} {self.mark} drives.', sep='\n')
+        print('Attention!')
+        super().drive()
 
     def load(self):
         time.sleep(1)
@@ -54,8 +55,8 @@ class Sedan(Auto):
     max_speed = 180  # km/h
 
     def drive(self):
-        print(f'Car {self.brand} {self.mark} drives.',
-              f'Max speed of sedan {self.brand} {self.mark} is {self.max_speed} km/h.', sep='\n')
+        super().drive()
+        print(f'Max speed of sedan {self.brand} {self.mark} is {self.max_speed} km/h.', sep='\n')
 
 
 car1 = Truck('МАЗ', '544008', 2010)

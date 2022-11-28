@@ -24,20 +24,20 @@ class Cipher:
                             'E': 'J', 'F': 'K', 'G': 'L', 'H': 'M', 'I': 'N', 'J': 'O', 'K': 'P', 'L': 'Q', 'M': 'R',
                             'N': 'S', 'Q': 'T', 'S': 'U', 'U': 'V', 'V': 'W', 'W': 'X', 'X': 'Y', 'Z': 'Z', ' ': ' '}
 
-    def encode(self, some_str: str):
+    def _process(self, some_str: str, mapping_dict: dict):
+        """Общий 'скелет' выполняемых действий для функций encode и decode"""
         res = []
         for i in some_str.upper():
-            res.append(self.dict_encode[i])
-        print(''.join(res).capitalize())
+            res.append(mapping_dict[i])
+        return res
+
+    def encode(self, some_str: str):
+        return self._process(some_str, self.dict_encode)
 
     def decode(self, some_str: str):
-        res = []
-        for i in some_str.upper():
-            res.append(self.dict_decode[i])
-        print(''.join(res).capitalize())
+        return self._process(some_str, self.dict_decode)
 
 
 cipher = Cipher()
-cipher.encode("Hello world")  # Btggj vjmgp
-
-cipher.decode("Fjedhc dn atidsn")  # Kojima is genius
+print(''.join(cipher.encode("Hello world")).capitalize())  # Btggj vjmgp
+print(''.join(cipher.decode("Fjedhc dn atidsn")).capitalize())  # Kojima is genius

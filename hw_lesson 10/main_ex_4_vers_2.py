@@ -19,21 +19,21 @@ class Cipher:
     def __init__(self):
         self.list_mapping = ['ABCDEFGHIJKLMNOPQRSTUVWXYZ ', 'CRYPTOABDEFGHIJKLMNQSUVWXZ ']
 
-    def encode(self, some_str: str):
+    def _process(self, some_str: str, a: int, b: int):
+        """Общий 'скелет' выполняемых действий для функций encode и decode"""
         res = []
         for i in some_str.upper():
-            ind = self.list_mapping[0].find(i)
-            res.append(self.list_mapping[1][ind])
-        print(''.join(res).capitalize())
+            ind = self.list_mapping[a].find(i)
+            res.append(self.list_mapping[b][ind])
+        return res
+
+    def encode(self, some_str: str):
+        return self._process(some_str, 0, 1)
 
     def decode(self, some_str: str):
-        res = []
-        for i in some_str.upper():
-            ind = self.list_mapping[1].find(i)
-            res.append(self.list_mapping[0][ind])
-        print(''.join(res).capitalize())
+        return self._process(some_str, 1, 0)
 
 
 cipher = Cipher()
-cipher.encode("Hello world")  # Btggj vjmgp
-cipher.decode("Fjedhc dn atidsn")  # Kojima is genius
+print(''.join(cipher.encode("Hello world") ).capitalize())  # Btggj vjmgp
+print(''.join(cipher.decode("Fjedhc dn atidsn")).capitalize())  # Kojima is genius
