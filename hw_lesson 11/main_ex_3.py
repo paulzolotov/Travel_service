@@ -17,7 +17,7 @@ from dataclasses import dataclass
 
 @dataclass
 class DataObject:
-    data: object = None
+    data: object = None  # Не уверен, что object, None тут правильно, хотел указать произвольный тип данных
 
 
 class Deque(DataObject):
@@ -25,7 +25,7 @@ class Deque(DataObject):
     deque = []
 
     @classmethod
-    def append_left(cls, item):
+    def append_left(cls, item) -> None:  # Опять же как аннотировать item?
         if isinstance(item, DataObject):
             if len(cls.deque) < 5:
                 cls.deque.insert(0, item)
@@ -33,7 +33,7 @@ class Deque(DataObject):
                 print('The deque is overflowing!')
 
     @classmethod
-    def append_right(cls, item):
+    def append_right(cls, item) -> None:
         if isinstance(item, DataObject):
             if len(cls.deque) < 5:
                 cls.deque.append(item)
@@ -41,11 +41,11 @@ class Deque(DataObject):
                 print('The deque is overflowing!')
 
     @classmethod
-    def pop_left(cls):
+    def pop_left(cls) -> list:
         return cls.deque.pop(0)
 
     @classmethod
-    def pop_right(cls):
+    def pop_right(cls) -> list:
         return cls.deque.pop(-1)
 
 
