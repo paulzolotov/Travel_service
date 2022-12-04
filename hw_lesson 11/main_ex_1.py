@@ -23,44 +23,44 @@ class Order:
     def __init__(self) -> None:
         print('--------New Order---------')
         self.order: list = []
-        self.__amount: int = 0
-        self.__price: int = 0
-        self.__weight: int = 0
         self.__cash: int = 0
 
-    def add_dish(self, dish) -> None:  # Как аннотировать dish?
+    def add_dish(self, dish: Dish) -> None:
         self.order.append(dish)
 
     @property
     def amount(self) -> int:
+        sum_amount: int = 0
         for i in self.order:
-            self.__amount += i.count
-        return self.__amount
+            sum_amount += i.count
+        return sum_amount
 
     @property
     def price(self) -> int:
+        sum_price: int = 0
         for i in self.order:
-            self.__price += i.price * i.count
-        return self.__price
+            sum_price += i.price * i.count
+        return sum_price
 
     @property
     def weight(self) -> int:
+        sum_weight: int = 0
         for i in self.order:
-            self.__weight += i.weight * i.count
-        return self.__weight
+            sum_weight += i.weight * i.count
+        return sum_weight
 
     def pay(self,  cash: int = 0):
         self.__cash += cash
 
     @property
     def cash(self) -> int:
-        if self.__price > self.__cash:
-            print(f'Вам необходимо доплатить {self.__price - self.__cash}$')
-        if self.__price < self.__cash:
-            print(f'Ваша сдача {self.__cash - self.__price}$')
-        if self.__price == self.__cash:
+        if self.price > self.__cash:
+            print(f'Вам необходимо доплатить {self.price - self.__cash}$')
+        if self.price < self.__cash:
+            print(f'Ваша сдача {self.__cash - self.price}$')
+        if self.price == self.__cash:
             print('Спасибо, приходите к нам еще!')
-        return self.__price - self.__cash
+        return self.price - self.__cash
 
 
 first_dish = Dish(1, 'Olivie', 2, 220)

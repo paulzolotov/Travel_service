@@ -17,28 +17,28 @@ from dataclasses import dataclass
 
 @dataclass
 class DataObject:
-    data: object = None  # Не уверен, что object, None тут правильно, хотел указать произвольный тип данных
+    data: object = None  # Можно еще так - data: Any = None (from typing import Any)
 
 
-class Deque(DataObject):
+class Deque:
 
     deque = []
 
     @classmethod
-    def append_left(cls, item) -> None:  # Опять же как аннотировать item?
+    def append_left(cls, item: DataObject) -> None:
         if isinstance(item, DataObject):
             if len(cls.deque) < 5:
                 cls.deque.insert(0, item)
             else:
-                print('The deque is overflowing!')
+                raise NotImplementedError('The deque is overflowing!')
 
     @classmethod
-    def append_right(cls, item) -> None:
+    def append_right(cls, item: DataObject) -> None:
         if isinstance(item, DataObject):
             if len(cls.deque) < 5:
                 cls.deque.append(item)
             else:
-                print('The deque is overflowing!')
+                raise NotImplementedError('The deque is overflowing!')
 
     @classmethod
     def pop_left(cls) -> list:
