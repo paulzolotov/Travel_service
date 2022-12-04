@@ -22,30 +22,29 @@ class Dish:
 class Order:
     def __init__(self) -> None:
         print('--------New Order---------')
-        self.order = []
-        self.__amount = 0
-        self.__price = 0
-        self.__weight = 0
-        self.__cash = 0
-        self.__cash_for_pay = 0
+        self.order: list = []
+        self.__amount: int = 0
+        self.__price: int = 0
+        self.__weight: int = 0
+        self.__cash: int = 0
 
-    def add_dish(self, dish) -> None:
+    def add_dish(self, dish) -> None:  # Как аннотировать dish?
         self.order.append(dish)
 
     @property
-    def amount(self):
+    def amount(self) -> int:
         for i in self.order:
             self.__amount += i.count
         return self.__amount
 
     @property
-    def price(self):
+    def price(self) -> int:
         for i in self.order:
             self.__price += i.price * i.count
         return self.__price
 
     @property
-    def weight(self):
+    def weight(self) -> int:
         for i in self.order:
             self.__weight += i.weight * i.count
         return self.__weight
@@ -54,8 +53,13 @@ class Order:
         self.__cash += cash
 
     @property
-    def cash(self):
-        self.__cash_for_pay = self.__price - self.__cash
+    def cash(self) -> int:
+        if self.__price > self.__cash:
+            print(f'Вам необходимо доплатить {self.__price - self.__cash}$')
+        if self.__price < self.__cash:
+            print(f'Ваша сдача {self.__cash - self.__price}$')
+        if self.__price == self.__cash:
+            print('Спасибо, приходите к нам еще!')
         return self.__price - self.__cash
 
 
@@ -70,7 +74,7 @@ print(f'Количество всех заказанных блюд: {order1.amo
 print(f'Стоимость, необходимую заплатить за заказ: {order1.price}$')
 print(f'Суммарный вес всех блюд в заказе: {order1.weight} grams')
 order1.pay(10)
-print(f'Сумма, которую еще необходимо доплатить: {order1.cash}$')
+print(f'Разница внесенной стоимости и стоимости заказа: {order1.cash}$')
 
 order2 = Order()
 order2.add_dish(first_dish)
@@ -80,6 +84,6 @@ print(f'Количество всех заказанных блюд: {order2.amo
 print(f'Стоимость, необходимую заплатить за заказ: {order2.price}$')
 print(f'Суммарный вес всех блюд в заказе: {order2.weight} grams')
 order2.pay(15)
-print(f'Сумма, которую еще необходимо доплатить: {order2.cash}$')
-order2.pay(7)
-print(f'Сумма, которую еще необходимо доплатить: {order2.cash}$')
+print(f'Разница внесенной стоимости и стоимости заказа: {order2.cash}$')
+order2.pay(8)
+print(f'Разница внесенной стоимости и стоимости заказа: {order2.cash}$')
