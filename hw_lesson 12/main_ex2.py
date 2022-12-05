@@ -18,30 +18,7 @@ validator.validate(user, Some!Password, mail@mail.com)
 #  ValidationError
 '''
 import string
-
-
-class ValidationError(Exception):
-    """Исключение, генерирующееся в том случае, если
-       один из 3ех параметров (login, password, email) не прошел валидацию"""
-    pass
-
-
-class InvalidLogin(Exception):
-    """Исключение, генерирующееся в том случае, если
-        login не прошел валидацию"""
-    pass
-
-
-class InvalidPassword(Exception):
-    """Исключение, генерирующееся в том случае, если
-        password не прошел валидацию"""
-    pass
-
-
-class InvalidEmail(Exception):
-    """Исключение, генерирующееся в том случае, если
-        email не прошел валидацию"""
-    pass
+import Exceptions_ex2 as Exc
 
 
 class Validator:
@@ -55,15 +32,15 @@ class Validator:
             self.validate_password(user_data[1])
             self.validate_email(user_data[2])
             print('Валидация прошла успешна')
-        except (InvalidLogin, InvalidPassword, InvalidEmail):
-            raise ValidationError('Валидация не пройдена')
+        except (Exc.InvalidLogin, Exc.InvalidPassword, Exc.InvalidEmail):
+            raise Exc.ValidationError('Валидация не пройдена')
 
     @staticmethod
     def validate_login(login) -> bool:
         if len(login) >= 6:
             return True
         else:
-            raise InvalidLogin(f'login {login} не прошел валидацию')
+            raise Exc.InvalidLogin(f'login {login} не прошел валидацию')
 
     @staticmethod
     def validate_password(password) -> bool:
@@ -73,7 +50,7 @@ class Validator:
                 and any(char in '!"№;%:?*()-+@#$^&_=|/.,' for char in password):
             return True
         else:
-            raise InvalidPassword(f'password {password} не прошел валидацию')
+            raise Exc.InvalidPassword(f'password {password} не прошел валидацию')
 
     @staticmethod
     def validate_email(email) -> bool:
@@ -81,7 +58,7 @@ class Validator:
                 and email[-3] == '.' and all(char in string.ascii_lowercase for char in email[-1:-2]):
             return True
         else:
-            raise InvalidEmail(f'email {email} не прошел валидацию')
+            raise Exc.InvalidEmail(f'email {email} не прошел валидацию')
 
 
 data = ('user12', 'PASSWORd%', 'mymail@mail.co')
