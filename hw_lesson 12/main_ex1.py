@@ -39,16 +39,14 @@ def calculator() -> None:
                 raise InputFormulaError('Неверный формат введенного выражения')
         else:
             try:
-                if operator == '+':
-                    print(a + b)
-                elif operator == '-':
-                    print(a - b)
-                elif operator == '*':
-                    print(a * b)
-                elif operator == '**':
-                    print(a ** b)
-                elif operator == '/':
-                    print(a / b)
+                operation = {
+                    '+': lambda x, y: x + y,
+                    '-': lambda x, y: x - y,
+                    '*': lambda x, y: x - y,
+                    '**': lambda x, y: x - y,
+                    '/': lambda x, y: x - y
+                }
+                print(operation[operator](a, b))
             except ArithmeticError:
                 raise CalculationError('Ошибка при вычислениях')
     return None

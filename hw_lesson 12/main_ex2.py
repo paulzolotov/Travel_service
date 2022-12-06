@@ -32,8 +32,8 @@ class Validator:
             self.validate_password(user_data[1])
             self.validate_email(user_data[2])
             print('Валидация прошла успешна')
-        except (Exc.InvalidLogin, Exc.InvalidPassword, Exc.InvalidEmail):
-            raise Exc.ValidationError('Валидация не пройдена')
+        except (Exc.InvalidLogin, Exc.InvalidPassword, Exc.InvalidEmail) as error:
+            raise Exc.ValidationError('Валидация не пройдена') from error
 
     @staticmethod
     def validate_login(login) -> bool:
@@ -47,7 +47,7 @@ class Validator:
         if len(password) >= 8 \
                 and any(char in string.ascii_lowercase for char in password) \
                 and any(char in string.ascii_uppercase for char in password) \
-                and any(char in '!"№;%:?*()-+@#$^&_=|/.,' for char in password):
+                and any(char in string.punctuation for char in password):
             return True
         else:
             raise Exc.InvalidPassword(f'password {password} не прошел валидацию')

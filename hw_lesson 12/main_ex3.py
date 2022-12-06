@@ -23,43 +23,38 @@ import Exceptions_ex3 as Exc
 
 
 class Queue:
-    queue: list = list()
+    def __init__(self):
+        self.queue = list()
+        self.errors = list()
 
     def add(self, *args) -> None:
         for i in args:
-            try:
-                if isinstance(i, int):
-                    self.validate_int(i)
-                if isinstance(i, float):
-                    self.validate_float(i)
-                if isinstance(i, str):
-                    self.validate_str(i)
-            except (Exc.InvalidIntDivision, Exc.InvalidIntNumberCount, Exc.InvalidFloat, Exc.InvalidTextLength,
-                    Exc.DuplicatesInText) as ex:
-                print(ex)
-            except Exception as unk_ex:
-                print(unk_ex)
+            if isinstance(i, int):
+                self.validate_int(i)
+            elif isinstance(i, float):
+                self.validate_float(i)
+            elif isinstance(i, str):
+                self.validate_str(i)
 
     def validate_int(self, i: int) -> None:
-        if len([int(j) for j in str(i)]) > 4:
-            raise Exc.InvalidIntNumberCount(f'Число {i} состоит из более 4 цифр')
+        if len(str(i)) > 4:
+            self.errors.append(Exc.InvalidIntNumberCount(f'Число {i} состоит из более 4 цифр'))
         elif i % 8:
-            raise Exc.InvalidIntDivision(f'Число {i} не делится на 8 без остатка')
+            self.errors.append(Exc.InvalidIntDivision(f'Число {i} не делится на 8 без остатка'))
         else:
             self.queue.append(i)
 
     def validate_float(self, i: float) -> None:
-        ind = str(i).find('.')
-        if len(str(i)[ind:]) > 2:
-            raise Exc.InvalidFloat(f'Число {i} имеет более 2ух символов после запятой')
+        if not str(i)[-3] == '.':
+            self.errors.append(Exc.InvalidFloat(f'Число {i} имеет более 2ух символов после запятой'))
         else:
             self.queue.append(i)
 
     def validate_str(self, i: str) -> None:
         if len(i) > 4:
-            raise Exc.InvalidTextLength(f'Строка {i} состоит из более 4ех символов')
+            self.errors.append(Exc.InvalidTextLength(f'Строка {i} состоит из более 4ех символов'))
         elif len(set(i)) != len(i):
-            raise Exc.DuplicatesInText(f'Строка {i} имеет дублирующие символы')
+            self.errors.append(Exc.DuplicatesInText(f'Строка {i} имеет дублирующие символы'))
         else:
             self.queue.append(i)
 
@@ -67,3 +62,5 @@ class Queue:
 q = Queue()
 q.add(1, 16, 280, 80000, 2.51, 1.875, 'text', 'data', 'world', 'some')
 print(q.queue)
+for i in q.errors:
+    print(i)
