@@ -29,26 +29,25 @@ class Validator:
 
     @staticmethod
     def validate_login(login) -> bool:
-        if re.match(r'\w{6,10}', login) and len(login) <= 10:  # пришлось написать доg условие т.к если слово больше 10
-                                                                # букв, но находит нужный паттерн, выводит True
+        if re.match(r'\b\w{6,10}\b', login):
             return True
         else:
             raise Exc.InvalidLogin(f'login {login} не прошел валидацию')
 
     @staticmethod
     def validate_password(password) -> bool:
-        if 1:
+        if re.match(r'[0-9a-zA-Z$%#^]{8,}$', password):
             return True
         else:
             raise Exc.InvalidPassword(f'password {password} не прошел валидацию')
 
     @staticmethod
     def validate_email(email) -> bool:
-        if 1:
+        if re.match(r'^[-\w\.]+@([-\w]+\.)+[-\w]{2}$', email):
             return True
         else:
             raise Exc.InvalidEmail(f'email {email} не прошел валидацию')
 
 
-data = ('user12user', 'PASSWORd%', 'mymail@mail.co')
+data = ('someuser12', 'passWORd%', 'mymail100@mymail.ru')
 v = Validator(data)

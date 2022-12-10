@@ -29,6 +29,7 @@ class MySquareIterator:
         return int(i)**2
 
 
+# Реализовано для строк, списков, кортежей
 # lst = [1, 2, 3, 4, 5]
 # lst = (1, 2, 3, 4, 5)
 lst = '12345'
