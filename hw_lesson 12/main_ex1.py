@@ -42,9 +42,9 @@ def calculator() -> None:
                 operation = {
                     '+': lambda x, y: x + y,
                     '-': lambda x, y: x - y,
-                    '*': lambda x, y: x - y,
-                    '**': lambda x, y: x - y,
-                    '/': lambda x, y: x - y
+                    '*': lambda x, y: x * y,
+                    '**': lambda x, y: x ** y,
+                    '/': lambda x, y: x / y
                 }
                 print(operation[operator](a, b))
             except ArithmeticError:
