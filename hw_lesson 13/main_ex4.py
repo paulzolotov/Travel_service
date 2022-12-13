@@ -33,19 +33,18 @@ class EvenRange:
     def __init__(self, start: int, stop: int):
         self.start = start
         self.stop = stop
-        self.index = self.start - 2  # - 2 чтобы не потерять первый элемент
-        if self.index % 2:  # Если первое число нечетное, сделаем четным
-            self.index += 1
+        self.index = self.start if not self.start % 2 else self.start + 1  # Если первое число нечетное, сделаем четным
 
     def __iter__(self):
         return self
 
     def __next__(self):
-        self.index += 2
+        result = self.index
         if self.index <= self.stop:
-            return self.index
+            self.index += 2
+            return result
         else:
-            raise OutOfNumbers('Out of numbers!')
+            print(OutOfNumbers('Out of numbers!'))
 
 
 # er1 = EvenRange(8, 12)
