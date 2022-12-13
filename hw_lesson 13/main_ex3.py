@@ -29,25 +29,25 @@ class Validator:
 
     @staticmethod
     def validate_login(login) -> bool:
-        if re.match(r'\b\w{6,10}\b', login):
+        if re.match(r'^\b\w{6,10}\b$', login):
             return True
         else:
             raise Exc.InvalidLogin(f'login {login} не прошел валидацию')
 
     @staticmethod
     def validate_password(password) -> bool:
-        if re.match(r'[0-9a-zA-Z$%#^]{8,}$', password):
+        if re.match(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$', password):
             return True
         else:
             raise Exc.InvalidPassword(f'password {password} не прошел валидацию')
 
     @staticmethod
     def validate_email(email) -> bool:
-        if re.match(r'^[-\w\.]+@([-\w]+\.)+[-\w]{2}$', email):
+        if re.match(r'^[-\w\.]+@[-\w]+\.+[-\w]{2}$', email):
             return True
         else:
             raise Exc.InvalidEmail(f'email {email} не прошел валидацию')
 
 
-data = ('someuser12', 'passWORd%', 'mymail100@mymail.ru')
+data = ('someuser1', 'pass1WORd%', 'mymail100@mymail.ru')
 v = Validator(data)
