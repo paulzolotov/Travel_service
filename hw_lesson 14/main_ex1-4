@@ -1,0 +1,64 @@
+ex 1
+CREATE TABLE users(
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	first_name NVARCHAR(30) NOT NULL,
+	last_name NVARCHAR(30) NOT NULL,
+	gender NVARCHAR(20) NOT NULL,
+	login NVARCHAR(60) NOT NULL,
+	email NVARCHAR(60) NOT NULL,
+	register_date DATETIME 
+)
+
+INSERT INTO users (first_name, last_name, gender, login, email, register_date) 
+VALUES ("Tim", "Smith", "Male", "tim_smith_1984", "smith_is_here@gmail.com", "2020-12-21")
+
+INSERT INTO users (first_name, last_name, gender, login, email, register_date) 
+VALUES ("Jack", "Rondow", "Male", "big_jack", "jackrondow@gmail.com", "2019-04-05")
+
+INSERT INTO users (first_name, last_name, gender, login, email, register_date) 
+VALUES ("Sara", "Harrington", "Female", "sa_har", "sarralovesdogs@gmail.com", "2022-07-20")
+
+ex 2
+CREATE TABLE category(
+	category_id INTEGER PRIMARY KEY,
+	category_title NVARCHAR(30) NOT NULL
+)
+
+INSERT INTO category VALUES (1, "Science")
+INSERT INTO category VALUES (3, "Fashion")
+INSERT INTO category VALUES (5, "Sport")
+
+ex 3
+CREATE TABLE posts(
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	title NVARCHAR(50) NOT NULL,
+	data_created DATETIME,
+	content NVARCHAR(140) NOT NULL,
+	post_author_id INTEGER,
+	post_category_id INTEGER,
+	CONSTRAINT fk_author_id
+		FOREIGN KEY (post_author_id)
+		REFERENCES users (id)
+			ON DELETE CASCADE
+	CONSTRAINT fk_category_id
+		FOREIGN KEY (post_category_id)
+		REFERENCES category (category_id)
+			ON DELETE SET NULL	
+)					
+
+INSERT INTO posts (title, data_created, content, post_author_id, post_category_id) 
+VALUES ("What is Quantum Computing?", "2021-01-18", "Quantum computing is a rapidly-emerging technology that harnesses the 
+laws of quantum mechanics to solve problems too complex for classical computers", 1, 1)
+
+INSERT INTO posts (title, data_created, content, post_author_id, post_category_id) 
+VALUES ("World Cup 2022: Morocco run to semi-final", "2022-12-11", "Morocco's success in becoming the first African team to reach the World Cup semi-finals can 'galvanise' the continent, according to one of African football's top officials.
+The Atlas Lions beat Portugal 1-0 on Saturday to make history, and will now face defending champions France in the last four in Qatar on Wednesday (19:00 GMT)", 2, 5)
+
+INSERT INTO posts (title, data_created, content, post_author_id, post_category_id) 
+VALUES ("Terence Crawford retains WBO welterweight world title against David Avanesyan", "2022-12-11", "erence Crawford retained his WBO welterweight world title with a sixth-round knockout of David Avanesyan in his home town of Omaha, Nebraska.
+The American southpaw floored his Russian opponent with a left uppercut-right hook combination for his 10th successive knockout.
+It is Crawford's sixth defence of the title he first claimed in 2018, and improves his record to 39-0.", 1, 5)
+
+ex 4
+DELETE FROM users WHERE id=1
+DELETE FROM users WHERE id=1
