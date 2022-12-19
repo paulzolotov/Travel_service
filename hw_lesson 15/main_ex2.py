@@ -29,15 +29,16 @@ class Tracks(BaseModel):
         table_name = 'tracks'
 
 
-def get_tracks():
-    album_name = input('Введите название альбома: ')  # A-Sides
+def get_tracks(album_name):
     with db:
         return Tracks.select().\
             where(Tracks.album_id == Albums.select().
                   where(Albums.title == album_name))
 
 
-all_tracks = get_tracks()
+
+user_album = input('Введите название альбома: ')  # A-Sides
+all_tracks = get_tracks(user_album)
 for track in all_tracks:
     print(track.name)
 
