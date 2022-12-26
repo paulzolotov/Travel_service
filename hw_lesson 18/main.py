@@ -4,6 +4,7 @@
 2. /quote - при обращении по данному пути клиенту возвращается цитата Канье Уэста. Цитату можно получить
 по адресу https://api.kanye.rest с применением библиотеки requests.
 """
+
 from flask import Flask
 from flask_app.app1.view import app1
 
@@ -16,5 +17,4 @@ def create_app():
 
 
 if __name__ == "__main__":
-    create_app().run(host='127.0.0.1', port=5000)
-
+    create_app().run()
