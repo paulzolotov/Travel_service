@@ -7,7 +7,7 @@ app1 = Blueprint('something', __name__)
 
 @app1.route('/index')
 def index():
-    return '<em align="centre"> Hello from Flask server</em>'
+    return '<em>Hello from Flask server</em>'
 
 
 @app1.route('/time')
