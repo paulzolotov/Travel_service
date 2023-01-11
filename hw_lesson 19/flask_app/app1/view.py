@@ -20,10 +20,7 @@ def time_iso8601():
 
 @app1.route('/quote')
 def quote():
-    if request.args.get('number') is None:
-        number = range(1)
-    else:
-        number = range(int(request.args.get('number')))
+    number = range(int(request.args.get('number', 1)))
     return render_template('quote.html', req_list=[requests.get('https://api.kanye.rest').json().
                            get('quote') for _ in number])
 
