@@ -36,6 +36,8 @@ def register():
         try:
             if Validator(request.form):
                 return Response('Validation was successful', status=202)
+        except KeyError:
+            abort(406, 'Enter 3 parameters: login, password, email.')
         except Exception as Exp:
             abort(406, f'Validation error: {Exp}')
 
