@@ -2,6 +2,7 @@ from flask import Blueprint, request, abort, Response, render_template, url_for
 import requests
 import datetime
 from .core.validator import Validator
+from .core.Exceptions_register import ValidationError
 
 
 app1 = Blueprint('something', __name__, template_folder='templates/app1')
@@ -38,8 +39,8 @@ def register():
                 return Response('Validation was successful', status=202)
         except KeyError:
             abort(406, 'Enter 3 parameters: login, password, email.')
-        except Exception as Exp:
-            abort(406, f'Validation error: {Exp}')
+        except ValidationError as error:
+            abort(406, f'Validation error: {error}')
 
 
 @app1.route('/about')
