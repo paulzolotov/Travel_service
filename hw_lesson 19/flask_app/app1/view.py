@@ -20,7 +20,10 @@ def time_iso8601():
 
 @app1.route('/quote')
 def quote():
-    number = range(int(request.args.get('number', 1)))
+    try:
+        number = range(int(request.args.get('number', 1)))
+    except ValueError:
+        abort(400, 'The "number" parameter must be an integer.')
     return render_template('quote.html', req_list=[requests.get('https://api.kanye.rest').json().
                            get('quote') for _ in number])
 
@@ -30,8 +33,11 @@ def register():
     if request.method == 'GET':
         abort(406, 'This page is for user registration. Submit a POST request.')
     elif request.method == 'POST':
-        if Validator(request.form):
-            return Response('Validation was successful', status=202)
+        try:
+            if Validator(request.form):
+                return Response('Validation was successful', status=202)
+        except Exception as Exp:
+            abort(406, f'Validation error: {Exp}')
 
 
 @app1.route('/about')

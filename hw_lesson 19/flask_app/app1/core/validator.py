@@ -14,7 +14,7 @@ class Validator:
             self.validate_password(user_data['password'])
             self.validate_email(user_data['email'])
         except (Exc.InvalidLogin, Exc.InvalidPassword, Exc.InvalidEmail) as error:
-            abort(406, f'Validation error: {error}')
+            raise Exc.ValidationError(f'{error}') from error
         except KeyError:
             abort(406, 'Enter 3 parameters: login, password, email.')
 
