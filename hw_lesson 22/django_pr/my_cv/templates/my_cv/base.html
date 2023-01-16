@@ -30,14 +30,14 @@
             <img class="image__img" src="{% static "images/photo.jpg" %}" alt="photo">
           </div>
           <div class="image__wrapper-info">
-            <h2 class="image__header">stylish axure design</h2>
-            <p class="image__subtitle">Pavel Zolotov!</p>
+            <h2 class="image__header">Python Backend-разработчик</h2>
+            <p class="image__subtitle">Золотов Павел<br>24 года, г. Минск, РБ</p>
           </div>
         </div>
       </section>
       <section class="info">
         <div class="container container__info">
-          <h2 class="info__header">stylish axure design</h2>
+          <h2 class="info__header">{% block title_info %}{% endblock %}</h2>
           <p class="info__subtitle">{% block content %}{% endblock %}</p>
         </div>
       </section>
@@ -45,8 +45,8 @@
         <div class="container container__main">
           <div class="main__content">
             <div class="main__content-item main__content-item_info">
-              <button class="download__btn download__btn-top" >Information about skills</button>
-              <button class="download__btn" onclick="window.location.href = 'edu/';">Information abot education</button>
+              <button class="download__btn download__btn-top" onclick="window.location.href = 'skills/';">Information about skills</button>
+              <button class="download__btn" onclick="window.location.href = 'edu/';">Information about education</button>
             </div>
             <div class="main__content-item main__content-item_form">
               <form class="main__form" action="sign-in/" method="post">
