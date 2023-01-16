@@ -1,0 +1,202 @@
+/*сброс стидей браузера*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+/*стили для всей стр*/
+.container {
+  max-width: 1200px; 
+  padding: 0 15px;
+  margin: 0 auto;
+}
+/*блок 1*/
+.image {
+  background-color: #eae7dc;
+  padding: 50px 0 50px;
+}
+/*две колонки в блоке 1*/
+.container__image {
+display: flex;
+column-gap: 70px;
+}
+/*фото*/
+.image__img{
+  max-width: 350px;
+  width: 100%;
+}
+/*заголовок*/
+.image__header {
+  font-family: "Raleway", sans-serif;
+  font-size: 36px;
+  text-align: center;
+  line-height: 42px;
+  margin-bottom: 80px;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: #8e8d8a;
+}
+/*текст под заголовком*/
+.image__subtitle {
+  font-family: "Raleway", sans-serif;
+  font-size: 18px;
+  color: #8e8d8a;
+  line-height: 21px;
+  font-weight: 400;
+  margin-bottom: 80px;
+}
+/*бдок 2*/
+.info {
+  background-color: #eae7dc;
+  position: relative;
+  padding: 0px 0 50px;
+}
+/*заголовок*/
+.info__header {
+  font-family: "Raleway", sans-serif;
+  font-size: 36px;
+  text-align: center;
+  line-height: 42px;
+  margin-bottom: 80px;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: #8e8d8a;
+}
+/*текст по заголовком*/
+.info__subtitle {
+  font-family: "Raleway", sans-serif;
+  font-size: 18px;
+  color: #8e8d8a;
+  line-height: 21px;
+  font-weight: 400;
+  margin-bottom: 80px;
+}
+/*блок 3*/
+.main {
+  background-color: #eae7dc;
+  padding: 0px 0 50px;
+}
+/*две колонки с кнопками и формой*/
+.main__content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 30px;
+}
+/*обертка формы*/
+.main__form {
+  background-color: #eae7dc;
+  border-radius: 10px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 0 10px #8e8d8a;
+}
+/*отсуп текста в форме*/
+.main__form-wrap {
+  padding: 36px 50px 0;
+}
+/*заголовок формы*/
+.main__title {
+  font-family: "Open Sans", sans-serif;
+  font-size: 24px;
+  line-height: 33px;
+  font-weight: 700;
+  margin-bottom: 35px;
+  text-align: center;
+  color: #8e8d8a;
+  text-transform: uppercase;
+}
+
+/*форма*/
+.main__form-input {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid #8e8d8a;
+  background: #eae7dc;
+  color: #8e8d8a;
+  margin-bottom: 35px;
+  resize: none;
+  display: block;
+  max-width: 500px;
+  width: 100%;
+  padding: 0px 0px 100px;
+}
+/*кнопка формы для отправки*/
+.main__form-btn {
+  display: block;
+  padding: 20px 0;
+  margin: 0 auto;
+  width: 100%;
+  font-family: "Open Sans", sans-serif;
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  background-color: #e98074;
+  color: #eae7dc;
+  border: none;
+  border-radius: 0 0 10px 10px;
+  
+}
+.main__form-btn:hover {
+  background-color: #e85a4f;
+}
+
+.main__form-btn:active {
+  background: #e98074;
+  box-shadow: 4px 4px 30px #e98074;
+}
+/*кнопки*/
+.download__btn {
+  display: block;
+  padding: 26px 0;
+  border-radius: 10px;
+  margin: 0 auto;
+  max-width: 370px;
+  width: 100%;
+  font-family: "Open Sans", sans-serif;
+  font-size: 24px;
+  text-align: center;
+  line-height: 28px;
+  font-weight: 900;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #eae7dc;
+  background-color: #e98074;
+  border: none;
+}
+/*отступ от верхней к нижней*/
+.download__btn-top{
+  margin-bottom: 50px;
+}
+.download__btn:hover {
+  background-color: #e85a4f;
+}
+
+.download__btn:active {
+  background: #e98074;
+  box-shadow: 4px 4px 30px #e98074;
+}
+/*футер*/
+.footer {
+  background-color: #8e8d8a;
+  padding: 35px 0 27px;
+}
+/*обертка для всех кнопок*/
+.footer__icons {
+  display: flex;
+  column-gap: 50px;
+  justify-content: center;
+}
+/*иконки*/
+.footer__icon {
+  width: 53px;
+  height: 53px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
