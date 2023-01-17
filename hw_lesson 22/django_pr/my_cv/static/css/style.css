@@ -38,6 +38,7 @@ column-gap: 70px;
 }
 /*текст под заголовком*/
 .image__subtitle {
+  text-align:center;
   font-family: "Raleway", sans-serif;
   font-size: 24px;
   color: #8e8d8a;
@@ -171,7 +172,7 @@ column-gap: 70px;
 }
 /*отступ от верхней к нижней*/
 .download__btn-top{
-  margin-bottom: 50px;
+  margin-bottom: 30px;
 }
 .download__btn:hover {
   background-color: #e85a4f;
