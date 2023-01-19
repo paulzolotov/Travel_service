@@ -1,0 +1,74 @@
+/*сброс стидей браузера*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+/*стили для всей стр*/
+.container {
+  max-width: 1700px;
+  padding: 0 15px;
+  margin: 0 auto;
+}
+/*блок 1*/
+.image {
+  background-color: #eae7dc;
+  padding: 50px 0 50px;
+}
+/*две колонки в блоке 1*/
+.container__image {
+display: flex;
+column-gap: 70px;
+}
+/*картинка*/
+.image__img{
+  max-width: 350px;
+  width: 100%;
+}
+/*заголовок*/
+.image__header {
+  font-family: "Raleway", sans-serif;
+  font-size: 36px;
+  text-align: center;
+  line-height: 42px;
+  margin-bottom: 80px;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: #8e8d8a;
+}
+/*текст под заголовком*/
+.image__subtitle {
+  text-align:center;
+  font-family: "Raleway", sans-serif;
+  font-size: 24px;
+  color: #8e8d8a;
+  line-height: 21px;
+  font-weight: 400;
+  margin-bottom: 20px;
+}
+/*блок 2*/
+.info {
+  background-color: #eae7dc;
+  padding: 0px 0 50px;
+}
+/*заголовок*/
+.info__header {
+  font-family: "Raleway", sans-serif;
+  font-size: 36px;
+  text-align: center;
+  line-height: 42px;
+  margin-bottom: 50px;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: #8e8d8a;
+}
+/*текст под заголовком*/
+.info__subtitle {
+  font-family: "Raleway", sans-serif;
+  font-size: 24px;
+  text-align: justify;
+  color: #8e8d8a;
+  line-height: 32px;
+  font-weight: 400;
+  margin-bottom: 80px;
+}

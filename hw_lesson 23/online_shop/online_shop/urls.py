@@ -15,14 +15,12 @@ Including another URLconf
 """
 from django.conf.urls.static import static
 
-from online_shop import settings
+from . import settings
 from django.contrib import admin
 from django.urls import path, include
 
+
 urlpatterns = [
-    # path('', include('shop.urls')),
+    path('shop/', include('shop.urls')),
     path('admin/', admin.site.urls),
 ]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
