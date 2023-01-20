@@ -13,6 +13,21 @@ body {
   padding: 50px 15px;
   margin: 0 auto;
 }
+/*Кнопка*/
+.info__btn-top {
+ background-color: #e98074;
+ color: #eae7dc;
+}
+.info__btn-top:hover {
+  background-color: #e85a4f;
+}
+.info__btn-top:active {
+  background: #e98074;
+  box-shadow: 4px 4px 30px #e98074;
+}
+.game__wrapper-top {
+  margin-bottom: 30px;
+}
 /*блок 1*/
 /*заголовок*/
 .game__header {
@@ -60,11 +75,9 @@ body {
   background-color: #8e8d8a;
   border: none;
 }
-
 .info__btn:hover {
   background: #838181;
 }
-
 .info__btn:active {
   background: #8e8d8a;
   box-shadow: 4px 4px 30px #8e8d8a;
@@ -87,12 +100,12 @@ body {
   padding: 20px 0;
   border-radius: 10px;
   margin: 0 auto;
-  max-width: 600px;
+  max-width: 400px;
   width: 100%;
   font-family: "Open Sans", sans-serif;
   font-size: 24px;
   text-align: center;
-  line-height: 28px;
+  line-height: 20px;
   font-weight: 900;
   text-transform: uppercase;
   text-decoration: none;
@@ -103,7 +116,6 @@ body {
 .button__btn:hover {
   background-color: #e85a4f;
 }
-
 .button__btn:active {
   background: #e98074;
   box-shadow: 4px 4px 30px #e98074;

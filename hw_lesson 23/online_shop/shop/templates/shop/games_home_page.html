@@ -26,9 +26,12 @@
         <section class="game">
           <div class="container">
             <h2 class="game__header">games</h2>
+            <div class="game__wrapper game__wrapper-top">
+              <a class="info__btn info__btn-top" href="{% url 'shop:categories' %}">Categories</a>
+            </div>
             <div class="game__wrapper game__wrapper-info">
               <p class="info__text">Sorting by:</p>
-              <a class="info__btn" href="">Name</a>
+              <a class="info__btn" href="{% url 'shop:re-index' '?order_by=name' %}">Name</a>
               <a class="info__btn" href="">Price</a>
             </div>
             {% for game in games %}
@@ -37,7 +40,7 @@
               <img class="button__image" src="{{ game.game_image.url }}" alt="{{ game.name }}">
             </div>
             <div class="game__wrapper game__wrapper-button">
-              <a class="button__btn" href="">{{ game.name }}</a>
+              <a class="button__btn" href="{% url 'shop:game' game.slug %}">{{ game.name }}</a>
             </div>
 
             {% endfor  %}
