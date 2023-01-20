@@ -1,0 +1,54 @@
+/*сброс стидей браузера*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background-color: #eae7dc;
+}
+/*стили для всей стр*/
+.container {
+  max-width: 1900px;
+  padding: 50px 15px;
+  margin: 0 auto;
+}
+/*блок 1*/
+/*заголовок*/
+.category__header {
+  font-family: "Raleway", sans-serif;
+  font-size: 46px;
+  text-align: center;
+  line-height: 50px;
+  margin-bottom: 70px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #8e8d8a;
+}
+/*кнопка*/
+.category__btn {
+  display: block;
+  padding: 26px 0;
+  border-radius: 10px;
+  margin: 0 auto;
+  max-width: 500px;
+  width: 100%;
+  font-family: "Open Sans", sans-serif;
+  font-size: 24px;
+  text-align: center;
+  line-height: 28px;
+  font-weight: 900;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #eae7dc;
+  background-color: #e98074;
+  border: none; margin-bottom: 30px;
+}
+.category__btn:hover {
+  background-color: #e85a4f;
+}
+
+.category__btn:active {
+  background: #e98074;
+  box-shadow: 4px 4px 30px #e98074;
+}

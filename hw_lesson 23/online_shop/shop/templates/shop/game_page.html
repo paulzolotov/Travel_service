@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 {% load static %}
-% load photos %}
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -10,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!--подключение стилей-->
-    <link rel="stylesheet" href="{% static "css/style.css" %}" />
+    <link rel="stylesheet" href="{% static "css/game.css" %}" />
 
     <!--подключение шрифтов-->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -20,27 +19,27 @@
       rel="stylesheet"
     />
 
-    <title>CV</title>
+    <title>Game</title>
   </head>
   <body>
     <main>
       <section class="image">
         <div class="container container__image">
           <div class="image__wrapper-photo">
-            <img class="image__img" src= {{ game[0]['game_image'] }} alt="game_image">
+            <img class="image__img" src="{{ game.game_image.url }}" alt="{{ game.name }}">
           </div>
           <div class="image__wrapper-info">
-            <h2 class="image__header">{{ game[0]['name'] }}</h2>
-            <p class="image__subtitle">Category: {{ game[0]['category'] }}</p>
-            <p class="image__subtitle">Release date: {{ game[0]['release_date'] }}</p><br>
-            <p class="image__subtitle">Price: {{ game[0]['price'] }}</p>
+            <h2 class="image__header">{{ game.name }}</h2>
+            <p class="image__subtitle">Category: {{ game.category }}</p>
+            <p class="image__subtitle">Release date: {{ game.release_date }}</p><br>
+            <p class="image__subtitle">Price: {{ game.price }}$</p>
           </div>
         </div>
       </section>
       <section class="info">
         <div class="container container__info">
           <h2 class="info__header">Description about game</h2>
-          <div class="info__subtitle">{{ game[0]['description']n }}</div>
+          <div class="info__subtitle">{{ game.description }}</div>
         </div>
       </section>
     </main>
