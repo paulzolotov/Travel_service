@@ -25,7 +25,7 @@ def get_game(request: HttpRequest, *args, **kwargs):
     game_slug = kwargs.get('game_slug')
     game = Game.objects.all().values().filter(slug=game_slug)
     print(game[0]['game_image'])
-    return render(request, 'shop/game_page.html', {'game': game})
+    return render(request, 'shop/game_page.html', {'game', game})
 
 
 def get_category(request: HttpRequest, *args, **kwargs):
