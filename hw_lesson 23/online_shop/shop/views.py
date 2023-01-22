@@ -5,14 +5,14 @@ from decimal import Decimal
 
 
 # Create your views here.
-def index(request: HttpRequest):
-    sort_par = request.GET.get('order_by', 'without')
+def order_index(request: HttpRequest, order_by='without'):
+    print(order_by)
     sorting_dict = {
         'price': Game.objects.filter(is_active=True).order_by('price').all(),
         'name': Game.objects.filter(is_active=True).order_by('name').all(),
         'without': Game.objects.filter(is_active=True).all()
     }
-    games = sorting_dict.get(sort_par)
+    games = sorting_dict.get(order_by)
     return render(request, 'shop/games_home_page.html', {'games': games})
 
 

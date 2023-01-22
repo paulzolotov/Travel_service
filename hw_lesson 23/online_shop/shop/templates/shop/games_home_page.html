@@ -31,8 +31,8 @@
             </div>
             <div class="game__wrapper game__wrapper-info">
               <p class="info__text">Sorting by:</p>
-              <a class="info__btn" href="{% url 'shop:re-index' '?order_by=name' %}">Name</a>
-              <a class="info__btn" href="">Price</a>
+              <a class="info__btn" href="{% url 'shop:or-index' order_by='name' %}">Name</a>
+              <a class="info__btn" href="{% url 'shop:or-index' order_by='price' %}">Price</a>
             </div>
             {% for game in games %}
 
