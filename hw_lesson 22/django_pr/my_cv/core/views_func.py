@@ -1,14 +1,13 @@
-import smtplib
+import smtplib, ssl
 
 
 def send_email(message):
-    sender = 'saiwa@mail.ru'
+    sender = ''
     password = 'NxevYYj5kS9EViGf9SGt'  # необходимо добавить новый пароль в настройках почты для работы
                                         # с ненадежными источниками
 
-    with smtplib.SMTP("smtp.mail.ru", 465) as server:
-        print("1")
-        server.starttls()
+    context = ssl.create_default_context()
+    with smtplib.SMTP_SSL("smtp.mail.ru", 465, context=context) as server:
         try:
             server.login(sender, password)
             server.sendmail(sender, sender, message)  # 2ой sender - mail куда хочу отправить сообщение
