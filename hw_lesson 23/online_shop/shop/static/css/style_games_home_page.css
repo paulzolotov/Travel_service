@@ -15,6 +15,19 @@ body {
 }
 /*Кнопка*/
 .info__btn-top {
+ display: block;
+ padding: 8px 0;
+ border-radius: 10px;
+ max-width: 130px;
+ width: 100%;
+ font-family: "Raleway", sans-serif;
+ font-size: 18px;
+ text-align: center;
+ line-height: 20px;
+ font-weight: 900;
+ text-transform: uppercase;
+ text-decoration: none;
+ border: none;
  background-color: #e98074;
  color: #eae7dc;
 }
@@ -35,7 +48,7 @@ body {
   font-size: 46px;
   text-align: center;
   line-height: 50px;
-  margin-bottom: 0px;
+  margin-bottom: 50px;
   font-weight: 700;
   text-transform: uppercase;
   color: #8e8d8a;
@@ -87,13 +100,25 @@ body {
   width: 400px;
   height: 500px;
   margin: 0 auto;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 .button__image {
   height: 100%;
   width: 100%;
   object-fit: cover;
 }
+.button__price{
+  font-family: "Open Sans", sans-serif;
+  font-size: 26px;
+  color: #e98074;
+  line-height: 28px;
+  font-weight: 700;
+  max-width: 150px;
+  width: 100%;
+  text-align: center;
+  margin:  0 auto;
+  margin-bottom: 10px;
+  }
 /*кнопка*/
 .button__btn {
   display: block;
@@ -111,7 +136,8 @@ body {
   text-decoration: none;
   color: #eae7dc;
   background-color: #e98074;
-  border: none;  margin-bottom: 30px;
+  border: none;
+  margin-bottom: 50px;
 }
 .button__btn:hover {
   background-color: #e85a4f;

@@ -21,9 +21,15 @@ display: flex;
 column-gap: 70px;
 }
 /*картинка*/
-.image__img{
-  max-width: 350px;
+.image__wrapper-photo {
+  width: 400px;
+  height: 500px;
+  margin-bottom: 10px;
+}
+.image__img {
+  height: 100%;
   width: 100%;
+  object-fit: cover;
 }
 /*заголовок*/
 .image__header {
@@ -64,6 +70,7 @@ column-gap: 70px;
 }
 /*текст под заголовком*/
 .info__subtitle {
+  text-indent: 50px;
   font-family: "Raleway", sans-serif;
   font-size: 24px;
   text-align: justify;
@@ -71,4 +78,7 @@ column-gap: 70px;
   line-height: 32px;
   font-weight: 400;
   margin-bottom: 80px;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
 }
