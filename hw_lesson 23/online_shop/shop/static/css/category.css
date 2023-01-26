@@ -30,7 +30,7 @@ body {
   width: 400px;
   height: 500px;
   margin: 0 auto;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 .button__image {
   height: 100%;
@@ -43,18 +43,19 @@ body {
   padding: 20px 0;
   border-radius: 10px;
   margin: 0 auto;
-  max-width: 600px;
+  max-width: 400px;
   width: 100%;
   font-family: "Open Sans", sans-serif;
   font-size: 24px;
   text-align: center;
-  line-height: 28px;
+  line-height: 20px;
   font-weight: 900;
   text-transform: uppercase;
   text-decoration: none;
   color: #eae7dc;
   background-color: #e98074;
-  border: none;  margin-bottom: 30px;
+  border: none;
+  margin-bottom: 40px;
 }
 .button__btn:hover {
   background-color: #e85a4f;
