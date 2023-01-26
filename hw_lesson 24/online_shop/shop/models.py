@@ -8,6 +8,7 @@ class Category(models.Model):
     slug = models.SlugField(max_length=50, verbose_name='Category Slug')
     description = models.TextField(verbose_name='Category Description')
     is_active = models.BooleanField(default=True, verbose_name='Category is active?')
+    games_amount = models.IntegerField(default=0, verbose_name='Games Amount In Category')
 
     @classmethod
     def get_default_category_pk(cls):
