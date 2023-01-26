@@ -82,8 +82,8 @@ WSGI_APPLICATION = 'online_shop.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'gameshop',
-        'USER': 'pavel',
+        'NAME': 'my_gameshop',
+        'USER': 'pavel1',
         'PASSWORD': 'password98',
         'HOST': '127.0.0.1',
         'PORT': '5432'
