@@ -54,7 +54,13 @@ body {
   color: #8e8d8a;
 }
 /*три колонки в блоке*/
-.game__wrapper-info {
+.game__wrapper-info1 {
+  display: flex;
+  justify-content: start;
+  column-gap: 15px;
+  margin-bottom: 10px;
+}
+.game__wrapper-info2 {
   display: flex;
   justify-content: start;
   column-gap: 15px;
@@ -67,13 +73,13 @@ body {
   color: #8e8d8a;
   line-height: 28px;
   font-weight: 700;
-  max-width: 150px;
+  max-width: 220px;
   width: 100%;
 }
 /*две кнопки*/
 .info__btn {
   display: block;
-  padding: 8px 0;
+  padding: 4px 0;
   border-radius: 10px;
   max-width: 130px;
   width: 100%;
