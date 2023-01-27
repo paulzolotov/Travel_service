@@ -34,6 +34,8 @@
             <a class="category__btn" href="{% url 'shop:category' category.slug %}">{{ category }}</a>
           </div>
 
+          <p class="category__text">{{ category.description }}</p>
+
           {% endfor %}
         </div>
       </section>

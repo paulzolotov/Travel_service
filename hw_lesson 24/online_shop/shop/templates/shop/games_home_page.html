@@ -29,10 +29,15 @@
             <div class="game__wrapper game__wrapper-top">
               <a class="info__btn-top" href="{% url 'shop:categories' %}">Categories</a>
             </div>
-            <div class="game__wrapper game__wrapper-info">
-              <p class="info__text">Sorting by:</p>
-              <a class="info__btn" href="{% url 'shop:or-index' order_by='name' %}">Name</a>
-              <a class="info__btn" href="{% url 'shop:or-index' order_by='price' %}">Price</a>
+            <div class="game__wrapper game__wrapper-info1">
+              <p class="info__text">Sort ascending:</p>
+              <a class="info__btn" href="{% url 'shop:or-index' order_by='name-asc' %}">Name ↓ </a>
+              <a class="info__btn" href="{% url 'shop:or-index' order_by='price-asc' %}">Price ↓ </a>
+            </div>
+            <div class="game__wrapper game__wrapper-info2">
+              <p class="info__text">Sort descending:</p>
+              <a class="info__btn" href="{% url 'shop:or-index' order_by='name-desc' %}">Name ↑ </a>
+              <a class="info__btn" href="{% url 'shop:or-index' order_by='price-desc' %}">Price ↑ </a>
             </div>
             {% for game in games %}
 

@@ -6,10 +6,11 @@ from decimal import Decimal
 
 # Create your views here.
 def order_index(request: HttpRequest, order_by='without'):
-    print(order_by)
     sorting_dict = {
-        'price': Game.objects.filter(is_active=True).order_by('price').all(),
-        'name': Game.objects.filter(is_active=True).order_by('name').all(),
+        'price-asc': Game.objects.filter(is_active=True).order_by('-price').all(),
+        'name-asc': Game.objects.filter(is_active=True).order_by('name').all(),
+        'price-desc': Game.objects.filter(is_active=True).order_by('price').all(),
+        'name-desc': Game.objects.filter(is_active=True).order_by('-name').all(),
         'without': Game.objects.filter(is_active=True).all()
     }
     games = sorting_dict.get(order_by)

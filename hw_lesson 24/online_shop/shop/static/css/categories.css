@@ -28,7 +28,7 @@ body {
 /*кнопка*/
 .category__btn {
   display: block;
-  padding: 26px 0;
+  padding: 20px 0;
   border-radius: 10px;
   margin: 0 auto;
   max-width: 500px;
@@ -51,4 +51,17 @@ body {
 .category__btn:active {
   background: #e98074;
   box-shadow: 4px 4px 30px #e98074;
+}
+
+.category__text{
+  font-family: "Open Sans", sans-serif;
+  font-size: 20px;
+  color: #8e8d8a;
+  line-height: 22px;
+  font-weight: 600px;
+  max-width: 1000px;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  margin-bottom: 40px;
 }
