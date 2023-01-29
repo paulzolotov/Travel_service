@@ -31,7 +31,7 @@
           {% for category in categories %}
 
           <div class="category_wrapper">
-            <a class="category__btn" href="{% url 'shop:category' category.slug %}">{{ category }}</a
+            <a class="category__btn" href="{% url 'shop:category' category.slug %}">{{ category.title }}</a>
           </div>
 
           <p class="category__text">{{ category.description }}</p>
