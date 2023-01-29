@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!--подключение стилей-->
+    <link rel="stylesheet" href="{% static "css/category.css" %}" />
+
+    <!--подключение шрифтов-->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Raleway:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>GamesFromCategory</title>
+  </head>
+    <body>
+      <main>
+        <section class="game">
+          <div class="container">
+            <h2 class="game__header">games</h2><br>
+            <h2 class="game__header">Category - {{ category }}</h2><br>
+            {% for game in games_from_category %}
+
+            <div class="button__wrap">
+              <img class="button__image" src="{{ game.game_image.url }}" alt="{{ game.name }}">
+            </div>
+            <div class="game__wrapper game__wrapper-button">
+              <a class="button__btn" href="{% url 'shop:game' game.slug %}">{{ game.name }}</a>
+            </div>
+
+            {% endfor  %}
+          </div>
+        </section>
+      </main>
+    </body>
+</html>
