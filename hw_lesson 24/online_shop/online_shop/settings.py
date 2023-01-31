@@ -29,6 +29,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'ckeditor',
     'shop.apps.ShopConfig',
     'django.contrib.admin',
     'django.contrib.auth',

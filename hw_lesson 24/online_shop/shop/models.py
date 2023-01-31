@@ -1,4 +1,5 @@
 from django.db import models
+from ckeditor.fields import RichTextField
 
 
 # Create your models here.
@@ -12,7 +13,7 @@ class ShopInfoMixin(models.Model):
 
 class Category(ShopInfoMixin):
     title = models.CharField(max_length=100, verbose_name='Category Title')
-    description = models.TextField(verbose_name='Category Description')
+    description = RichTextField(verbose_name='Category Description')
     games_amount = models.IntegerField(default=0, verbose_name='Games Amount In Category')
 
     @classmethod
@@ -41,7 +42,7 @@ class Game(ShopInfoMixin):
     price = models.DecimalField(verbose_name='Game Price', max_digits=5, max_length=4, decimal_places=2)
     category = models.ForeignKey(Category, verbose_name='Game Category', on_delete=models.SET_DEFAULT,
                                  default=Category.get_default_category_pk, null=True)
-    description = models.TextField(verbose_name='Game Description')
+    description = RichTextField(verbose_name='Game Description')
     game_image = models.ImageField(verbose_name='Game Image', upload_to='shop')
 
     class Meta:
