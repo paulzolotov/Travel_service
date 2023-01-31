@@ -39,7 +39,7 @@
               <a class="info__btn" href="{% url 'shop:or-index' order_by='name-desc' %}">Name ↑ </a>
               <a class="info__btn" href="{% url 'shop:or-index' order_by='price-desc' %}">Price ↑ </a>
             </div>
-            {% for game in games %}
+            {% for game in page_obj %}
 
             <div class="button__wrap">
               <img class="button__image" src="{{ game.game_image.url }}" alt="{{ game.name }}">
@@ -51,6 +51,25 @@
 
             {% endfor  %}
           </div>
+
+            <div class="pagination">
+              <span class="step-links">
+                {% if page_obj.has_previous %}
+                  <a href="?page=&order_by={{ order_by }}">&laquo; first</a>
+                  <a href="?page={{ page_obj.previous_page_number }}&order_by={{ order_by }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                  Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+
+                {% if page_obj.has_next %}
+                  <a href="?page={{ page_obj.next_page_number }}&order_by={{ order_by }}">next</a>
+                  <a href="?page={{ page_obj.paginator.num_pages }}&order_by={{ order_by }}">last &raquo;</a>
+                {% endif %}
+              </span>
+            </div>
+
         </section>
       </main>
     </body>
