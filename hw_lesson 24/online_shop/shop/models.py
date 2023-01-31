@@ -36,8 +36,8 @@ class Category(ShopInfoMixin):
 
 class Game(ShopInfoMixin):
     name = models.CharField(max_length=100, verbose_name='Game Name')
-    pub_date = models.DateTimeField(auto_now_add=True, verbose_name='Game publication date')
-    release_date = models.DateTimeField(auto_now_add=False, verbose_name='Release date')
+    pub_date = models.DateField(auto_now_add=True, verbose_name='Game publication date')
+    release_date = models.DateField(auto_now_add=False, verbose_name='Release date')
     price = models.DecimalField(verbose_name='Game Price', max_digits=5, max_length=4, decimal_places=2)
     category = models.ForeignKey(Category, verbose_name='Game Category', on_delete=models.SET_DEFAULT,
                                  default=Category.get_default_category_pk, null=True)
@@ -47,6 +47,10 @@ class Game(ShopInfoMixin):
     class Meta:
         verbose_name = 'Game'
         verbose_name_plural = 'Games'
+        indexes = [models.Index(fields=['name'], name='name_asc_idx'),
+                   models.Index(fields=['-name'], name='name_desc_idx'),
+                   models.Index(fields=['-price'], name='price_asc_idx'),
+                   models.Index(fields=['price'], name='price_desc_idx')]
 
     def __str__(self):
         return f"{self.name}"
