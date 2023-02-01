@@ -12,13 +12,12 @@ class GameInline(admin.TabularInline):
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-
     list_display = ('title',
                     'view_game_link',
                     'show_average_cost')
     inlines = [
         GameInline,
-                ]
+    ]
 
     @admin.display(description='games')
     def view_game_link(self, obj):
@@ -28,9 +27,9 @@ class CategoryAdmin(admin.ModelAdmin):
 
         count = obj.game_set.count()
         url = (
-            reverse('admin:shop_game_changelist')
-            + '?'
-            + urlencode({'category_id': f'{obj.id}'})
+                reverse('admin:shop_game_changelist')
+                + '?'
+                + urlencode({'category_id': f'{obj.id}'})
         )
         return format_html('<a href="{}">{} Games</a>', url, count)
 
@@ -54,12 +53,12 @@ class GameAdmin(admin.ModelAdmin):
         'show_pretty_price',
         'img_preview',
         'get_link'
-        )
+    )
     list_editable = ('release_date',)
     list_filter = ('category',)
     search_fields = ('category__title', 'name')
     readonly_fields = ('img_tag',)
-    actions = ("make_inactive",)
+    actions = ("make_inactive", 'export_as_json_csv', 'export_to_csv',)
 
     @admin.display(description='custom price')
     def show_pretty_price(self, obj):
@@ -80,6 +79,41 @@ class GameAdmin(admin.ModelAdmin):
         from django.utils.html import mark_safe
         return mark_safe(f'<a href="https://ru.wikipedia.org/wiki/{obj.name}">Search</a>')
 
-    @admin.action(description='Перевести в неактивное состояние')
+    @admin.action(description='Switch to inactive state')
     def make_inactive(self, request, queryset):
         queryset.update(is_active=False)
+
+    @admin.action(description="Export to JSON-CSV")
+    def export_as_json_csv(self, request, queryset):
+        from django.core import serializers
+        from django.http import FileResponse
+        import io
+        from datetime import datetime
+        response = FileResponse(
+            io.BytesIO(serializers.serialize("json", queryset).encode("utf-8")),
+            as_attachment=True,
+            filename=f"log-{datetime.now()}.csv", )
+        return response
+
+    @admin.action(description="Export to CSV")
+    def export_to_csv(self, request, queryset):
+        import csv
+        from django.http import HttpResponse
+        opts = self.model._meta
+        # Создаем экземпляр HttpResponse, включающий кастомный text/csv-тип контента, чтобы сообщить браузеру,
+        # что ответ должен обрабатываться как файл CSV. Также добавляется заголовок Content-Disposition, указывающий,
+        # что HTTP-ответ содержит вложенный файл.
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = f'attachment; filename={opts.verbose_name_plural}.csv'
+        writer = csv.writer(response)
+        # Записываем строку заголовка, включая имена полей.
+        fields = opts.get_fields()  # Возвращает кортеж полей
+        writer.writerow([field.verbose_name for field in fields])
+        # Записываем строку для каждого объекта
+        for obj in queryset:
+            data_row = []
+            for field in fields:
+                value = getattr(obj, field.name)
+                data_row.append(value)
+            writer.writerow(data_row)
+        return response
