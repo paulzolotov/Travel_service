@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.shortcuts import render, get_object_or_404
 
 # Register your models here.
 
@@ -12,7 +13,9 @@ class GameInline(admin.TabularInline):
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
 
-    list_display = ('title', 'view_game_link')
+    list_display = ('title',
+                    'view_game_link',
+                    'show_average_cost')
     inlines = [
         GameInline,
                 ]
@@ -30,6 +33,16 @@ class CategoryAdmin(admin.ModelAdmin):
             + urlencode({'category_id': f'{obj.id}'})
         )
         return format_html('<a href="{}">{} Games</a>', url, count)
+
+    @admin.display(description='average games cost')
+    def show_average_cost(self, obj):
+        """Функция для поиска средней стоимости игр в категории"""
+        games_from_category = obj.game_set.all()
+        average_price = 0
+        if games_from_category:
+            average_price = sum(list(map(lambda game: float(game.price), games_from_category))) / len(
+                games_from_category)
+        return f"{average_price:.2f} $"
 
 
 @admin.register(Game)
