@@ -1,7 +1,9 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpRequest
-from .models import Game, Category
+from .models import Game, Category, Comment
 from django.core.paginator import Paginator
+from django.urls import reverse_lazy
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 
 # Create your views here.
@@ -30,7 +32,9 @@ def categories(request: HttpRequest):
 
 def get_game(request: HttpRequest, game_slug):
     game = get_object_or_404(Game, slug=game_slug)
-    return render(request, 'shop/game_page.html', context={'game': game})
+    comments = game.comment_set.all()
+    return render(request, 'shop/game_page.html', context={'game': game,
+                                                           'comments': comments})
 
 
 def get_category(request: HttpRequest, category_slug):
@@ -40,3 +44,32 @@ def get_category(request: HttpRequest, category_slug):
     games_from_category = category.game_set.filter(is_active=True).all()
     return render(request, 'shop/category_page.html', context={'games_from_category': games_from_category,
                                                        'category': category})
+
+
+# def form_practice(request):
+#     if request.method == 'POST':
+#         form = CommentModelForm(request.POST)
+#         if form.is_valid():
+#             return HttpResponseRedirect('/thanks/')
+#         else:
+#             form = CommentModelForm()
+#     return render(request, 'store/practice.html', {'form': form})
+
+
+class CommentCreateView(CreateView):
+    model = Comment
+    fields = ["text", "rating"]
+
+    def form_valid(self, form):
+        form.instance.game = Game.objects.get(slug=self.kwargs['game_slug'])
+        return super().form_valid(form)
+
+
+class CommentUpdateView(UpdateView):
+    model = Comment
+    fields = ["text", "rating"]
+
+
+class CommentDeleteView(DeleteView):
+    model = Comment
+    success_url = reverse_lazy("shop:index")
