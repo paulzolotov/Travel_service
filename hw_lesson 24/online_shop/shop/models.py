@@ -55,3 +55,14 @@ class Game(ShopInfoMixin):
 
     def __str__(self):
         return f"{self.name}"
+
+
+class Comment(models.Model):
+    text = models.CharField(max_length=100, verbose_name="Comment text")
+    pub_date = models.DateField(verbose_name="Comment publication date", auto_now_add=True)
+    rating = models.IntegerField(verbose_name="Comment rating")
+    game = models.ForeignKey(Game, on_delete=models.CASCADE)
+
+    def get_absolute_url(self):
+        return reverse('shop:game', kwargs={'game_slug': self.game.slug})
+

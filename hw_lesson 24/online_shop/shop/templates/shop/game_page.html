@@ -42,6 +42,17 @@
           <p class="info__subtitle">{{ game.description|safe }}</p>
         </div>
       </section>
+      <section class="comments">
+        <div>
+          <a href="{% url 'shop:comment-add' game_slug=game.slug %}">Add comment</a>
+
+          {% for comment in comments %}
+          <p>{{ comment.text }}</p>>
+          <a href="{% url 'stor:comment-delete' comment.id %}">Delete comment</a>
+          <a href="{% url 'stor:comment-update' comment.id %}">Update comment</a>
+          {% endfor %}
+        </div>
+      </section>
     </main>
   </body>
 </html>
