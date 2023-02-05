@@ -1,5 +1,12 @@
 from django.contrib import admin
-from django.shortcuts import render, get_object_or_404
+from django.utils.html import format_html, mark_safe
+from django.urls import reverse
+from django.utils.http import urlencode
+from django.core import serializers
+from django.http import FileResponse, HttpResponse
+from datetime import datetime
+import io
+import csv
 
 # Register your models here.
 
@@ -21,10 +28,6 @@ class CategoryAdmin(admin.ModelAdmin):
 
     @admin.display(description='games')
     def view_game_link(self, obj):
-        from django.utils.html import format_html
-        from django.urls import reverse
-        from django.utils.http import urlencode
-
         count = obj.game_set.count()
         url = (
                 reverse('admin:shop_game_changelist')
@@ -66,17 +69,14 @@ class GameAdmin(admin.ModelAdmin):
 
     @admin.display(description='game image')
     def img_preview(self, obj):
-        from django.utils.html import mark_safe
         return mark_safe(f'<img src = "{obj.game_image.url}" width = "150px" height="180px"/>')
 
     @admin.display(description='image tag')
     def img_tag(self, obj):
-        from django.utils.html import mark_safe
         return mark_safe(f'<img src = "{obj.game_image.url}" width = "70px" height="90px"/>')
 
     @admin.display(description='game link')
     def get_link(self, obj):
-        from django.utils.html import mark_safe
         return mark_safe(f'<a href="https://ru.wikipedia.org/wiki/{obj.name}">Search</a>')
 
     @admin.action(description='Switch to inactive state')
@@ -85,10 +85,6 @@ class GameAdmin(admin.ModelAdmin):
 
     @admin.action(description="Export to JSON-CSV")
     def export_as_json_csv(self, request, queryset):
-        from django.core import serializers
-        from django.http import FileResponse
-        import io
-        from datetime import datetime
         response = FileResponse(
             io.BytesIO(serializers.serialize("json", queryset).encode("utf-8")),
             as_attachment=True,
@@ -97,8 +93,6 @@ class GameAdmin(admin.ModelAdmin):
 
     @admin.action(description="Export to CSV")
     def export_to_csv(self, request, queryset):
-        import csv
-        from django.http import HttpResponse
         opts = self.model._meta
         # Создаем экземпляр HttpResponse, включающий кастомный text/csv-тип контента, чтобы сообщить браузеру,
         # что ответ должен обрабатываться как файл CSV. Также добавляется заголовок Content-Disposition, указывающий,
@@ -111,9 +105,6 @@ class GameAdmin(admin.ModelAdmin):
         writer.writerow([field.verbose_name for field in fields])
         # Записываем строку для каждого объекта
         for obj in queryset:
-            data_row = []
-            for field in fields:
-                value = getattr(obj, field.name)
-                data_row.append(value)
+            data_row = [getattr(obj, field.name) for field in fields]
             writer.writerow(data_row)
         return response
