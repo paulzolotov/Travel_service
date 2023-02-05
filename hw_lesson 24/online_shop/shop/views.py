@@ -19,7 +19,7 @@ def order_index(request: HttpRequest, order_by=''):
     page_number = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_number)
     print(games, page_number, page_obj, sep='\n')
-    return render(request, 'shop/games_home_page.html', context={'page_obg': page_obj,
+    return render(request, 'shop/games_home_page.html', context={'page_obj': page_obj,
                                                                  'order_by': order_by})
 
 
