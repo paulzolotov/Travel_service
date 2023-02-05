@@ -34,7 +34,7 @@
             <a class="category__btn" href="{% url 'shop:category' category.slug %}">{{ category.title }}</a>
           </div>
 
-          <p class="category__text">{{ category.description }}</p>
+          <p class="category__text">{{ category.description|safe }}</p>
 
           {% endfor %}
         </div>
