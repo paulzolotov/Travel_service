@@ -47,9 +47,10 @@
           <a href="{% url 'shop:comment-add' game_slug=game.slug %}">Add comment</a>
 
           {% for comment in comments %}
-          <p>{{ comment.text }}</p>>
-          <a href="{% url 'stor:comment-delete' comment.id %}">Delete comment</a>
-          <a href="{% url 'stor:comment-update' comment.id %}">Update comment</a>
+          <p>{{ comment.text }}</p>
+          <p>{{ comment.rating }} &#11088;</p>
+          <a href="{% url 'shop:comment-delete' comment.id %}">Delete comment</a>
+          <a href="{% url 'shop:comment-update' comment.id %}">Update comment</a>
           {% endfor %}
         </div>
       </section>

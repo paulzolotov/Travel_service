@@ -4,6 +4,7 @@ from .models import Game, Category, Comment
 from django.core.paginator import Paginator
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from .forms import CommentModelForm
 
 
 # Create your views here.
@@ -46,19 +47,10 @@ def get_category(request: HttpRequest, category_slug):
                                                        'category': category})
 
 
-# def form_practice(request):
-#     if request.method == 'POST':
-#         form = CommentModelForm(request.POST)
-#         if form.is_valid():
-#             return HttpResponseRedirect('/thanks/')
-#         else:
-#             form = CommentModelForm()
-#     return render(request, 'store/practice.html', {'form': form})
-
-
 class CommentCreateView(CreateView):
     model = Comment
-    fields = ["text", "rating"]
+    # fields = ["text", "rating"]
+    form_class = CommentModelForm
 
     def form_valid(self, form):
         form.instance.game = Game.objects.get(slug=self.kwargs['game_slug'])
