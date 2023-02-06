@@ -21,25 +21,9 @@ def order_index(request: HttpRequest, order_by=''):
     paginator = Paginator(games, 2)
     page_number = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_number)
-    all_average_rating = get_average_rating(games)
     context = {'page_obj': page_obj,
-               'order_by': order_by,
-               'all_average_rating': all_average_rating}
-    print(all_average_rating)
+               'order_by': order_by}
     return render(request, 'shop/games_home_page.html', context=context)
-
-
-def get_average_rating(games):
-    """Функция для поиска среднего рейтинга в комментариях к каждой игре"""
-    all_average_rating = dict()
-    for game in games:
-        game_comments = game.comment_set.all()
-        if game_comments:
-            all_average_rating[game.name] = sum(list(map(lambda comment: float(comment.rating), game_comments))) / len(
-                game_comments)
-        else:
-            all_average_rating[game.name] = None
-    return all_average_rating
 
 
 def categories(request: HttpRequest):

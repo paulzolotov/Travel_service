@@ -58,6 +58,11 @@ class Game(ShopInfoMixin):
     def __str__(self):
         return f"{self.name}"
 
+    def get_average_rating(self):
+        game_comments = self.comment_set.all()
+        average_rating = game_comments.aggregate(Avg('rating'))
+        return average_rating
+
 
 class Comment(models.Model):
     text = models.CharField(max_length=100, verbose_name="Comment text")
@@ -70,9 +75,3 @@ class Comment(models.Model):
 
     def get_absolute_url(self):
         return reverse('shop:game', kwargs={'game_slug': self.game.slug})
-
-    # def get_average_rating(self):
-    #     print(1)
-    #     game_comments = self.game.comment_set.all()
-    #     all_average_rating = game_comments.aggregate(Avg('rating'))
-    #     return all_average_rating
