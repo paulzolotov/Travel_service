@@ -44,7 +44,10 @@
             <div class="button__wrap">
               <img class="button__image" src="{{ game.game_image.url }}" alt="{{ game.name }}">
             </div>
-            <p class="button__price_rating">{{ game.price }} $ {{ game.get_average_rating.rating__avg }}/10 &#11088;</p>
+            <p class="button__price_rating">{{ game.price }} $</p>
+            {% if game.get_average_rating.rating__avg is not None %}
+            <p class="button__price_rating">{{ game.get_average_rating.rating__avg }}/10 &#11088;</p>
+            {% endif %}
             <div class="game__wrapper game__wrapper-button">
               <a class="button__btn" href="{% url 'shop:game' game.slug %}">{{ game.name }}</a>
             </div>

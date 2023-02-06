@@ -82,3 +82,53 @@ column-gap: 70px;
   width: 100%;
   margin: 0 auto;
 }
+/*блок 3*/
+.comments {
+  background-color: #eae7dc;
+  padding: 0px 0 50px;
+  margin: 0 auto;
+  text-align: center;
+
+}
+/*комментарии*/
+.comments__text {
+  font-family: "Raleway", sans-serif;
+  font-size: 24px;
+  text-align: center;
+  color: #8e8d8a;
+  line-height: 32px;
+  font-weight: 400;
+  margin-bottom: 80px;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+.container__comments {
+  margin-bottom: 20px;
+}
+.comments__button {
+  display: block;
+  padding: 4px 0;
+  border-radius: 10px;
+  max-width: 230px;
+  width: 100%;
+  font-family: "Raleway", sans-serif;
+  font-size: 18px;
+  text-align: center;
+  line-height: 20px;
+  font-weight: 900;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #eae7dc;
+  background-color: #8e8d8a;
+  border: none;
+  margin: 0 auto;
+  margin-bottom: 30px;
+}
+.comments__button:hover {
+  background: #838181;
+}
+.comments__button:active {
+  background: #8e8d8a;
+  box-shadow: 4px 4px 30px #8e8d8a;
+}

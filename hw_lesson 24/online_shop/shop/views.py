@@ -35,13 +35,8 @@ def get_game(request: HttpRequest, game_slug):
     game = get_object_or_404(Game, slug=game_slug)
     comments = game.comment_set.order_by('pub_date').all()  # не работает сортировка комментариев:
                                                             # всегда от старых к новым
-    average_rating = None
-    if comments:
-        average_rating = sum(list(map(lambda comment: float(comment.rating), comments))) / len(
-            comments)
     context = {'game': game,
-               'comments': comments,
-               'average_rating': average_rating}
+               'comments': comments}
     return render(request, 'shop/game_page.html', context=context)
 
 

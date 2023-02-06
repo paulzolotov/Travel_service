@@ -33,8 +33,8 @@
             <p class="image__subtitle">Category: {{ game.category }}</p>
             <p class="image__subtitle">Release date: {{ game.release_date }}</p><br>
             <p class="image__subtitle">Price: {{ game.price }}$ </p>
-            {% if average_rating is not None %}
-            <p class="image__subtitle">Rating: {{ average_rating }} &#11088;</p>
+            {% if game.get_average_rating.rating__avg is not None %}
+            <p class="image__subtitle">Rating: {{ game.get_average_rating.rating__avg }}/10 &#11088;</p>
             {% endif %}
           </div>
         </div>
@@ -46,16 +46,15 @@
         </div>
       </section>
       <section class="comments">
-        <div>
-          <a href="{% url 'shop:comment-add' game_slug=game.slug %}">Add comment</a>
-
-          {% for comment in comments %}
-          <p>{{ comment.text }}</p>
-          <p>{{ comment.rating }} &#11088;</p>
+        <a class="comments__button" href="{% url 'shop:comment-add' game_slug=game.slug %}">Add comment</a>
+        {% for comment in comments %}
+          <div class="container container__comments">
+          <p class="comments__text">{{ comment.text }}</p>
+          <p class="comments__text">{{ comment.rating }} &#11088;</p>
           <a href="{% url 'shop:comment-delete' comment.id %}">Delete comment</a>
           <a href="{% url 'shop:comment-update' comment.id %}">Update comment</a>
-          {% endfor %}
-        </div>
+          </div>
+        {% endfor %}
       </section>
     </main>
   </body>
