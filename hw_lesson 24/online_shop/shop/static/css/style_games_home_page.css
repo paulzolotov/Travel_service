@@ -113,7 +113,7 @@ body {
   width: 100%;
   object-fit: cover;
 }
-.button__price{
+.button__price_rating{
   font-family: "Open Sans", sans-serif;
   font-size: 26px;
   color: #e98074;

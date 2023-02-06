@@ -21,9 +21,25 @@ def order_index(request: HttpRequest, order_by=''):
     paginator = Paginator(games, 2)
     page_number = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_number)
-    print(games, page_number, page_obj, sep='\n')
-    return render(request, 'shop/games_home_page.html', context={'page_obj': page_obj,
-                                                                 'order_by': order_by})
+    all_average_rating = get_average_rating(games)
+    context = {'page_obj': page_obj,
+               'order_by': order_by,
+               'all_average_rating': all_average_rating}
+    print(all_average_rating)
+    return render(request, 'shop/games_home_page.html', context=context)
+
+
+def get_average_rating(games):
+    """Функция для поиска среднего рейтинга в комментариях к каждой игре"""
+    all_average_rating = dict()
+    for game in games:
+        game_comments = game.comment_set.all()
+        if game_comments:
+            all_average_rating[game.name] = sum(list(map(lambda comment: float(comment.rating), game_comments))) / len(
+                game_comments)
+        else:
+            all_average_rating[game.name] = None
+    return all_average_rating
 
 
 def categories(request: HttpRequest):
@@ -33,9 +49,16 @@ def categories(request: HttpRequest):
 
 def get_game(request: HttpRequest, game_slug):
     game = get_object_or_404(Game, slug=game_slug)
-    comments = game.comment_set.all()
-    return render(request, 'shop/game_page.html', context={'game': game,
-                                                           'comments': comments})
+    comments = game.comment_set.order_by('pub_date').all()  # не работает сортировка комментариев:
+                                                            # всегда от старых к новым
+    average_rating = None
+    if comments:
+        average_rating = sum(list(map(lambda comment: float(comment.rating), comments))) / len(
+            comments)
+    context = {'game': game,
+               'comments': comments,
+               'average_rating': average_rating}
+    return render(request, 'shop/game_page.html', context=context)
 
 
 def get_category(request: HttpRequest, category_slug):
@@ -49,8 +72,7 @@ def get_category(request: HttpRequest, category_slug):
 
 class CommentCreateView(CreateView):
     model = Comment
-    # fields = ["text", "rating"]
-    form_class = CommentModelForm
+    form_class = CommentModelForm  # либо form_class либо fields
 
     def form_valid(self, form):
         form.instance.game = Game.objects.get(slug=self.kwargs['game_slug'])
@@ -59,7 +81,7 @@ class CommentCreateView(CreateView):
 
 class CommentUpdateView(UpdateView):
     model = Comment
-    fields = ["text", "rating"]
+    form_class = CommentModelForm
 
 
 class CommentDeleteView(DeleteView):

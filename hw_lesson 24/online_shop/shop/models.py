@@ -1,6 +1,7 @@
 from django.db import models
 from ckeditor.fields import RichTextField
 from django.urls import reverse
+from django.db.models import Avg
 
 
 # Create your models here.
@@ -69,3 +70,9 @@ class Comment(models.Model):
 
     def get_absolute_url(self):
         return reverse('shop:game', kwargs={'game_slug': self.game.slug})
+
+    # def get_average_rating(self):
+    #     print(1)
+    #     game_comments = self.game.comment_set.all()
+    #     all_average_rating = game_comments.aggregate(Avg('rating'))
+    #     return all_average_rating
