@@ -38,7 +38,7 @@ def categories(request: HttpRequest):
 
 def get_game(request: HttpRequest, game_slug):
     game = get_object_or_404(Game, slug=game_slug)
-    comments = game.comment_set.order_by('pub_date').all()  # не работает сортировка комментариев:
+    comments = game.comment_set.order_by('-pub_date').all()  # не работает сортировка комментариев:
                                                             # всегда от старых к новым
     context = {'game': game,
                'comments': comments}
