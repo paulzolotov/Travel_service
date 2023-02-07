@@ -39,10 +39,10 @@
               <a class="info__btn" href="{% url 'shop:or-index' order_by='name-desc' %}">Name ↑ </a>
               <a class="info__btn" href="{% url 'shop:or-index' order_by='price-desc' %}">Price ↑ </a>
             </div>
-            <div class="search-box">
+            <div class="search__box">
               <form action="{% url 'shop:index' %}" method="get">
-                <input type="search" type="text" name="q" placeholder="Search games by name">
-                <button type="submit">Search</button>
+                <input class="field__search" type="search" type="text" name="q" placeholder="Search games by name">
+                <button class="btn__search" type="submit">Search</button>
               </form>
             </div>
             {% for game in page_obj %}
