@@ -5,11 +5,16 @@ from django.core.paginator import Paginator
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from .forms import CommentModelForm
+from difflib import get_close_matches
 
 
 # Create your views here.
 def order_index(request: HttpRequest, order_by=''):
-    games = Game.objects.filter(is_active=True)
+    search_name = request.GET.get('q')
+    if search_name:  # Необходимо для поиска игры на странице
+        games = Game.objects.filter(is_active=True).filter(name__icontains=search_name)
+    else:
+        games = Game.objects.filter(is_active=True)
     if order_by != '':
         sorting_dict = {
             'price-asc': games.order_by('-price'),

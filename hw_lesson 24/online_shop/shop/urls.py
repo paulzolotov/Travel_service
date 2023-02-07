@@ -11,5 +11,5 @@ urlpatterns = [
     path('game/<slug:game_slug>/', views.get_game, name='game'),
     path('comment/<int:pk>/update/', views.CommentUpdateView.as_view(), name='comment-update'),
     path('comment/<int:pk>/delete/', views.CommentDeleteView.as_view(), name='comment-delete'),
-    path('<slug:category_slug>/', views.get_category, name='category')
+    path('<slug:category_slug>/', views.get_category, name='category'),
 ]

@@ -64,7 +64,7 @@ body {
   display: flex;
   justify-content: start;
   column-gap: 15px;
-  margin-bottom: 70px;
+  margin-bottom: 10px;
 }
 /*текст возле кнопок*/
 .info__text {
@@ -158,5 +158,10 @@ body {
   justify-content: center;
   display: flex;
   font-size: 18px;
+  margin-bottom: 20px;
+}
+/*форма*/
+.search-box {
+  background-color: #eae7dc;
   margin-bottom: 20px;
 }
