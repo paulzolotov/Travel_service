@@ -7,6 +7,7 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from .forms import CommentModelForm
 from django.contrib.auth.decorators import login_required
 from difflib import get_close_matches
+from django.contrib.auth.models import User
 
 
 # Create your views here.
@@ -40,9 +41,13 @@ def categories(request: HttpRequest):
 # @login_required(login_url='shop:index', redirect_field_name='redirect_from')
 def get_game(request: HttpRequest, game_slug):
     game = get_object_or_404(Game, slug=game_slug)
-    comments = game.comment_set.order_by('-pub_date').all()
+    # Думал поможет фильтрация по автору, чтобы автор комментария был первым,но не помогло.
+    comments = game.comment_set.order_by('-pub_date').order_by('author').all()
+    # Узнаем есть ли у данного пользователя комм. Логика в html файле такая - если есть комм, то нет кнопки добавить
+    user_comm = game.comment_set.order_by('-pub_date').filter(author=request.user)
     context = {'game': game,
-               'comments': comments}
+               'comments': comments,
+               'user_comm': user_comm}
     return render(request, 'shop/game_page.html', context=context)
 
 

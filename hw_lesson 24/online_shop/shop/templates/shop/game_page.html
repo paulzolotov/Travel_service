@@ -47,7 +47,9 @@
       </section>
         <section class="comments">
           {% if user.is_authenticated %}
-          <a class="comments__button" href="{% url 'shop:comment-add' game_slug=game.slug %}">Add comment</a>
+            {% if not user_comm %}
+              <a class="comments__button" href="{% url 'shop:comment-add' game_slug=game.slug %}">Add comment</a>
+            {% endif %}
           {% endif %}
           {% for comment in comments %}
             <div class="container container__comments">
