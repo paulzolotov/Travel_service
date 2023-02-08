@@ -45,17 +45,19 @@
           <p class="info__subtitle">{{ game.description|safe }}</p>
         </div>
       </section>
-      <section class="comments">
-        <a class="comments__button" href="{% url 'shop:comment-add' game_slug=game.slug %}">Add comment</a>
-        {% for comment in comments %}
-          <div class="container container__comments">
-          <p class="comments__text">{{ comment.text }}</p>
-          <p class="comments__text">{{ comment.rating }} &#11088;</p>
-          <a href="{% url 'shop:comment-delete' comment.id %}">Delete comment</a>
-          <a href="{% url 'shop:comment-update' comment.id %}">Update comment</a>
-          </div>
-        {% endfor %}
-      </section>
+      {% if user.is_authenticated %}
+        <section class="comments">
+          <a class="comments__button" href="{% url 'shop:comment-add' game_slug=game.slug %}">Add comment</a>
+          {% for comment in comments %}
+            <div class="container container__comments">
+            <p class="comments__text">{{ comment.text }}</p>
+            <p class="comments__text">{{ comment.rating }} &#11088;</p>
+            <a href="{% url 'shop:comment-delete' comment.id %}">Delete comment</a>
+            <a href="{% url 'shop:comment-update' comment.id %}">Update comment</a>
+            </div>
+          {% endfor %}
+        </section>
+      {% endif %}
     </main>
   </body>
 </html>

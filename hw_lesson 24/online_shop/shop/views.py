@@ -5,6 +5,7 @@ from django.core.paginator import Paginator
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from .forms import CommentModelForm
+from django.contrib.auth.decorators import login_required
 from difflib import get_close_matches
 
 
@@ -36,10 +37,10 @@ def categories(request: HttpRequest):
     return render(request, 'shop/categories.html', context={'categories': categories})
 
 
+# @login_required(login_url='shop:index', redirect_field_name='redirect_from')
 def get_game(request: HttpRequest, game_slug):
     game = get_object_or_404(Game, slug=game_slug)
-    comments = game.comment_set.order_by('-pub_date').all()  # не работает сортировка комментариев:
-                                                            # всегда от старых к новым
+    comments = game.comment_set.order_by('-pub_date').all()
     context = {'game': game,
                'comments': comments}
     return render(request, 'shop/game_page.html', context=context)
