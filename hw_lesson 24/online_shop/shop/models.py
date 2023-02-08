@@ -2,6 +2,7 @@ from django.db import models
 from ckeditor.fields import RichTextField
 from django.urls import reverse
 from django.db.models import Avg
+from django.contrib.auth.models import User
 
 
 # Create your models here.
@@ -69,6 +70,7 @@ class Comment(models.Model):
     pub_date = models.DateField(verbose_name="Comment publication date", auto_now_add=True)
     rating = models.IntegerField(verbose_name="Comment rating")
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return f"{self.name}"
