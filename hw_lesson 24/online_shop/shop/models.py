@@ -66,7 +66,7 @@ class Game(ShopInfoMixin):
 
 
 class Comment(models.Model):
-    text = models.CharField(max_length=100, verbose_name="Comment text")
+    text = models.CharField(max_length=300, verbose_name="Comment text")
     pub_date = models.DateField(verbose_name="Comment publication date", auto_now_add=True)
     rating = models.IntegerField(verbose_name="Comment rating")
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
@@ -75,7 +75,7 @@ class Comment(models.Model):
     # И других нельзя было даже выбрать.
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.text}"
 
     def get_absolute_url(self):
         return reverse('shop:game', kwargs={'game_slug': self.game.slug})

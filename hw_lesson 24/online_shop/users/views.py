@@ -14,8 +14,6 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            username = form.cleaned_data.get('username')
-            messages.success(request, f'Created account {username}!')
             return redirect(reverse("shop:index"))
         else:
             form = CustomUserCreationForm(request.POST)

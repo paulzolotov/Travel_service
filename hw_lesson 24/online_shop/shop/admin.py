@@ -10,7 +10,7 @@ import csv
 
 # Register your models here.
 
-from shop.models import Category, Game
+from shop.models import Category, Game, Comment
 
 
 class GameInline(admin.TabularInline):
@@ -108,3 +108,12 @@ class GameAdmin(admin.ModelAdmin):
             data_row = [getattr(obj, field.name) for field in fields]
             writer.writerow(data_row)
         return response
+
+
+@admin.register(Comment)
+class CommentsAdmin(admin.ModelAdmin):
+    list_display = ('text',
+                    'pub_date',
+                    'rating',
+                    'game',
+                    'author')
