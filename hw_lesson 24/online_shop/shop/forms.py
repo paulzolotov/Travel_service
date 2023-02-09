@@ -13,7 +13,7 @@ class CommentModelForm(forms.ModelForm):
         model = Comment
         exclude = ['pub_date', 'game']
         widgets = {
-            'text': forms.Textarea(attrs={'cols': 40, 'rows': 10}),
+            'text': forms.Textarea(attrs={'cols': 40, 'rows': 4}),
             'rating': forms.NumberInput(attrs={'class': 'number-select'}),
             # 'author': forms.TextInput(attrs={'readonly': 'readonly'})
         }
