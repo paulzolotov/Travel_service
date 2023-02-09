@@ -27,6 +27,7 @@
         <div class="container container__image">
           <div class="image__wrapper-photo">
             <img class="image__img" src="{{ game.game_image.url }}" alt="{{ game.name }}">
+            <a class="info__btn-top" href="{% url 'shop:index' %}">Back to games</a>
           </div>
           <div class="image__wrapper-info">
             <h2 class="image__header">{{ game.name }}</h2>
