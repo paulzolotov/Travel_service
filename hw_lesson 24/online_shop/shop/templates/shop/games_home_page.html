@@ -29,6 +29,7 @@
             <p class="greeting__text">Welcome, <span class="greeting__text greeting__text-span">{{ user.username }}</span>. Thanks for logging in. </p>
             <div class="user__wrapper user__wrapper-top">
               <a class="user__btn-top" href="{% url 'users:logout' %}">Logout</a>
+              <a class="user__btn-top" href="{% url 'users:change' %}">Change password</a>
             </div>
             {% else %}
               <p class="greeting__text">Welcome, new user. Please log in.</p>
