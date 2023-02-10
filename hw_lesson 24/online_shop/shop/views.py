@@ -38,7 +38,6 @@ def categories(request: HttpRequest):
     return render(request, 'shop/categories.html', context={'categories': categories})
 
 
-# @login_required(login_url='shop:index', redirect_field_name='redirect_from')
 def get_game(request: HttpRequest, game_slug):
     game = get_object_or_404(Game, slug=game_slug)
     # Думал поможет фильтрация по автору, чтобы автор комментария был первым,но не помогло.
@@ -71,6 +70,7 @@ class CommentCreateView(CreateView):
 
     def form_valid(self, form):
         form.instance.game = Game.objects.get(slug=self.kwargs['game_slug'])
+        form.instance.author = self.request.user
         return super().form_valid(form)
 
 

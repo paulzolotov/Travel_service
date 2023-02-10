@@ -70,9 +70,7 @@ class Comment(models.Model):
     pub_date = models.DateField(verbose_name="Comment publication date", auto_now_add=True)
     rating = models.IntegerField(verbose_name="Comment rating")
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)  # При добавлении комм, мне дает выбрать из
-    # всех пользователей, которых я добавлял. Как сделать так, чтобы автоматом добавлялся авторизованный пользователь.
-    # И других нельзя было даже выбрать.
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return f"{self.text}"

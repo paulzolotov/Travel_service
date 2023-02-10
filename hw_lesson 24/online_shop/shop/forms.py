@@ -11,11 +11,10 @@ class CommentModelForm(forms.ModelForm):
 
     class Meta:
         model = Comment
-        exclude = ['pub_date', 'game']
+        exclude = ['pub_date', 'game', 'author']
         widgets = {
             'text': forms.Textarea(attrs={'cols': 40, 'rows': 4}),
             'rating': forms.NumberInput(attrs={'class': 'number-select'}),
-            # 'author': forms.TextInput(attrs={'readonly': 'readonly'})
         }
         labels = {
             'text': 'Comment text',
