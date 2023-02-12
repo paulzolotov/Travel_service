@@ -26,10 +26,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+LOGIN_URL = 'users.views.login'
+
 # Application definition
 
 INSTALLED_APPS = [
     'ckeditor',
+    'users.apps.UsersConfig',
     'shop.apps.ShopConfig',
     'django.contrib.admin',
     'django.contrib.auth',

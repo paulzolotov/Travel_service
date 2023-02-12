@@ -5,7 +5,9 @@ from django.core.paginator import Paginator
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from .forms import CommentModelForm
+from django.contrib.auth.decorators import login_required
 from difflib import get_close_matches
+from django.contrib.auth.models import User
 
 
 # Create your views here.
@@ -41,13 +43,22 @@ def categories(request: HttpRequest):
 
 def get_game(request: HttpRequest, game_slug):
     game = get_object_or_404(Game, slug=game_slug)
-    comments = game.comment_set.order_by('-pub_date').all()  # не работает сортировка комментариев:
-                                                            # всегда от старых к новым
+    # Узнаем есть ли у данного пользователя комм. Логика в html файле такая - если есть комм, то нет кнопки добавить.
+    # Пришлось добавить условие т.к появляется ошибка если пользователь не вошел при переходе ни игру
+    if request.user.is_authenticated:
+        author_comment = game.comment_set.order_by('-pub_date').filter(author=request.user)
+        another_comments = game.comment_set.order_by('-pub_date').exclude(author=request.user).all()
+    else:
+        author_comments = None
+        another_comments = game.comment_set.order_by('-pub_date').all()
+    print(author_comment, another_comments)
     context = {'game': game,
-               'comments': comments}
+               'another_comments': another_comments,
+               'author_comment': author_comment}
     return render(request, 'shop/game_page.html', context=context)
 
 
+@login_required(login_url='users:login', redirect_field_name='next')
 def get_category(request: HttpRequest, category_slug):
     category = get_object_or_404(Category, slug=category_slug)
     # games_from_category = Game.objects.all().filter(is_active=True, category=category)
@@ -63,6 +74,7 @@ class CommentCreateView(CreateView):
 
     def form_valid(self, form):
         form.instance.game = Game.objects.get(slug=self.kwargs['game_slug'])
+        form.instance.author = self.request.user
         return super().form_valid(form)
 
 

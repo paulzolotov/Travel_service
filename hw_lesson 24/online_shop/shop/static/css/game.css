@@ -30,6 +30,7 @@ column-gap: 70px;
   height: 100%;
   width: 100%;
   object-fit: cover;
+  margin-bottom: 10px;
 }
 /*заголовок*/
 .image__header {
@@ -131,4 +132,36 @@ column-gap: 70px;
 .comments__button:active {
   background: #8e8d8a;
   box-shadow: 4px 4px 30px #8e8d8a;
+}
+.comments__text-span {
+  color: #7BA7AB;
+  font-size: 15px;
+}
+/*Кнопка*/
+.info__btn-top {
+ display: block;
+ padding: 8px 0;
+ border-radius: 10px;
+ max-width: 180px;
+ width: 100%;
+ font-family: "Raleway", sans-serif;
+ font-size: 18px;
+ text-align: center;
+ line-height: 20px;
+ font-weight: 900;
+ text-decoration: none;
+ border: none;
+ background-color: #e98074;
+ color: #eae7dc;
+ margin: 0 auto;
+}
+.info__btn-top:hover {
+  background-color: #e85a4f;
+}
+.info__btn-top:active {
+  background: #e98074;
+  box-shadow: 4px 4px 30px #e98074;
+}
+.game__wrapper-top {
+  margin-bottom: 30px;
 }

@@ -27,6 +27,7 @@
         <div class="container container__image">
           <div class="image__wrapper-photo">
             <img class="image__img" src="{{ game.game_image.url }}" alt="{{ game.name }}">
+            <a class="info__btn-top" href="{% url 'shop:index' %}">Back to games</a>
           </div>
           <div class="image__wrapper-info">
             <h2 class="image__header">{{ game.name }}</h2>
@@ -45,17 +46,28 @@
           <p class="info__subtitle">{{ game.description|safe }}</p>
         </div>
       </section>
-      <section class="comments">
-        <a class="comments__button" href="{% url 'shop:comment-add' game_slug=game.slug %}">Add comment</a>
-        {% for comment in comments %}
-          <div class="container container__comments">
-          <p class="comments__text">{{ comment.text }}</p>
-          <p class="comments__text">{{ comment.rating }} &#11088;</p>
-          <a href="{% url 'shop:comment-delete' comment.id %}">Delete comment</a>
-          <a href="{% url 'shop:comment-update' comment.id %}">Update comment</a>
-          </div>
-        {% endfor %}
-      </section>
+        <section class="comments">
+          {% if user.is_authenticated %}
+            {% if not author_comment %}
+              <a class="comments__button" href="{% url 'shop:comment-add' game_slug=game.slug %}">Add comment</a>
+            {% else %}
+              {% for comment in author_comment %}
+                <div class="container container__comments">
+                <p class="comments__text">{{ comment.text }}</p>
+                <p class="comments__text"><span class="comments__text comments__text-span">{{ comment.author }}</span> : {{ comment.rating }} &#11088;</p>
+                <a href="{% url 'shop:comment-delete' comment.id %}">Delete comment</a>
+                <a href="{% url 'shop:comment-update' comment.id %}">Update comment</a>
+                </div>
+              {% endfor %}
+            {% endif %}
+          {% endif %}
+          {% for comment in another_comments %}
+            <div class="container container__comments">
+            <p class="comments__text">{{ comment.text }}</p>
+            <p class="comments__text"><span class="comments__text comments__text-span">{{ comment.author }}</span> : {{ comment.rating }} &#11088;</p>
+            </div>
+          {% endfor %}
+        </section>
     </main>
   </body>
 </html>
