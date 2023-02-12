@@ -20,5 +20,12 @@ urlpatterns = [
         name='change'),
     path('change-pass-confirm/', auth_views.PasswordChangeDoneView.as_view(
         template_name='users/password_change_success.html'),
-        name='password_change_done')
-]
+        name='password_change_done'),
+    path('password-reset', auth_views.PasswordResetView.as_view(
+        email_template_name='users/password_reset_mail.html',
+        template_name='users/password_reset.html',
+        success_url=reverse_lazy('users:pass-reset-done')),
+        name='pass-reset'),
+    path('password-reset-done', auth_views.PasswordResetDoneView.as_view(
+        template_name="users/password_reset_done.html"),
+        name="pass-reset-done")]
