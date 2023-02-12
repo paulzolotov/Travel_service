@@ -13,6 +13,9 @@ def order_index(request: HttpRequest, order_by=''):
     search_name = request.GET.get('q')
     if search_name:  # Необходимо для поиска игры на странице
         games = Game.objects.filter(is_active=True).filter(name__icontains=search_name)
+        # Можно использовать get_close_matches вместо name__icontains, но необходимо будет менять поведение в template.
+        # games1 = get_close_matches(search_name, possibilities=list(dict(list(
+        # Game.objects.values_list('name', 'slug')))))
     else:
         games = Game.objects.filter(is_active=True)
     if order_by != '':
