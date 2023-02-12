@@ -49,9 +49,8 @@ def get_game(request: HttpRequest, game_slug):
         author_comment = game.comment_set.order_by('-pub_date').filter(author=request.user)
         another_comments = game.comment_set.order_by('-pub_date').exclude(author=request.user).all()
     else:
-        author_comments = None
+        author_comment = None
         another_comments = game.comment_set.order_by('-pub_date').all()
-    print(author_comment, another_comments)
     context = {'game': game,
                'another_comments': another_comments,
                'author_comment': author_comment}
