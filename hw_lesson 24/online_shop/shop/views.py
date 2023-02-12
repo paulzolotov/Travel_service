@@ -40,17 +40,18 @@ def categories(request: HttpRequest):
 
 def get_game(request: HttpRequest, game_slug):
     game = get_object_or_404(Game, slug=game_slug)
-    # Думал поможет фильтрация по автору, чтобы автор комментария был первым,но не помогло.
-    comments = game.comment_set.order_by('-pub_date').order_by('author').all()
     # Узнаем есть ли у данного пользователя комм. Логика в html файле такая - если есть комм, то нет кнопки добавить.
     # Пришлось добавить условие т.к появляется ошибка если пользователь не вошел при переходе ни игру
     if request.user.is_authenticated:
-        user_comm = game.comment_set.order_by('-pub_date').filter(author=request.user)
+        author_comment = game.comment_set.order_by('-pub_date').filter(author=request.user)
+        another_comments = game.comment_set.order_by('-pub_date').exclude(author=request.user).all()
     else:
-        user_comm = None
+        author_comments = None
+        another_comments = game.comment_set.order_by('-pub_date').all()
+    print(author_comment, another_comments)
     context = {'game': game,
-               'comments': comments,
-               'user_comm': user_comm}
+               'another_comments': another_comments,
+               'author_comment': author_comment}
     return render(request, 'shop/game_page.html', context=context)
 
 

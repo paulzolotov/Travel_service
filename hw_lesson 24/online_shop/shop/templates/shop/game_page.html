@@ -48,18 +48,23 @@
       </section>
         <section class="comments">
           {% if user.is_authenticated %}
-            {% if not user_comm %}
+            {% if not author_comment %}
               <a class="comments__button" href="{% url 'shop:comment-add' game_slug=game.slug %}">Add comment</a>
+            {% else %}
+              {% for comment in author_comment %}
+                <div class="container container__comments">
+                <p class="comments__text">{{ comment.text }}</p>
+                <p class="comments__text"><span class="comments__text comments__text-span">{{ comment.author }}</span> : {{ comment.rating }} &#11088;</p>
+                <a href="{% url 'shop:comment-delete' comment.id %}">Delete comment</a>
+                <a href="{% url 'shop:comment-update' comment.id %}">Update comment</a>
+                </div>
+              {% endfor %}
             {% endif %}
           {% endif %}
-          {% for comment in comments %}
+          {% for comment in another_comments %}
             <div class="container container__comments">
             <p class="comments__text">{{ comment.text }}</p>
             <p class="comments__text"><span class="comments__text comments__text-span">{{ comment.author }}</span> : {{ comment.rating }} &#11088;</p>
-              {% if user == comment.author %}
-                <a href="{% url 'shop:comment-delete' comment.id %}">Delete comment</a>
-                <a href="{% url 'shop:comment-update' comment.id %}">Update comment</a>
-              {% endif %}
             </div>
           {% endfor %}
         </section>
