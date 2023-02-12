@@ -1,5 +1,7 @@
 from django.db import models
 from ckeditor.fields import RichTextField
+from django.urls import reverse
+from django.db.models import Avg
 
 
 # Create your models here.
@@ -55,3 +57,21 @@ class Game(ShopInfoMixin):
 
     def __str__(self):
         return f"{self.name}"
+
+    def get_average_rating(self):
+        game_comments = self.comment_set.all()
+        average_rating = game_comments.aggregate(Avg('rating'))
+        return average_rating
+
+
+class Comment(models.Model):
+    text = models.CharField(max_length=100, verbose_name="Comment text")
+    pub_date = models.DateField(verbose_name="Comment publication date", auto_now_add=True)
+    rating = models.IntegerField(verbose_name="Comment rating")
+    game = models.ForeignKey(Game, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.name}"
+
+    def get_absolute_url(self):
+        return reverse('shop:game', kwargs={'game_slug': self.game.slug})
