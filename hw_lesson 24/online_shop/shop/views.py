@@ -8,7 +8,7 @@ from .forms import CommentModelForm
 from django.contrib.auth.decorators import login_required
 from difflib import get_close_matches
 from django.contrib.auth.models import User
-
+import datetime
 
 # Create your views here.
 def order_index(request: HttpRequest, order_by=''):
@@ -51,10 +51,18 @@ def get_game(request: HttpRequest, game_slug):
     else:
         author_comment = None
         another_comments = game.comment_set.order_by('-pub_date').all()
+    last_visited = request.COOKIES.get(game_slug + '_time_' + str(request.user))
+    view_count = request.COOKIES.get(game_slug + '_view_' + str(request.user), 0)
     context = {'game': game,
                'another_comments': another_comments,
-               'author_comment': author_comment}
-    return render(request, 'shop/game_page.html', context=context)
+               'author_comment': author_comment,
+               'last_visited': last_visited,
+               'view_count': view_count}
+    response = render(request, 'shop/game_page.html', context=context)
+    visit_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    response.set_cookie(game_slug + '_time_' + str(request.user), visit_time, max_age=datetime.timedelta(days=20))
+    response.set_cookie(game_slug + '_view_' + str(request.user), int(view_count)+1, max_age=datetime.timedelta(days=20))
+    return response
 
 
 @login_required(login_url='users:login', redirect_field_name='next')

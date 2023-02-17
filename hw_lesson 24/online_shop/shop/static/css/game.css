@@ -165,3 +165,13 @@ column-gap: 70px;
 .game__wrapper-top {
   margin-bottom: 30px;
 }
+/*текст cookies*/
+.cookies__subtitle {
+  text-align: center;
+  font-family: "Raleway", sans-serif;
+  font-size: 24px;
+  color: #7BA7AB;
+  line-height: 21px;
+  font-weight: 400;
+  margin-bottom: 20px;
+}

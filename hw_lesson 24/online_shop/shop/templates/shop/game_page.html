@@ -35,7 +35,10 @@
             <p class="image__subtitle">Release date: {{ game.release_date }}</p><br>
             <p class="image__subtitle">Price: {{ game.price }}$ </p>
             {% if game.get_average_rating.rating__avg is not None %}
-            <p class="image__subtitle">Rating: {{ game.get_average_rating.rating__avg|floatformat:2 }}/10 &#11088;</p>
+              <p class="image__subtitle">Rating: {{ game.get_average_rating.rating__avg|floatformat:2 }}/10 &#11088;</p>
+            {% endif %}
+            {%if last_visited%}
+              <p class="cookies__subtitle">You viewed the page {{ view_count }} times, the last one was on : {{ last_visited }}</p>
             {% endif %}
           </div>
         </div>
