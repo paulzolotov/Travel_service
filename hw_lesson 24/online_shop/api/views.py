@@ -66,3 +66,12 @@ class GetGameInfoSearchView(generics.ListAPIView):
     renderer_classes = [BrowsableAPIRenderer, JSONRenderer]
     filter_backends = [rest_filters.SearchFilter]
     search_fields = ['name']
+
+
+class GetGameInfoOrderView(generics.ListAPIView):
+    queryset = Game.objects.all()
+    serializer_class = GameSerializer
+    renderer_classes = [BrowsableAPIRenderer, JSONRenderer]
+    filter_backends = [rest_filters.OrderingFilter]
+    ordering_fields = ['name', 'release_date', 'price']
+    
