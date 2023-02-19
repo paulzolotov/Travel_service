@@ -31,7 +31,9 @@ LOGIN_URL = 'users.views.login'
 # Application definition
 
 INSTALLED_APPS = [
+    'rest_framework',
     'ckeditor',
+    'api.apps.ApiConfig',
     'users.apps.UsersConfig',
     'shop.apps.ShopConfig',
     'django.contrib.admin',
@@ -99,6 +101,15 @@ DATABASES = {
         'PORT': '5432'
     }
 }
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer'],
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser'],
+    'UNICODE_JSON': True,
+}
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
