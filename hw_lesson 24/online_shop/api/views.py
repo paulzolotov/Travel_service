@@ -3,10 +3,12 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.renderers import BrowsableAPIRenderer, JSONRenderer
 from rest_framework import generics
+from rest_framework import filters as rest_filters
 
 from shop.models import Game, Category
 from .serializers import GameSerializer, CategorySerializer
 import random
+from django_filters import rest_framework as filters
 
 
 # Create your views here.
@@ -48,3 +50,19 @@ class GetCategoryGamesInfoView(generics.ListAPIView):
     def get_queryset(self):
         category = self.kwargs['category']
         return Game.objects.filter(is_active=True).filter(category__title=category.title())
+
+
+class GetGameInfoFilterView(generics.ListAPIView):
+    queryset = Game.objects.all()
+    serializer_class = GameSerializer
+    renderer_classes = [BrowsableAPIRenderer, JSONRenderer]
+    filter_backends = [filters.DjangoFilterBackend]
+    filterset_fields = ['category__title', 'release_date']
+
+
+class GetGameInfoSearchView(generics.ListAPIView):
+    queryset = Game.objects.all()
+    serializer_class = GameSerializer
+    renderer_classes = [BrowsableAPIRenderer, JSONRenderer]
+    filter_backends = [rest_filters.SearchFilter]
+    search_fields = ['name']
