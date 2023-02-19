@@ -2,9 +2,10 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.renderers import BrowsableAPIRenderer, JSONRenderer
+from rest_framework import generics
 
-from shop.models import Game
-from .serializers import GameSerializer
+from shop.models import Game, Category
+from .serializers import GameSerializer, CategorySerializer
 import random
 
 
@@ -27,3 +28,23 @@ class GetGameInfoView(APIView):
 
     def get_queryset(self):
         return self.request.query_params.get('random', None)
+
+
+class GetCategoryInfoView(APIView):
+
+    renderer_classes = [BrowsableAPIRenderer, JSONRenderer]
+
+    def get(self, request):
+        queryset = Category.objects.filter(is_active=True).all()
+        serializer_for_queryset = CategorySerializer(instance=queryset, many=True)
+        return Response({"categories": serializer_for_queryset.data})
+
+
+class GetCategoryGamesInfoView(generics.ListAPIView):
+
+    renderer_classes = [BrowsableAPIRenderer, JSONRenderer]
+    serializer_class = GameSerializer
+
+    def get_queryset(self):
+        category = self.kwargs['category']
+        return Game.objects.filter(is_active=True).filter(category__title=category.title())

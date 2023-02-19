@@ -52,7 +52,7 @@ def get_game(request: HttpRequest, game_slug):
         author_comment = None
         another_comments = game.comment_set.order_by('-pub_date').all()
     last_visited = request.COOKIES.get(game_slug + '_time_' + str(request.user))
-    view_count = request.COOKIES.get(game_slug + '_view_' + str(request.user), 0)
+    view_count = int(request.COOKIES.get(game_slug + '_view_' + str(request.user), 0))
     context = {'game': game,
                'another_comments': another_comments,
                'author_comment': author_comment,
@@ -61,7 +61,7 @@ def get_game(request: HttpRequest, game_slug):
     response = render(request, 'shop/game_page.html', context=context)
     visit_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     response.set_cookie(game_slug + '_time_' + str(request.user), visit_time, max_age=datetime.timedelta(days=20))
-    response.set_cookie(game_slug + '_view_' + str(request.user), int(view_count)+1, max_age=datetime.timedelta(days=20))
+    response.set_cookie(game_slug + '_view_' + str(request.user), view_count+1, max_age=datetime.timedelta(days=20))
     return response
 
 
