@@ -18,18 +18,19 @@ class GetGameInfoView(APIView):
     renderer_classes = [BrowsableAPIRenderer, JSONRenderer]
 
     def get(self, request):
-        if self.get_queryset() == 'true' or self.get_queryset() == 'True':
-            all_games = Game.objects.all()
-            random_game = random.randint(0, all_games.count()-1)
-            queryset = all_games[random_game]
-            serializer_for_queryset = GameSerializer(instance=queryset)
+        if self.random_request():
+            many_flag = False
+            queryset = Game.objects.all().order_by('?')[1]  # Получаю первую игру с упорядоченного в случайном
+            # порядке списка игр через order_by('?')
         else:
+            many_flag = True
             queryset = Game.objects.all()
-            serializer_for_queryset = GameSerializer(instance=queryset, many=True)
+        serializer_for_queryset = GameSerializer(instance=queryset, many=many_flag)
         return Response({"games": serializer_for_queryset.data})
 
-    def get_queryset(self):
-        return self.request.query_params.get('random', None)
+     def random_request(self):
+        query = self.request.query_params.get('random', None)
+        return query and query.upper() == 'TRUE'
 
 
 class GetCategoryInfoView(APIView):
@@ -74,4 +75,3 @@ class GetGameInfoOrderView(generics.ListAPIView):
     renderer_classes = [BrowsableAPIRenderer, JSONRenderer]
     filter_backends = [rest_filters.OrderingFilter]
     ordering_fields = ['name', 'release_date', 'price']
-    
