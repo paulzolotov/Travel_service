@@ -31,6 +31,7 @@ LOGIN_URL = 'users.views.login'
 # Application definition
 
 INSTALLED_APPS = [
+    'debug_toolbar',
     'rest_framework',
     'ckeditor',
     'api.apps.ApiConfig',
@@ -50,14 +51,28 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.steam'
 ]
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': '/home/pavlin/workarea/TMS/Homework/TMS_hw/hw_lesson 24/online_shop/cache',
+    }
+}
+
+CACHE_MIDDLEWARE_ALIAS = 'default'
+CACHE_MIDDLEWARE_SECONDS = 5
+CACHE_MIDDLEWARE_KEY_PREFIX = ''
+
 MIDDLEWARE = [
+    'django.middleware.cache.UpdateCacheMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'online_shop.urls'
@@ -166,3 +181,7 @@ AUTHENTICATION_BACKENDS = [
 SITE_ID = 1
 ACCOUNT_EMAIL_VERIFICATION = "none"  # Нужно ли отправлять письмо, что прошла успешная верификация аккаунта
 LOGIN_REDIRECT_URL = 'shop:index'  # Ресурс для перенаправления после успешной авторизации.
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
