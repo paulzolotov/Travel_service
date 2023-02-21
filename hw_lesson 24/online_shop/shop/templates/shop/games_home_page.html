@@ -78,26 +78,38 @@
             </div>
 
             {% endfor  %}
-          </div>
 
-            <div class="pagination">
-              <span class="step-links">
+          <div class="pagination">
+            {% if page_obj.has_other_pages %}
+            <nav class="list-pages">
+              <ul>
                 {% if page_obj.has_previous %}
-                  <a href="?page=&order_by={{ order_by }}">&laquo; first</a>
-                  <a href="?page={{ page_obj.previous_page_number }}&order_by={{ order_by }}">previous</a>
+                <li class="page-num">
+                    <a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
+                </li>
                 {% endif %}
 
-                <span class="current">
-                  Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                </span>
+                {% for p in paginator.page_range %}
+                {% if page_obj.number == p %}
+                <li class="page-num page-num-selected">{{ p }}</li>
+                {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2  %}
+                <li class="page-num">
+                  <a href="?page={{ p }}">{{ p }}</a>
+                </li>
+                {% endif %}
+                {% endfor %}
 
                 {% if page_obj.has_next %}
-                  <a href="?page={{ page_obj.next_page_number }}&order_by={{ order_by }}">next</a>
-                  <a href="?page={{ page_obj.paginator.num_pages }}&order_by={{ order_by }}">last &raquo;</a>
+                <li class="page-num">
+                    <a href="?page={{ page_obj.next_page_number }}">&gt;</a>
+                </li>
                 {% endif %}
-              </span>
-            </div>
 
+              </ul>
+            </nav>
+            {% endif %}
+          </div>
+          </div>
         </section>
       </main>
     </body>

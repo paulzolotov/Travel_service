@@ -165,3 +165,9 @@ column-gap: 70px;
 .game__wrapper-top {
   margin-bottom: 30px;
 }
+.comments__btn {
+  text-decoration: none;
+  font-family: "Raleway", sans-serif;
+  font-size: 14px;
+  color: #4C73CF;
+}

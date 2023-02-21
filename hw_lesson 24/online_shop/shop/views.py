@@ -17,19 +17,19 @@ def order_index(request: HttpRequest, order_by=''):
     search_name = request.GET.get('q')
     if search_name:  # Необходимо для поиска игры на странице
         # Добавил кеширование всех игр
-        cache_games = cache.get('games')
-        if not cache_games:
+        # cache_games = cache.get('games')
+        # if not cache_games:
             games = Game.objects.filter(is_active=True).filter(name__icontains=search_name)
-            cache.set('games', games, 60*5)
+            # cache.set('games', games, 60*5)
         # Можно использовать get_close_matches вместо name__icontains, но необходимо будет менять поведение в template.
         # games1 = get_close_matches(search_name, possibilities=list(dict(list(
         # Game.objects.values_list('name', 'slug')))))
     else:
         # Добавил кеширование всех игр
-        cache_games = cache.get('games')
-        if not cache_games:
+        # cache_games = cache.get('games')
+        # if not cache_games:
             games = Game.objects.filter(is_active=True)
-            cache.set('games', games, 60*5)
+            # cache.set('games', games, 60*5)
     if order_by != '':
         sorting_dict = {
             'price-asc': games.order_by('-price'),
@@ -42,7 +42,8 @@ def order_index(request: HttpRequest, order_by=''):
     page_number = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_number)
     context = {'page_obj': page_obj,
-               'order_by': order_by}
+               'order_by': order_by,
+               'paginator': paginator}
     return render(request, 'shop/games_home_page.html', context=context)
 
 

@@ -55,8 +55,8 @@
                 <div class="container container__comments">
                 <p class="comments__text">{{ comment.text }}</p>
                 <p class="comments__text"><span class="comments__text comments__text-span">{{ comment.author }}</span> : {{ comment.rating }} &#11088;</p>
-                <a href="{% url 'shop:comment-delete' comment.id %}">Delete comment</a>
-                <a href="{% url 'shop:comment-update' comment.id %}">Update comment</a>
+                <a class="comments__btn" href="{% url 'shop:comment-delete' comment.id %}">Delete comment</a>
+                <a class="comments__btn" href="{% url 'shop:comment-update' comment.id %}">Update comment</a>
                 </div>
               {% endfor %}
             {% endif %}

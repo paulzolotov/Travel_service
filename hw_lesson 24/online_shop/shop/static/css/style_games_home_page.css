@@ -152,14 +152,6 @@ body {
   background: #e98074;
   box-shadow: 4px 4px 30px #e98074;
 }
-/*пагинация*/
-.pagination {
-  margin:  0 auto;
-  justify-content: center;
-  display: flex;
-  font-size: 18px;
-  margin-bottom: 20px;
-}
 /*форма*/
 .search__box {
   background-color: #eae7dc;
@@ -225,6 +217,9 @@ body {
   color: #eae7dc;
   background-color: #7BA7AB;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 /*Приветственный текст*/
 .greeting__text {
@@ -238,4 +233,51 @@ body {
 .greeting__text-span {
   color: #7BA7AB;
   font-size: 26px;
+}
+
+/* пагинация */
+.pagination{
+  font-size: 20px;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
+}
+.list-pages ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  column-gap: 20px;
+}
+.list-pages li {
+  width: 60px;
+  height: 44px;
+  border-radius: 30px;
+}
+.list-pages a {
+  color: #8e8d8a;
+  font-size: 24px;
+  text-decoration: none;
+  display: flex;
+  width: 60px;
+  height: 44px;
+  border: 1px solid #d0d0d0;
+  border-radius: 30px;
+  justify-content: center;
+  align-items: center;
+}
+.list-pages .page-num:hover {
+  box-shadow: 3px 3px 1px #d0d0d0;
+}
+.list-pages .page-num-selected {
+  color: #8e8d8a;
+  border: none;
+  font-size: 20px;
+  display: flex;
+  width: 60px;
+  height: 44px;
+  border-radius: 30px;
+  justify-content: center;
+  align-items: center;
+}
+.list-pages .page-num-selected:hover {
+  box-shadow: none;
 }
