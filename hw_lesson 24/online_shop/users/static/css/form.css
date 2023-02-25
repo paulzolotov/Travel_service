@@ -22,3 +22,14 @@ body {background-color: #eae7dc;}
   flex-direction: column;
   align-items: center;
 }
+.btn__sign-in {
+  margin: 0 auto;
+  display: block;
+  max-width: 100px;
+  width: 100%;
+}
+.scale {
+  width: 530px;
+  height: 380px;
+  margin-bottom: 10px;
+}
