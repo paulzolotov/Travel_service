@@ -130,6 +130,7 @@ venv.bak/
 */.idea
 .cache
 cache/
+*/cache
 
 
 # Spyder project settings
