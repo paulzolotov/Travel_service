@@ -1,4 +1,13 @@
-FORMAT_FOLDER?='/home/pavlin/workarea/TMS/Homework/TMS_hw/hw_lesson 24/online_shop/'
+FORMAT_FOLDER?='/home/pavlin/workarea/TMS/Homework/TMS_hw/hw_lesson\ 24/online_shop/'
+
+black:
+	python3 -m black ${FORMAT_FOLDER}
+isort:
+	python3 -m isort ${FORMAT_FOLDER}
+flake8:
+	python3 -m flake8 ${FORMAT_FOLDER}
+interrogate:
+	python3 -m interrogate ${FORMAT_FOLDER}
 
 format:
 	make black FORMAT_FOLDER=${FORMAT_FOLDER}
