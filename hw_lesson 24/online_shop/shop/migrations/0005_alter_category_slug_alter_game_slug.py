@@ -4,20 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('shop', '0004_alter_game_release_date'),
+        ("shop", "0004_alter_game_release_date"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='category',
-            name='slug',
-            field=models.SlugField(max_length=20, verbose_name='Category Slug'),
+            model_name="category",
+            name="slug",
+            field=models.SlugField(max_length=20, verbose_name="Category Slug"),
         ),
         migrations.AlterField(
-            model_name='game',
-            name='slug',
-            field=models.SlugField(max_length=20, verbose_name='Game Slug'),
+            model_name="game",
+            name="slug",
+            field=models.SlugField(max_length=20, verbose_name="Game Slug"),
         ),
     ]

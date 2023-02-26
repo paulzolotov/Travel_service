@@ -5,20 +5,19 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('shop', '0013_game_name_asc_idx_game_name_desc_idx_and_more'),
+        ("shop", "0013_game_name_asc_idx_game_name_desc_idx_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='category',
-            name='description',
-            field=ckeditor.fields.RichTextField(verbose_name='Category Description'),
+            model_name="category",
+            name="description",
+            field=ckeditor.fields.RichTextField(verbose_name="Category Description"),
         ),
         migrations.AlterField(
-            model_name='game',
-            name='description',
-            field=ckeditor.fields.RichTextField(verbose_name='Game Description'),
+            model_name="game",
+            name="description",
+            field=ckeditor.fields.RichTextField(verbose_name="Game Description"),
         ),
     ]
