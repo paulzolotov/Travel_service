@@ -1,5 +1,8 @@
 FORMAT_FOLDER?='/home/pavlin/workarea/TMS/Homework/TMS_hw/hw_lesson\ 24/online_shop/'
 
+pre-commit:
+	pre-commit run --all-files
+
 black:
 	python3 -m black ${FORMAT_FOLDER}
 isort:
@@ -14,3 +17,4 @@ format:
 	make isort FORMAT_FOLDER=${FORMAT_FOLDER}
 	make flake8 FORMAT_FOLDER=${FORMAT_FOLDER}
 	make interrogate FORMAT_FOLDER=${FORMAT_FOLDER}
+	make pre-commit
