@@ -1,116 +1,75 @@
-<!DOCTYPE html>
-{% load static %}
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
+{% extends 'base.html' %}
 
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <!--подключение стилей-->
-    <link rel="stylesheet" href="{% static "css/style_games_home_page.css" %}" />
-
-    <!--подключение шрифтов-->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Raleway:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-
-    <title>Games</title>
-  </head>
-    <body>
-      <main>
-        <section class="user">
-          <div class="user__greetings">
-            {% if user.is_authenticated %}
-            <p class="greeting__text">Welcome, <span class="greeting__text greeting__text-span">{{ user.username }}</span>. Thanks for logging in. </p>
-            <div class="user__wrapper user__wrapper-top">
-              <a class="user__btn-top" href="{% url 'users:logout' %}">Logout</a>
-              <a class="user__btn-top" href="{% url 'users:change' %}">Change password</a>
-            </div>
-            {% else %}
-              <p class="greeting__text">Welcome, new user. Please log in.</p>
-            <div class="user__wrapper user__wrapper-top">
-              <a class="user__btn-top" href="{% url 'users:register' %}">Register</a>
-              <a class="user__btn-top" href="{% url 'users:login' %}">Login</a>
-              <a class="user__btn-top" href="{% url 'account_login' %}">GitHub</a>
-              <a class="user__btn-top" href="{% url 'account_login' %}">Steam</a>
-            </div>
-            {% endif %}
-          </div>
-        </section>
-        <section class="game">
-          <div class="container">
+{% block content %}
+<body>
+<main>
+    <section class="game">
+        <div class="container">
             <h2 class="game__header">games</h2>
-            <div class="game__wrapper game__wrapper-top">
-              <a class="info__btn-top" href="{% url 'shop:categories' %}">Categories</a>
-            </div>
             <div class="game__wrapper game__wrapper-info1">
-              <p class="info__text">Sort ascending:</p>
-              <a class="info__btn" href="{% url 'shop:or-index' order_by='name-asc' %}">Name ↓ </a>
-              <a class="info__btn" href="{% url 'shop:or-index' order_by='price-asc' %}">Price ↓ </a>
+                <p class="info__text">Sort ascending:</p>
+                <a class="info__btn" href="{% url 'shop:or-index' order_by='name-asc' %}">Name ↓ </a>
+                <a class="info__btn" href="{% url 'shop:or-index' order_by='price-asc' %}">Price ↓ </a>
             </div>
             <div class="game__wrapper game__wrapper-info2">
-              <p class="info__text">Sort descending:</p>
-              <a class="info__btn" href="{% url 'shop:or-index' order_by='name-desc' %}">Name ↑ </a>
-              <a class="info__btn" href="{% url 'shop:or-index' order_by='price-desc' %}">Price ↑ </a>
+                <p class="info__text">Sort descending:</p>
+                <a class="info__btn" href="{% url 'shop:or-index' order_by='name-desc' %}">Name ↑ </a>
+                <a class="info__btn" href="{% url 'shop:or-index' order_by='price-desc' %}">Price ↑ </a>
             </div>
             <div class="search__box">
-              <form action="{% url 'shop:index' %}" method="get">
-                <input class="field__search" type="search" type="text" name="q" placeholder="Search games by name">
-                <button class="btn__search" type="submit">Search</button>
-              </form>
+                <form action="{% url 'shop:index' %}" method="get">
+                    <input class="field__search" type="search" type="text" name="q" placeholder="Search games by name">
+                    <button class="btn__search" type="submit">Search</button>
+                </form>
             </div>
             {% for game in page_obj %}
 
             <div class="button__wrap">
-              <img class="button__image" src="{{ game.game_image.url }}" alt="{{ game.name }}">
+                <img class="button__image" src="{{ game.game_image.url }}" alt="{{ game.name }}">
             </div>
             <p class="button__price_rating">{{ game.price }} $</p>
             {% if game.get_average_rating.rating__avg is not None %}
             <p class="button__price_rating">{{ game.get_average_rating.rating__avg|floatformat:2 }}/10 &#11088;</p>
             {% endif %}
             <div class="game__wrapper game__wrapper-button">
-              <a class="button__btn" href="{% url 'shop:game' game.slug %}">{{ game.name }}</a>
+                <a class="button__btn" href="{% url 'shop:game' game.slug %}">{{ game.name }}</a>
             </div>
 
-            {% endfor  %}
+            {% endfor %}
 
-          <div class="pagination">
-            {% if page_obj.has_other_pages %}
-            <nav class="list-pages">
-              <ul>
-                {% if page_obj.has_previous %}
-                <li class="page-num">
-                    <a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
-                </li>
+            <div class="pagination">
+                {% if page_obj.has_other_pages %}
+                <nav class="list-pages">
+                    <ul>
+                        {% if page_obj.has_previous %}
+                        <li class="page-num">
+                            <a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
+                        </li>
+                        {% endif %}
+
+                        {% for p in paginator.page_range %}
+                        {% if page_obj.number == p %}
+                        <li class="page-num page-num-selected">{{ p }}</li>
+                        {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
+                        <li class="page-num">
+                            <a href="?page={{ p }}">{{ p }}</a>
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                        <li class="page-num">
+                            <a href="?page={{ page_obj.next_page_number }}">&gt;</a>
+                        </li>
+                        {% endif %}
+
+                    </ul>
+                </nav>
                 {% endif %}
+            </div>
+        </div>
+    </section>
+</main>
+</body>
 
-                {% for p in paginator.page_range %}
-                {% if page_obj.number == p %}
-                <li class="page-num page-num-selected">{{ p }}</li>
-                {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2  %}
-                <li class="page-num">
-                  <a href="?page={{ p }}">{{ p }}</a>
-                </li>
-                {% endif %}
-                {% endfor %}
-
-                {% if page_obj.has_next %}
-                <li class="page-num">
-                    <a href="?page={{ page_obj.next_page_number }}">&gt;</a>
-                </li>
-                {% endif %}
-
-              </ul>
-            </nav>
-            {% endif %}
-          </div>
-          </div>
-        </section>
-      </main>
-    </body>
-</html>
+{% endblock  %}
