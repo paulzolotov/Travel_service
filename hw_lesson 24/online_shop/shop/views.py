@@ -20,18 +20,18 @@ def order_index(request: HttpRequest, order_by=""):
     if search_name:  # Необходимо для поиска игры на странице
         games = Game.objects.filter(is_active=True).filter(name__icontains=search_name)
         # Добавил кеширование всех игр
-        cache_games = cache.get('games')
+        cache_games = cache.get("games")
         if not cache_games:
-            cache.set('games', games, 60*5)
+            cache.set("games", games, 60 * 5)
     # Можно использовать get_close_matches вместо name__icontains, но необходимо будет менять поведение в template.
     # games1 = get_close_matches(search_name, possibilities=list(dict(list(
     # Game.objects.values_list('name', 'slug')))))
     else:
         games = Game.objects.filter(is_active=True)
         # Добавил кеширование всех игр
-        cache_games = cache.get('games')
+        cache_games = cache.get("games")
         if not cache_games:
-            cache.set('games', games, 60*5)
+            cache.set("games", games, 60 * 5)
     if order_by != "":
         sorting_dict = {
             "price-asc": games.order_by("-price"),
