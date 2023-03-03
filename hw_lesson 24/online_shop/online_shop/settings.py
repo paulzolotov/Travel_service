@@ -31,6 +31,7 @@ LOGIN_URL = 'users.views.login'
 # Application definition
 
 INSTALLED_APPS = [
+    'drf_yasg',
     'django_filters',
     'rest_framework',
     'ckeditor',
@@ -113,7 +114,8 @@ REST_FRAMEWORK = {
         'django_filters.rest_framework.DjangoFilterBackend'],
     'DEFAULT_PAGINATION_CLASS':
         'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 2
+    'PAGE_SIZE': 2,
+    'DEFAULT_SCHEMA_CLASS':'rest_framework.schemas.coreapi.AutoSchema'
 }
 
 

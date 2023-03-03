@@ -28,7 +28,7 @@ class GetGameInfoView(APIView):
         serializer_for_queryset = GameSerializer(instance=queryset, many=many_flag)
         return Response({"games": serializer_for_queryset.data})
 
-     def random_request(self):
+    def random_request(self):
         query = self.request.query_params.get('random', None)
         return query and query.upper() == 'TRUE'
 
