@@ -174,3 +174,6 @@ AUTHENTICATION_BACKENDS = [
 SITE_ID = 1
 ACCOUNT_EMAIL_VERIFICATION = "none"  # Нужно ли отправлять письмо, что прошла успешная верификация аккаунта
 LOGIN_REDIRECT_URL = 'shop:index'  # Ресурс для перенаправления после успешной авторизации.
+
+CELERY_BROKER_URL = "redis://localhost:6379"
+CELERY_RESULT_BACKEND = "redis://localhost:6379"

@@ -9,6 +9,8 @@ from django.contrib.auth.decorators import login_required
 from difflib import get_close_matches
 from django.contrib.auth.models import User
 import datetime
+from better_profanity import profanity
+
 
 # Create your views here.
 def order_index(request: HttpRequest, order_by=''):
@@ -80,6 +82,8 @@ class CommentCreateView(CreateView):
     form_class = CommentModelForm  # либо form_class либо fields
 
     def form_valid(self, form):
+        # profanity.load_censor_words()  # загрузка цензурных слов
+        # form.instance.text = profanity.censor(form.instance.text)  # цензурирование текста
         form.instance.game = Game.objects.get(slug=self.kwargs['game_slug'])
         form.instance.author = self.request.user
         return super().form_valid(form)
