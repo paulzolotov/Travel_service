@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponseRedirect
 from .models import Game, Category, Comment
 from django.core.paginator import Paginator
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from .forms import CommentModelForm
 from django.contrib.auth.decorators import login_required
@@ -10,6 +10,8 @@ from difflib import get_close_matches
 from django.contrib.auth.models import User
 import datetime
 from better_profanity import profanity
+from .tasks import replace_text_with_censored
+from django.core import serializers
 
 
 # Create your views here.
@@ -81,12 +83,20 @@ class CommentCreateView(CreateView):
     model = Comment
     form_class = CommentModelForm  # либо form_class либо fields
 
+    def get_success_url(self):
+        """URL, на который будет произведено перенаправление"""
+        print(2)
+        return reverse("shop:game", kwargs={'game_slug': self.object.game.slug})
+
     def form_valid(self, form):
-        # profanity.load_censor_words()  # загрузка цензурных слов
-        # form.instance.text = profanity.censor(form.instance.text)  # цензурирование текста
         form.instance.game = Game.objects.get(slug=self.kwargs['game_slug'])
         form.instance.author = self.request.user
-        return super().form_valid(form)
+        self.object = form.save()
+        print(1)
+        # Вызов .delay() является самым быстрым способом отправки сообщения о задаче в Celery
+        replace_text_with_censored.delay(serializers.serialize('json', [self.object]))
+        print(3)
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class CommentUpdateView(UpdateView):

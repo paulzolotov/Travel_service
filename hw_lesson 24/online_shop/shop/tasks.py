@@ -6,9 +6,10 @@ from celery import shared_task
 profanity.load_censor_words()
 
 
-@shared_task
+@shared_task()
 def replace_text_with_censored(instance):
-    instance = list(serializers.deserialize('json', instance))[0].object
+    instance = list(serializers.deserialize('json', instance))[0].object  # из json строки будем преобразовывать в
+    # объект django orm. Чтобы достать сам объект комментария исп. object
     censored_text = profanity.censor(instance.text)
     time.sleep(5)
     instance.text = censored_text
