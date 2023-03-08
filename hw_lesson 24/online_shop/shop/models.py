@@ -77,3 +77,12 @@ class Comment(models.Model):
 
     def get_absolute_url(self):
         return reverse('shop:game', kwargs={'game_slug': self.game.slug})
+
+
+class Log(models.Model):
+    path = models.CharField(max_length=300, verbose_name="request path")
+    user = models.CharField(max_length=100, verbose_name="request user")
+    datetime = models.DateTimeField(verbose_name="Response datetime", auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.path}"

@@ -10,7 +10,7 @@ import csv
 
 # Register your models here.
 
-from shop.models import Category, Game, Comment
+from shop.models import Category, Game, Comment, Log
 
 
 class GameInline(admin.TabularInline):
@@ -117,3 +117,12 @@ class CommentsAdmin(admin.ModelAdmin):
                     'rating',
                     'game',
                     'author')
+
+
+@admin.register(Log)
+class LogAdmin(admin.ModelAdmin):
+    list_display = ('datetime',
+                    'path',
+                    'user')
+    readonly_fields = ('datetime', 'path', 'user')  # Делаем так, чтобы логи нельзя бло редактировать.
+    search_fields = ('user',)

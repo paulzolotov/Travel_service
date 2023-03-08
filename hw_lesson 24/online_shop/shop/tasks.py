@@ -5,6 +5,7 @@ from django.core import serializers
 from celery import shared_task
 from termcolor import colored
 import logging
+from .models import Log
 
 profanity.load_censor_words()
 
@@ -28,4 +29,6 @@ def shop_logger_task(path: str, user: str, time):
     """Функция предназначена для логирования основных запросов магазина. Расположенных во sop/views.py"""
     logger.info(time + ' | ' + path + ' | ' + user)
     # print(colored(time + ' | ' + path + ' | ' + user, 'red'))
+    Log(path=path, user=user, datetime=datetime).save()  # Добавление лога в БД
+
 
