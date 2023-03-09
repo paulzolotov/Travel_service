@@ -31,6 +31,7 @@ LOGIN_URL = 'users.views.login'
 # Application definition
 
 INSTALLED_APPS = [
+    'django_celery_beat',
     'drf_yasg',
     'django_filters',
     'rest_framework',
