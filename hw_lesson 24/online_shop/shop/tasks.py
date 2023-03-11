@@ -10,6 +10,7 @@ from django.urls import reverse_lazy
 from typing import List
 from .models import Game
 from django.contrib.auth.models import User
+import datetime
 
 profanity.load_censor_words()
 
@@ -48,7 +49,7 @@ def send_news_email_task(games: List[dict], top3_rating_games: dict, user: dict)
         message_text += msg_chunk
     message_text += '\nAlso, we have prepared for you the Top 3 games with the best rating for the last week.\n'
     count = 1
-    for game, rating in top3_rating_games:
+    for game, rating in top3_rating_games.items():
         msg_game_rating = f"""
         {count}. {game} - {rating}
         """
