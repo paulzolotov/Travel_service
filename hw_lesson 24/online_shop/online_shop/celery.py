@@ -1,7 +1,7 @@
 import os
 from celery import Celery
 from celery.schedules import crontab
-# from shop.tasks import weekly_notification_task
+# from .shop.tasks import weekly_notification_task
 
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'online_shop.settings')
@@ -10,7 +10,7 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks()
 
 
-app = Celery()
+# app = Celery()
 
 
 @app.on_after_configure.connect

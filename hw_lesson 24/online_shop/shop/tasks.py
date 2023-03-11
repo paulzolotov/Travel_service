@@ -1,4 +1,3 @@
-import datetime
 from better_profanity import profanity
 import time
 from django.core import serializers
@@ -34,7 +33,7 @@ def shop_logger_task(path: str, user: str, time):
     """Функция предназначена для логирования основных запросов магазина. Расположенных во sop/views.py"""
     logger.info(time + ' | ' + path + ' | ' + user)
     # print(colored(time + ' | ' + path + ' | ' + user, 'red'))
-    Log(path=path, user=user, datetime=datetime).save()  # Добавление лога в БД
+    Log(path=path, user=user, datetime=time).save()  # Добавление лога в БД
 
 
 @shared_task()

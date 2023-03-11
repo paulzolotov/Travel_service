@@ -179,6 +179,8 @@ LOGIN_REDIRECT_URL = 'shop:index'  # Ресурс для перенаправл�
 CELERY_BROKER_URL = "redis://localhost:6379"
 CELERY_RESULT_BACKEND = "redis://localhost:6379"
 
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+
 # LOGGING
 LOGGING = {
     'version': 1,                       # the dictConfig format version
