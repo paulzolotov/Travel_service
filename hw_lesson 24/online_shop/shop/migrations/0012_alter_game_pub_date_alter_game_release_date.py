@@ -4,20 +4,21 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('shop', '0011_category_games_amount_alter_category_is_active_and_more'),
+        ("shop", "0011_category_games_amount_alter_category_is_active_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='game',
-            name='pub_date',
-            field=models.DateField(auto_now_add=True, verbose_name='Game publication date'),
+            model_name="game",
+            name="pub_date",
+            field=models.DateField(
+                auto_now_add=True, verbose_name="Game publication date"
+            ),
         ),
         migrations.AlterField(
-            model_name='game',
-            name='release_date',
-            field=models.DateField(verbose_name='Release date'),
+            model_name="game",
+            name="release_date",
+            field=models.DateField(verbose_name="Release date"),
         ),
     ]

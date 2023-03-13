@@ -1,7 +1,8 @@
-from django.contrib.auth import login
 from django.contrib import messages
+from django.contrib.auth import login
 from django.shortcuts import redirect, render
 from django.urls import reverse
+
 from .forms import CustomUserCreationForm
 
 
@@ -17,4 +18,4 @@ def register(request):
             return redirect(reverse("shop:index"))
         else:
             form = CustomUserCreationForm(request.POST)
-        return render(request, 'users/register.html', {'form': form})
+        return render(request, "users/register.html", {"form": form})

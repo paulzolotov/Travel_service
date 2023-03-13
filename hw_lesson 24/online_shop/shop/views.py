@@ -11,7 +11,6 @@ from django.contrib.auth.models import User
 import datetime
 from .tasks import replace_text_with_censored, shop_logger_task
 from django.core import serializers
-import functools
 
 
 def decorator_log(func):
@@ -26,38 +25,43 @@ def decorator_log(func):
 
 
 # Create your views here.
-@decorator_log
-def order_index(request: HttpRequest, order_by=''):
+def order_index(request: HttpRequest, order_by=""):
     """Функция предназначена для перехода к основной странице с играми"""
-    search_name = request.GET.get('q')
-    if search_name:  # Параметр поиска - необходим для поиска игры на странице
+    search_name = request.GET.get("q")
         games = Game.objects.filter(is_active=True).filter(name__icontains=search_name)
-        # Можно использовать get_close_matches вместо name__icontains, но необходимо будет менять поведение в template.
-        # games1 = get_close_matches(search_name, possibilities=list(dict(list(
-        # Game.objects.values_list('name', 'slug')))))
+        # Добавил кеширование всех игр
+        cache_games = cache.get("games")
+        if not cache_games:
+            cache.set("games", games, 60 * 5)
+    # Можно использовать get_close_matches вместо name__icontains, но необходимо будет менять поведение в template.
+    # games1 = get_close_matches(search_name, possibilities=list(dict(list(
+    # Game.objects.values_list('name', 'slug')))))
     else:
         games = Game.objects.filter(is_active=True)
-    if order_by != '':  # Сортировка игр. Если не указана сортировка, показывает в стандартном виде.
+        # Добавил кеширование всех игр
+        cache_games = cache.get("games")
+        if not cache_games:
+            cache.set("games", games, 60 * 5)
+    if order_by != "":
         sorting_dict = {
-            'price-asc': games.order_by('-price'),
-            'name-asc': games.order_by('name'),
-            'price-desc': games.order_by('price'),
-            'name-desc': games.order_by('-name'),
+            "price-asc": games.order_by("-price"),
+            "name-asc": games.order_by("name"),
+            "price-desc": games.order_by("price"),
+            "name-desc": games.order_by("-name"),
         }
         games = sorting_dict.get(order_by)
     paginator = Paginator(games, 2)
-    page_number = request.GET.get('page', 1)
+    page_number = request.GET.get("page", 1)
     page_obj = paginator.get_page(page_number)
-    context = {'page_obj': page_obj,
-               'order_by': order_by}
-    return render(request, 'shop/games_home_page.html', context=context)
+    context = {"page_obj": page_obj, "order_by": order_by, "paginator": paginator}
+    return render(request, "shop/games_home_page.html", context=context)
 
 
 @decorator_log
 def categories(request: HttpRequest):
     """Функция предназначена для перехода к странице со списком категорий"""
     categories = Category.objects.filter(is_active=True).all()
-    return render(request, 'shop/categories.html', context={'categories': categories})
+    return render(request, "shop/categories.html", context={"categories": categories})
 
 
 @decorator_log
@@ -68,8 +72,12 @@ def get_game(request: HttpRequest, game_slug):
     # Пришлось добавить условие т.к появляется ошибка если пользователь не вошел при переходе ни игру
     if request.user.is_authenticated:  # Разделяем все комм. на комм. пользов. и остальные, для того чтобы комм. в
         # дальнейшем был всегда первым
-        author_comment = game.comment_set.order_by('-pub_date').filter(author=request.user)
-        another_comments = game.comment_set.order_by('-pub_date').exclude(author=request.user).all()
+        author_comment = game.comment_set.order_by("-pub_date").filter(
+            author=request.user
+        )
+        another_comments = (
+            game.comment_set.order_by("-pub_date").exclude(author=request.user).all()
+        )
     else:
         author_comment = None
         another_comments = game.comment_set.order_by('-pub_date').all()
@@ -98,8 +106,11 @@ def get_category(request: HttpRequest, category_slug):
     # games_from_category = Game.objects.all().filter(is_active=True, category=category)
     #  Получение всех игр категории с помощью связанных запросов
     games_from_category = category.game_set.filter(is_active=True).all()
-    return render(request, 'shop/category_page.html', context={'games_from_category': games_from_category,
-                                                       'category': category})
+    return render(
+        request,
+        "shop/category_page.html",
+        context={"games_from_category": games_from_category, "category": category},
+    )
 
 
 class CommentCreateView(CreateView):
