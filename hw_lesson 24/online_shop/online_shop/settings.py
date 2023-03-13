@@ -32,6 +32,7 @@ LOGIN_URL = "users.views.login"
 
 INSTALLED_APPS = [
 
+    "drf_yasg",
     "django_filters",
     "debug_toolbar",
     "rest_framework",
@@ -137,7 +138,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS':
         'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 2,
-    'DEFAULT_SCHEMA_CLASS':'rest_framework.schemas.coreapi.AutoSchema'
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
 }
 
 
