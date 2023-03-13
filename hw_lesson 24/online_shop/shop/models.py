@@ -7,6 +7,7 @@ from django.urls import reverse
 
 # Create your models here.
 class ShopInfoMixin(models.Model):
+    """Класс Mixin, для повторяющихся полей, от которого затем наследуются классы с моделями"""
     slug = models.SlugField(max_length=50, verbose_name="Short Name")
     is_active = models.BooleanField(default=True, verbose_name="Is it active?")
 
@@ -15,6 +16,7 @@ class ShopInfoMixin(models.Model):
 
 
 class Category(ShopInfoMixin):
+    """Класс для создания модели - Категория (игры)"""
     title = models.CharField(max_length=100, verbose_name="Category Title")
     description = RichTextField(verbose_name="Category Description")
     games_amount = models.IntegerField(
@@ -37,10 +39,14 @@ class Category(ShopInfoMixin):
         verbose_name_plural = "Categories"
 
     def __str__(self):
+        """Возвращает удобочитаемую строку для каждого объекта.
+        Эта строка используется для представления отдельных записей на сайте администрирования
+        (и в любом другом месте, где нужно обратиться к экземпляру модели)"""
         return f"{self.title}"
 
 
 class Game(ShopInfoMixin):
+    """Класс для создания модели - Игра"""
     name = models.CharField(max_length=100, verbose_name="Game Name")
     pub_date = models.DateField(auto_now_add=True, verbose_name="Game publication date")
     release_date = models.DateField(auto_now_add=False, verbose_name="Release date")
@@ -58,6 +64,7 @@ class Game(ShopInfoMixin):
     game_image = models.ImageField(verbose_name="Game Image", upload_to="shop")
 
     class Meta:
+        """Добавил индексы для полей таблицы price и name"""
         verbose_name = "Game"
         verbose_name_plural = "Games"
         indexes = [
@@ -68,15 +75,18 @@ class Game(ShopInfoMixin):
         ]
 
     def __str__(self):
+        """Возвращает удобочитаемую строку для каждого объекта."""
         return f"{self.name}"
 
     def get_average_rating(self):
+        """Функция для подсчета средней оценки игры по комментариям всех пользователей"""
         game_comments = self.comment_set.all()
         average_rating = game_comments.aggregate(Avg("rating"))
         return average_rating
 
 
 class Comment(models.Model):
+    """Класс для создания модели - Комментарий (для конкретной игры, от конкретного пользователя)"""
     text = models.CharField(max_length=300, verbose_name="Comment text")
     pub_date = models.DateField(
         verbose_name="Comment publication date", auto_now_add=True
@@ -86,13 +96,16 @@ class Comment(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
+        """Возвращает удобочитаемую строку для каждого объекта."""
         return f"{self.text}"
 
     def get_absolute_url(self):
+        """При изменении (добавлении или редактировании комментария) будет переход на страницу с игрой"""
         return reverse("shop:game", kwargs={"game_slug": self.game.slug})
 
 
 class Log(models.Model):
+    """Класс для создания модели - Лог (от конкретного пользователя)"""
     log_path = models.CharField(max_length=300, verbose_name="request path")
     log_user = models.CharField(max_length=100, verbose_name="request user")
     log_datetime = models.DateTimeField(
@@ -100,4 +113,5 @@ class Log(models.Model):
     )
 
     def __str__(self):
+        """Возвращает удобочитаемую строку для каждого объекта."""
         return f"{self.log_path}"

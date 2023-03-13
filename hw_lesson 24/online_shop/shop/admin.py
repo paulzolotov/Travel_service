@@ -15,11 +15,18 @@ from shop.models import Category, Comment, Game, Log
 
 
 class GameInline(admin.TabularInline):
+    """
+        TabularInline - подкласс InlineModelAdmin, который дает в возможность добавлять связанные записи одновременно.
+        В нашем случае, мы получаем информацию о категории и о конкретных ее играх, заходя на страницу детализации
+        категории.
+        Интерфейс администратора имеет возможность редактировать модели на той же странице, что и родительская модель.
+    """
     model = Game
 
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
+    """Класс для отображения на панели администратора информации о конкретной Категории."""
     list_display = ("title", "view_game_link", "show_average_cost")
     inlines = [
         GameInline,
@@ -27,6 +34,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
     @admin.display(description="games")
     def view_game_link(self, obj):
+        """Функция для подсчета количества игры в данной категории, а также генерации ссылки на эти игры"""
         count = obj.game_set.count()
         url = (
             reverse("admin:shop_game_changelist")
@@ -49,6 +57,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Game)
 class GameAdmin(admin.ModelAdmin):
+    """Класс для отображения на панели администратора информации о конкретной Игре."""
     date_hierarchy = "release_date"
     list_display = (
         "name",
@@ -69,32 +78,38 @@ class GameAdmin(admin.ModelAdmin):
 
     @admin.display(description="custom price")
     def show_pretty_price(self, obj):
+        """Функция для отображения кастомной записи для 'цены игры' (В данном случае добавили знак $)"""
         return f"{obj.price} $"
 
     @admin.display(description="game image")
     def img_preview(self, obj):
+        """Функция для отображения иконки с игрой определенного размера"""
         return mark_safe(
             f'<img src = "{obj.game_image.url}" width = "150px" height="180px"/>'
         )
 
     @admin.display(description="image tag")
     def img_tag(self, obj):
+        """Функция для отображения иконки с игрой определенного размера"""
         return mark_safe(
             f'<img src = "{obj.game_image.url}" width = "70px" height="90px"/>'
         )
 
     @admin.display(description="game link")
     def get_link(self, obj):
+        """Функция для добавления ссылки на ресурс выбранной игры"""
         return mark_safe(
             f'<a href="https://ru.wikipedia.org/wiki/{obj.name}">Search</a>'
         )
 
     @admin.action(description="Switch to inactive state")
     def make_inactive(self, request, queryset):
+        """Функция для перевода выбранных игр в строке 'action' в состояние 'inactive'"""
         queryset.update(is_active=False)
 
     @admin.action(description="Export to JSON-CSV")
     def export_as_json_csv(self, request, queryset):
+        """Функция для выгрузки данных в виде логов в формате JSON-CSV"""
         response = FileResponse(
             io.BytesIO(serializers.serialize("json", queryset).encode("utf-8")),
             as_attachment=True,
@@ -104,6 +119,7 @@ class GameAdmin(admin.ModelAdmin):
 
     @admin.action(description="Export to CSV")
     def export_to_csv(self, request, queryset):
+        """Функция для выгрузки данных в виде логов в формате CSV"""
         opts = self.model._meta
         # Создаем экземпляр HttpResponse, включающий кастомный text/csv-тип контента, чтобы сообщить браузеру,
         # что ответ должен обрабатываться как файл CSV. Также добавляется заголовок Content-Disposition, указывающий,
@@ -125,11 +141,13 @@ class GameAdmin(admin.ModelAdmin):
 
 @admin.register(Comment)
 class CommentsAdmin(admin.ModelAdmin):
+    """Класс для отображения на панели администратора информации о Комментариях."""
     list_display = ("text", "pub_date", "rating", "game", "author")
 
 
 @admin.register(Log)
 class LogAdmin(admin.ModelAdmin):
+    """Класс для отображения на панели администратора информации о Логах."""
     list_display = ("log_datetime", "log_path", "log_user")
     readonly_fields = (
         "log_datetime",
