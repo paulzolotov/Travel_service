@@ -1,4 +1,5 @@
-FORMAT_FOLDER?='/home/pavlin/workarea/TMS/Homework/TMS_hw/hw_lesson\ 24/online_shop/'
+# FORMAT_FOLDER?='/home/pavlin/workarea/TMS/Homework/TMS_hw/hw_lesson\ 24/online_shop/'
+FORMAT_FOLDER?='/home/johndoe/pavel_PC_lin/TMS/Homework/hw_lesson\ 24/online_shop/'
 
 pre-commit:
 	pre-commit run --all-files

@@ -31,7 +31,6 @@ LOGIN_URL = "users.views.login"
 # Application definition
 
 INSTALLED_APPS = [
-
     "drf_yasg",
     "django_filters",
     "debug_toolbar",
@@ -128,17 +127,13 @@ DATABASES = {
 }
 
 REST_FRAMEWORK = {
-    'DEFAULT_RENDERER_CLASSES': [
-        'rest_framework.renderers.JSONRenderer'],
-    'DEFAULT_PARSER_CLASSES': [
-        'rest_framework.parsers.JSONParser'],
-    'UNICODE_JSON': True,
-    'DEFAULT_FILTER_BACKENDS': [
-        'django_filters.rest_framework.DjangoFilterBackend'],
-    'DEFAULT_PAGINATION_CLASS':
-        'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 2,
-    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
+    "DEFAULT_RENDERER_CLASSES": ["rest_framework.renderers.JSONRenderer"],
+    "DEFAULT_PARSER_CLASSES": ["rest_framework.parsers.JSONParser"],
+    "UNICODE_JSON": True,
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    "PAGE_SIZE": 2,
+    "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema",
 }
 
 
@@ -196,8 +191,12 @@ AUTHENTICATION_BACKENDS = [
 
 SITE_ID = 1
 
-ACCOUNT_EMAIL_VERIFICATION = "none"  # Нужно ли отправлять письмо, что прошла успешная верификация аккаунта
-LOGIN_REDIRECT_URL = 'shop:index'  # Ресурс для перенаправления после успешной авторизации.
+ACCOUNT_EMAIL_VERIFICATION = (
+    "none"  # Нужно ли отправлять письмо, что прошла успешная верификация аккаунта
+)
+LOGIN_REDIRECT_URL = (
+    "shop:index"  # Ресурс для перенаправления после успешной авторизации.
+)
 
 INTERNAL_IPS = [
     "127.0.0.1",
@@ -208,29 +207,29 @@ CELERY_RESULT_BACKEND = "redis://localhost:6379"
 
 # LOGGING
 LOGGING = {
-    'version': 1,                       # the dictConfig format version
-    'disable_existing_loggers': False,  # retain the default loggers
-    'handlers': {
-        'file': {
-            'class': 'logging.FileHandler',
-            'filename': 'log.log',
-            'formatter': 'simple',
+    "version": 1,  # the dictConfig format version
+    "disable_existing_loggers": False,  # retain the default loggers
+    "handlers": {
+        "file": {
+            "class": "logging.FileHandler",
+            "filename": "log.log",
+            "formatter": "simple",
         },
     },
-    'loggers': {
-        'shop': {
-            'level': 'DEBUG',
-            'handlers': ['file'],
+    "loggers": {
+        "shop": {
+            "level": "DEBUG",
+            "handlers": ["file"],
         },
     },
-    'formatters': {
-        'verbose': {
-            'format': '{name} {levelname} {asctime} {module} {process:d} {thread:d} {message}',
-            'style': '{',
+    "formatters": {
+        "verbose": {
+            "format": "{name} {levelname} {asctime} {module} {process:d} {thread:d} {message}",
+            "style": "{",
         },
-        'simple': {
-            'format': '{levelname} {message}',
-            'style': '{',
+        "simple": {
+            "format": "{levelname} {message}",
+            "style": "{",
         },
     },
 }
