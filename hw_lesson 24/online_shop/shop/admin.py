@@ -121,8 +121,8 @@ class CommentsAdmin(admin.ModelAdmin):
 
 @admin.register(Log)
 class LogAdmin(admin.ModelAdmin):
-    list_display = ('datetime',
-                    'path',
-                    'user')
-    readonly_fields = ('datetime', 'path', 'user')  # Делаем так, чтобы логи нельзя бло редактировать.
-    search_fields = ('user',)
+    list_display = ('log_datetime',
+                    'log_path',
+                    'log_user')
+    readonly_fields = ('log_datetime', 'log_path', 'log_user')  # Делаем так, чтобы логи нельзя бло редактировать.
+    search_fields = ('log_user',)

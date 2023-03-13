@@ -11,9 +11,22 @@ from django.contrib.auth.models import User
 import datetime
 from .tasks import replace_text_with_censored, shop_logger_task
 from django.core import serializers
+import functools
+
+
+def decorator_log(func):
+    """Декоратор для логгинга.
+        Вместо того чтобы в каждой view писать
+        shop_logger_task.delay(str(request.path), str(request.user), datetime.datetime.now())  # task в celery"""
+    def wrapper(*args, **kwargs):
+        request = args[0]
+        shop_logger_task.delay(request.path, request.user.username, datetime.datetime.now())
+        return func(*args, **kwargs)
+    return wrapper
 
 
 # Create your views here.
+@decorator_log
 def order_index(request: HttpRequest, order_by=''):
     """Функция предназначена для перехода к основной странице с играми"""
     search_name = request.GET.get('q')
@@ -37,17 +50,17 @@ def order_index(request: HttpRequest, order_by=''):
     page_obj = paginator.get_page(page_number)
     context = {'page_obj': page_obj,
                'order_by': order_by}
-    shop_logger_task.delay(str(request.path), str(request.user), datetime.datetime.now())  # task в celery
     return render(request, 'shop/games_home_page.html', context=context)
 
 
+@decorator_log
 def categories(request: HttpRequest):
     """Функция предназначена для перехода к странице со списком категорий"""
     categories = Category.objects.filter(is_active=True).all()
-    shop_logger_task.delay(str(request.path), str(request.user), datetime.datetime.now())  # task в celery
     return render(request, 'shop/categories.html', context={'categories': categories})
 
 
+@decorator_log
 def get_game(request: HttpRequest, game_slug):
     """Функция предназначена для перехода к странице определенной игры. Игра выбирается по значению slug"""
     game = get_object_or_404(Game, slug=game_slug)
@@ -72,11 +85,11 @@ def get_game(request: HttpRequest, game_slug):
     visit_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     response.set_cookie(game_slug + '_time_' + str(request.user), visit_time, max_age=datetime.timedelta(days=20))
     response.set_cookie(game_slug + '_view_' + str(request.user), view_count+1, max_age=datetime.timedelta(days=20))
-    shop_logger_task.delay(str(request.path), str(request.user), datetime.datetime.now())  # task в celery
     return response
 
 
 @login_required(login_url='users:login', redirect_field_name='next')
+@decorator_log
 def get_category(request: HttpRequest, category_slug):
     """Функция предназначена для перехода к странице со списком игр определенной категории игры. Категория выбирается
     по slug.login_required запрещает посещение данной страницы, если не выполнен вход пользователя в систему.
@@ -85,7 +98,6 @@ def get_category(request: HttpRequest, category_slug):
     # games_from_category = Game.objects.all().filter(is_active=True, category=category)
     #  Получение всех игр категории с помощью связанных запросов
     games_from_category = category.game_set.filter(is_active=True).all()
-    shop_logger_task.delay(str(request.path), str(request.user), datetime.datetime.now())  # task в celery
     return render(request, 'shop/category_page.html', context={'games_from_category': games_from_category,
                                                        'category': category})
 

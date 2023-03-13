@@ -80,9 +80,9 @@ class Comment(models.Model):
 
 
 class Log(models.Model):
-    path = models.CharField(max_length=300, verbose_name="request path")
-    user = models.CharField(max_length=100, verbose_name="request user")
-    datetime = models.DateTimeField(verbose_name="Response datetime", auto_now_add=True)
+    log_path = models.CharField(max_length=300, verbose_name="request path")
+    log_user = models.CharField(max_length=100, verbose_name="request user")
+    log_datetime = models.DateTimeField(verbose_name="Response datetime", auto_now_add=True)
 
     def __str__(self):
-        return f"{self.path}"
+        return f"{self.log_path}"
