@@ -11,6 +11,7 @@ from django.contrib.auth.models import User
 import datetime
 from .tasks import replace_text_with_censored, shop_logger_task
 from django.core import serializers
+from django.core.cache import cache
 
 
 def decorator_log(func):
@@ -28,6 +29,7 @@ def decorator_log(func):
 def order_index(request: HttpRequest, order_by=""):
     """Функция предназначена для перехода к основной странице с играми"""
     search_name = request.GET.get("q")
+    if search_name:  # Необходимо для поиска игры на странице
         games = Game.objects.filter(is_active=True).filter(name__icontains=search_name)
         # Добавил кеширование всех игр
         cache_games = cache.get("games")
