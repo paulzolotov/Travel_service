@@ -1,24 +1,33 @@
-from difflib import get_close_matches
-
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpRequest, HttpResponseRedirect
+from .models import Game, Category, Comment
+from django.core.paginator import Paginator
+from django.urls import reverse_lazy, reverse
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from .forms import CommentModelForm
 from django.contrib.auth.decorators import login_required
+from difflib import get_close_matches
 from django.contrib.auth.models import User
 import datetime
-from django.core.cache import cache
-from django.core.paginator import Paginator
-from django.http import HttpRequest
-from django.shortcuts import get_object_or_404, render
-from django.urls import reverse_lazy
-from django.views.decorators.cache import cache_page
-from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from .tasks import replace_text_with_censored, shop_logger_task
+from django.core import serializers
 
-from .forms import CommentModelForm
-from .models import Category, Comment, Game
+
+def decorator_log(func):
+    """Декоратор для логгинга.
+        Вместо того чтобы в каждой view писать
+        shop_logger_task.delay(str(request.path), str(request.user), datetime.datetime.now())  # task в celery"""
+    def wrapper(*args, **kwargs):
+        request = args[0]
+        shop_logger_task.delay(request.path, request.user.username, datetime.datetime.now())
+        return func(*args, **kwargs)
+    return wrapper
 
 
 # Create your views here.
 def order_index(request: HttpRequest, order_by=""):
+    """Функция предназначена для перехода к основной странице с играми"""
     search_name = request.GET.get("q")
-    if search_name:  # Необходимо для поиска игры на странице
         games = Game.objects.filter(is_active=True).filter(name__icontains=search_name)
         # Добавил кеширование всех игр
         cache_games = cache.get("games")
@@ -48,16 +57,21 @@ def order_index(request: HttpRequest, order_by=""):
     return render(request, "shop/games_home_page.html", context=context)
 
 
+@decorator_log
 def categories(request: HttpRequest):
+    """Функция предназначена для перехода к странице со списком категорий"""
     categories = Category.objects.filter(is_active=True).all()
     return render(request, "shop/categories.html", context={"categories": categories})
 
 
+@decorator_log
 def get_game(request: HttpRequest, game_slug):
+    """Функция предназначена для перехода к странице определенной игры. Игра выбирается по значению slug"""
     game = get_object_or_404(Game, slug=game_slug)
     # Узнаем есть ли у данного пользователя комм. Логика в html файле такая - если есть комм, то нет кнопки добавить.
     # Пришлось добавить условие т.к появляется ошибка если пользователь не вошел при переходе ни игру
-    if request.user.is_authenticated:
+    if request.user.is_authenticated:  # Разделяем все комм. на комм. пользов. и остальные, для того чтобы комм. в
+        # дальнейшем был всегда первым
         author_comment = game.comment_set.order_by("-pub_date").filter(
             author=request.user
         )
@@ -67,6 +81,7 @@ def get_game(request: HttpRequest, game_slug):
     else:
         author_comment = None
         another_comments = game.comment_set.order_by('-pub_date').all()
+    # Необходимо для отображения COOKIES, последнего посещения и кол-ва посещений страницы с игрой
     last_visited = request.COOKIES.get(game_slug + '_time_' + str(request.user))
     view_count = int(request.COOKIES.get(game_slug + '_view_' + str(request.user), 0))
     context = {'game': game,
@@ -81,8 +96,12 @@ def get_game(request: HttpRequest, game_slug):
     return response
 
 
-@login_required(login_url="users:login", redirect_field_name="next")
+@login_required(login_url='users:login', redirect_field_name='next')
+@decorator_log
 def get_category(request: HttpRequest, category_slug):
+    """Функция предназначена для перехода к странице со списком игр определенной категории игры. Категория выбирается
+    по slug.login_required запрещает посещение данной страницы, если не выполнен вход пользователя в систему.
+    Перенаправляет на страницу с логином. После успешного входа возвращает страницу с играми категории"""
     category = get_object_or_404(Category, slug=category_slug)
     # games_from_category = Game.objects.all().filter(is_active=True, category=category)
     #  Получение всех игр категории с помощью связанных запросов
@@ -95,20 +114,31 @@ def get_category(request: HttpRequest, category_slug):
 
 
 class CommentCreateView(CreateView):
+    """Класс для добавления комментария пользователя."""
     model = Comment
     form_class = CommentModelForm  # либо form_class либо fields
 
+    def get_success_url(self):
+        """URL, на который будет произведено перенаправление"""
+        return reverse("shop:game", kwargs={'game_slug': self.object.game.slug})
+
     def form_valid(self, form):
-        form.instance.game = Game.objects.get(slug=self.kwargs["game_slug"])
+        """Функция для проверки валидности и использования нецензурных выражений"""
+        form.instance.game = Game.objects.get(slug=self.kwargs['game_slug'])
         form.instance.author = self.request.user
-        return super().form_valid(form)
+        self.object = form.save()
+        # Вызов .delay() является самым быстрым способом отправки сообщения о задаче в Celery
+        replace_text_with_censored.delay(serializers.serialize('json', [self.object]))
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class CommentUpdateView(UpdateView):
+    """Класс для обновления комментария пользователя."""
     model = Comment
     form_class = CommentModelForm
 
 
 class CommentDeleteView(DeleteView):
+    """Класс для удаления комментария пользователя."""
     model = Comment
     success_url = reverse_lazy("shop:index")

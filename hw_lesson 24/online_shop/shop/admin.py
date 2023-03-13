@@ -9,9 +9,10 @@ from django.urls import reverse
 from django.utils.html import format_html, mark_safe
 from django.utils.http import urlencode
 
-from shop.models import Category, Comment, Game
+from shop.models import Category, Game, Comment, Log
 
 # Register your models here.
+
 
 
 class GameInline(admin.TabularInline):
@@ -125,4 +126,17 @@ class GameAdmin(admin.ModelAdmin):
 
 @admin.register(Comment)
 class CommentsAdmin(admin.ModelAdmin):
-    list_display = ("text", "pub_date", "rating", "game", "author")
+    list_display = ('text',
+                    'pub_date',
+                    'rating',
+                    'game',
+                    'author')
+
+
+@admin.register(Log)
+class LogAdmin(admin.ModelAdmin):
+    list_display = ('log_datetime',
+                    'log_path',
+                    'log_user')
+    readonly_fields = ('log_datetime', 'log_path', 'log_user')  # Делаем так, чтобы логи нельзя было редактировать.
+    search_fields = ('log_user',)

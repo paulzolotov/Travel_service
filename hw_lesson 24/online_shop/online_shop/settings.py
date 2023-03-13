@@ -195,13 +195,41 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 SITE_ID = 1
-ACCOUNT_EMAIL_VERIFICATION = (
-    "none"  # Нужно ли отправлять письмо, что прошла успешная верификация аккаунта
-)
-LOGIN_REDIRECT_URL = (
-    "shop:index"  # Ресурс для перенаправления после успешной авторизации.
-)
+
+ACCOUNT_EMAIL_VERIFICATION = "none"  # Нужно ли отправлять письмо, что прошла успешная верификация аккаунта
+LOGIN_REDIRECT_URL = 'shop:index'  # Ресурс для перенаправления после успешной авторизации.
 
 INTERNAL_IPS = [
     "127.0.0.1",
-]
+
+CELERY_BROKER_URL = "redis://localhost:6379"
+CELERY_RESULT_BACKEND = "redis://localhost:6379"
+
+# LOGGING
+LOGGING = {
+    'version': 1,                       # the dictConfig format version
+    'disable_existing_loggers': False,  # retain the default loggers
+    'handlers': {
+        'file': {
+            'class': 'logging.FileHandler',
+            'filename': 'log.log',
+            'formatter': 'simple',
+        },
+    },
+    'loggers': {
+        'shop': {
+            'level': 'DEBUG',
+            'handlers': ['file'],
+        },
+    },
+    'formatters': {
+        'verbose': {
+            'format': '{name} {levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+}
