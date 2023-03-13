@@ -4,6 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.renderers import BrowsableAPIRenderer, JSONRenderer
 from rest_framework import generics
 from rest_framework import filters as rest_filters
+from django_filters import rest_framework as filters
 
 from shop.models import Game, Category
 from .serializers import GameSerializer, CategorySerializer
