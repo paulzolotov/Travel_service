@@ -4,35 +4,36 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('shop', '0010_alter_game_name'),
+        ("shop", "0010_alter_game_name"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='category',
-            name='games_amount',
-            field=models.IntegerField(default=0, verbose_name='Games Amount In Category'),
+            model_name="category",
+            name="games_amount",
+            field=models.IntegerField(
+                default=0, verbose_name="Games Amount In Category"
+            ),
         ),
         migrations.AlterField(
-            model_name='category',
-            name='is_active',
-            field=models.BooleanField(default=True, verbose_name='Is it active?'),
+            model_name="category",
+            name="is_active",
+            field=models.BooleanField(default=True, verbose_name="Is it active?"),
         ),
         migrations.AlterField(
-            model_name='category',
-            name='slug',
-            field=models.SlugField(verbose_name='Short Name'),
+            model_name="category",
+            name="slug",
+            field=models.SlugField(verbose_name="Short Name"),
         ),
         migrations.AlterField(
-            model_name='game',
-            name='is_active',
-            field=models.BooleanField(default=True, verbose_name='Is it active?'),
+            model_name="game",
+            name="is_active",
+            field=models.BooleanField(default=True, verbose_name="Is it active?"),
         ),
         migrations.AlterField(
-            model_name='game',
-            name='slug',
-            field=models.SlugField(verbose_name='Short Name'),
+            model_name="game",
+            name="slug",
+            field=models.SlugField(verbose_name="Short Name"),
         ),
     ]

@@ -1,0 +1,504 @@
+/*сброс стилей браузера*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background-color: #eae7dc;
+}
+/*стили для всей стр*/
+.container {
+  max-width: 1900px;
+  padding: 10px 15px;
+  margin: 0 auto;
+}
+/*СТАРТОВАЯ СТРАНИЦА С ИГРАМИ*/
+/*Кнопка*/
+.info__btn-top {
+ display: block;
+ padding: 8px 10px;
+ border-radius: 10px;
+ max-width: 130px;
+ width: 100%;
+ font-family: "Raleway", sans-serif;
+ font-size: 18px;
+ text-align: center;
+ line-height: 20px;
+ font-weight: 900;
+ text-transform: uppercase;
+ text-decoration: none;
+ border: none;
+ background-color: #e98074;
+ color: #eae7dc;
+}
+.info__btn-top:hover {
+  background-color: #e85a4f;
+}
+.info__btn-top:active {
+  background: #e98074;
+  box-shadow: 4px 4px 30px #e98074;
+}
+.game__wrapper-top {
+  margin-bottom: 30px;
+}
+/*блок 1*/
+/*заголовок*/
+.game__header {
+  font-family: "Raleway", sans-serif;
+  font-size: 46px;
+  text-align: center;
+  line-height: 50px;
+  margin-bottom: 50px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #8e8d8a;
+}
+/*три колонки в блоке*/
+.game__wrapper-info1 {
+  display: flex;
+  justify-content: start;
+  column-gap: 15px;
+  margin-bottom: 10px;
+}
+.game__wrapper-info2 {
+  display: flex;
+  justify-content: start;
+  column-gap: 15px;
+  margin-bottom: 10px;
+}
+/*текст возле кнопок*/
+.info__text {
+  font-family: "Open Sans", sans-serif;
+  font-size: 26px;
+  color: #8e8d8a;
+  line-height: 28px;
+  font-weight: 700;
+  max-width: 220px;
+  width: 100%;
+}
+/*две кнопки*/
+.info__btn {
+  display: block;
+  padding: 4px 0;
+  border-radius: 10px;
+  max-width: 130px;
+  width: 100%;
+  font-family: "Raleway", sans-serif;
+  font-size: 18px;
+  text-align: center;
+  line-height: 20px;
+  font-weight: 900;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #eae7dc;
+  background-color: #8e8d8a;
+  border: none;
+}
+.info__btn:hover {
+  background: #838181;
+}
+.info__btn:active {
+  background: #8e8d8a;
+  box-shadow: 4px 4px 30px #8e8d8a;
+}
+/*Картинка над кнопкой*/
+.button__wrap {
+  width: 400px;
+  height: 500px;
+  margin: 0 auto;
+  margin-bottom: 10px;
+}
+.button__image {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+.button__price_rating{
+  font-family: "Open Sans", sans-serif;
+  font-size: 26px;
+  color: #e98074;
+  line-height: 28px;
+  font-weight: 700;
+  max-width: 150px;
+  width: 100%;
+  text-align: center;
+  margin:  0 auto;
+  margin-bottom: 10px;
+  }
+/*кнопка*/
+.button__btn {
+  display: block;
+  padding: 20px 0;
+  border-radius: 10px;
+  margin: 0 auto;
+  max-width: 400px;
+  width: 100%;
+  font-family: "Open Sans", sans-serif;
+  font-size: 24px;
+  text-align: center;
+  line-height: 20px;
+  font-weight: 900;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #eae7dc;
+  background-color: #e98074;
+  border: none;
+  margin-bottom: 50px;
+}
+.button__btn:hover {
+  background-color: #e85a4f;
+}
+.button__btn:active {
+  background: #e98074;
+  box-shadow: 4px 4px 30px #e98074;
+}
+/*форма*/
+.search__box {
+  background-color: #eae7dc;
+  margin-bottom: 20px;
+}
+/*текстовое поле*/
+.field__search {
+  width: 15%;
+  height: 36px;
+  padding-left: 10px;
+  border: 2px solid #7BA7AB;
+  border-radius: 5px;
+  outline: none;
+  background: #F9F0DA;
+  color: #9E9C9C;
+  font-weight: 500;
+  text-decoration: none;
+  font-size: 15px;
+}
+/*кнопка search*/
+.btn__search {
+  font-family: "Open Sans", sans-serif;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #eae7dc;
+  font-weight: 900;
+  top: 0;
+  right: 0px;
+  width: 72px;
+  height: 36px;
+  border: none;
+  background-color: #e98074;
+  border-radius: 5px 5px 5px 5px;
+  cursor: pointer;
+ }
+.btn__search:hover {
+  background-color: #e85a4f;
+}
+.btn__search:active {
+  background: #e98074;
+  box-shadow: 4px 4px 30px #e98074;
+}
+/* Header */
+/*поле с пользователем*/
+.user {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 20px 0;
+}
+.btn__back {
+  display: flex;
+  column-gap: 30px;
+}
+.user__greetings {
+  text-align: right;
+}
+/*Кнопки регистрации, login/logout*/
+.user__wrapper-top {
+    display: flex;
+    justify-content: end;
+    column-gap: 15px;
+}
+.user__btn-top {
+  padding: 4px;
+  border-radius: 10px;
+  max-width: 85px;
+  width: 100%;
+  font-family: "Raleway", sans-serif;
+  line-height: 20px;
+  font-weight: 900;
+  text-decoration: none;
+  color: #eae7dc;
+  background-color: #7BA7AB;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/*Приветственный текст*/
+.greeting__text {
+  font-family: "Raleway", sans-serif;
+  line-height: 20px;
+  font-weight: 900;
+  text-decoration: none;
+  color: #8e8d8a;
+  margin-bottom: 10px;
+}
+.greeting__text-span {
+  color: #7BA7AB;
+  font-size: 26px;
+}
+/* пагинация */
+.pagination{
+  font-size: 20px;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
+}
+.list-pages ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  column-gap: 20px;
+}
+.list-pages li {
+  width: 60px;
+  height: 44px;
+  border-radius: 30px;
+}
+.list-pages a {
+  color: #8e8d8a;
+  font-size: 24px;
+  text-decoration: none;
+  display: flex;
+  width: 60px;
+  height: 44px;
+  border: 1px solid #d0d0d0;
+  border-radius: 30px;
+  justify-content: center;
+  align-items: center;
+}
+.list-pages .page-num:hover {
+  box-shadow: 3px 3px 1px #d0d0d0;
+}
+.list-pages .page-num-selected {
+  color: #8e8d8a;
+  border: none;
+  font-size: 20px;
+  display: flex;
+  width: 60px;
+  height: 44px;
+  border-radius: 30px;
+  justify-content: center;
+  align-items: center;
+}
+.list-pages .page-num-selected:hover {
+  box-shadow: none;
+}
+/* Footer */
+.footer__bottom {
+  background-color: #8e8d8a;
+  padding: 23px 0 24px;
+}
+}
+.footer__bottom .container {
+  max-width: 1170px;
+  padding: 0 15px;
+  margin: 0 auto;
+  position: relative;
+}
+.footer__bottom-text {
+  max-width: 370px;
+  width: 100%;
+  margin: 0 auto;
+  font-family: "Raleway", sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 21px;
+  text-align: center;
+  text-transform: capitalize;
+  color: #eae7dc;
+}
+}
+.footer__bottom-white {
+  color: #ffffff;
+}
+/*СТРАНИЦА КАТЕГОРИЙ*/
+/*заголовок*/
+.category__header {
+  font-family: "Raleway", sans-serif;
+  font-size: 46px;
+  text-align: center;
+  line-height: 50px;
+  margin-bottom: 70px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #8e8d8a;
+}
+/*кнопка*/
+.category__btn {
+  display: block;
+  padding: 20px 0;
+  border-radius: 10px;
+  margin: 0 auto;
+  max-width: 500px;
+  width: 100%;
+  font-family: "Open Sans", sans-serif;
+  font-size: 24px;
+  text-align: center;
+  line-height: 28px;
+  font-weight: 900;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #eae7dc;
+  background-color: #e98074;
+  border: none; margin-bottom: 30px;
+}
+.category__btn:hover {
+  background-color: #e85a4f;
+}
+.category__btn:active {
+  background: #e98074;
+  box-shadow: 4px 4px 30px #e98074;
+}
+.category__text{
+  font-family: "Open Sans", sans-serif;
+  font-size: 20px;
+  color: #8e8d8a;
+  line-height: 22px;
+  font-weight: 600px;
+  max-width: 1000px;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  margin-bottom: 40px;
+}
+/*СТРАНИЦА С ИГРОЙ*/
+/*блок 1*/
+.image {
+  background-color: #eae7dc;
+  padding: 50px 0 50px;
+}
+/*две колонки в блоке 1*/
+.container__image {
+display: flex;
+column-gap: 70px;
+}
+/*картинка*/
+.image__wrapper-photo {
+  width: 400px;
+  height: 500px;
+  margin-bottom: 10px;
+}
+.image__img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+/*заголовок*/
+.image__header {
+  font-family: "Raleway", sans-serif;
+  font-size: 36px;
+  text-align: center;
+  line-height: 42px;
+  margin-bottom: 80px;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: #8e8d8a;
+}
+/*текст под заголовком*/
+.image__subtitle {
+  text-align:center;
+  font-family: "Raleway", sans-serif;
+  font-size: 24px;
+  color: #8e8d8a;
+  line-height: 21px;
+  font-weight: 400;
+  margin-bottom: 20px;
+}
+/*блок 2*/
+.info {
+  background-color: #eae7dc;
+  padding: 0px 0 50px;
+}
+/*заголовок*/
+.info__header {
+  font-family: "Raleway", sans-serif;
+  font-size: 36px;
+  text-align: center;
+  line-height: 42px;
+  margin-bottom: 50px;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: #8e8d8a;
+}
+/*текст под заголовком*/
+.info__subtitle {
+  text-indent: 50px;
+  font-family: "Raleway", sans-serif;
+  font-size: 24px;
+  text-align: justify;
+  color: #8e8d8a;
+  line-height: 32px;
+  font-weight: 400;
+  margin-bottom: 80px;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+/*блок 3*/
+.comments {
+  background-color: #eae7dc;
+  padding: 0px 0 50px;
+  margin: 0 auto;
+  text-align: center;
+
+}
+/*комментарии*/
+.comments__text {
+  font-family: "Raleway", sans-serif;
+  font-size: 24px;
+  text-align: center;
+  color: #8e8d8a;
+  line-height: 32px;
+  font-weight: 400;
+  margin-bottom: 80px;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+.container__comments {
+  margin-bottom: 20px;
+}
+.comments__button {
+  display: block;
+  padding: 4px 0;
+  border-radius: 10px;
+  max-width: 230px;
+  width: 100%;
+  font-family: "Raleway", sans-serif;
+  font-size: 18px;
+  text-align: center;
+  line-height: 20px;
+  font-weight: 900;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #eae7dc;
+  background-color: #8e8d8a;
+  border: none;
+  margin: 0 auto;
+  margin-bottom: 30px;
+}
+.comments__button:hover {
+  background: #838181;
+}
+.comments__button:active {
+  background: #8e8d8a;
+  box-shadow: 4px 4px 30px #8e8d8a;
+}
+.comments__text-span {
+  color: #7BA7AB;
+  font-size: 15px;
+}
+.comments__btn {
+  text-decoration: none;
+  font-family: "Raleway", sans-serif;
+  font-size: 14px;
+  color: #4C73CF;
+}

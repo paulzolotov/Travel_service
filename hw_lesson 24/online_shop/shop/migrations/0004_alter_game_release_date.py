@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('shop', '0003_alter_game_options_alter_category_description_and_more'),
+        ("shop", "0003_alter_game_options_alter_category_description_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='game',
-            name='release_date',
-            field=models.DateTimeField(verbose_name='Release date'),
+            model_name="game",
+            name="release_date",
+            field=models.DateTimeField(verbose_name="Release date"),
         ),
     ]

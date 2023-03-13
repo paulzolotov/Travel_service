@@ -8,19 +8,19 @@ from rest_framework import filters as rest_filters
 from shop.models import Game, Category
 from .serializers import GameSerializer, CategorySerializer
 import random
-from django_filters import rest_framework as filters
-
 
 # Create your views here.
 
-class GetGameInfoView(APIView):
 
+class GetGameInfoView(APIView):
     renderer_classes = [BrowsableAPIRenderer, JSONRenderer]
 
     def get(self, request):
         if self.random_request():
             many_flag = False
-            queryset = Game.objects.all().order_by('?')[1]  # Получаю первую игру с упорядоченного в случайном
+            queryset = Game.objects.all().order_by("?")[
+                1
+            ]  # Получаю первую игру с упорядоченного в случайном
             # порядке списка игр через order_by('?')
         else:
             many_flag = True
@@ -28,7 +28,7 @@ class GetGameInfoView(APIView):
         serializer_for_queryset = GameSerializer(instance=queryset, many=many_flag)
         return Response({"games": serializer_for_queryset.data})
 
-     def random_request(self):
+    def random_request(self):
         query = self.request.query_params.get('random', None)
         return query and query.upper() == 'TRUE'
 
