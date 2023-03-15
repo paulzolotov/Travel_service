@@ -12,7 +12,7 @@ available_games = ['cyberpunk_2077', 'the_witcher_3', 'gta_v', 'the_last_of_us',
 # http://0.0.0.0:8089
 
 base_url = 'http://127.0.0.1:8000'
-response = r.post("/users/login/", {"username": "admin", "password": "1"})
+response = r.post(base_url + "/users/login/", {"username": "admin", "password": "1"})  # csrf token необходим
 print(response.status_code)
 
 
