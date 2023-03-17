@@ -8,49 +8,49 @@ def calculator(data):
     try:
         data = data.decode()
         a, operator, b = data.split()
+    except ValueError as e:
+        raise InputFormulaError('InputFormulaError')
+    try:
         a, b = map(float, (a, b))
-        if operator not in ('+', '-', '*', '/', '**'):
-            raise InputOperatorError('Второй элемент не соответствует поддерживаемым операторам (+,-,*,/,**)')
-    except ValueError as vl:
-        if 'could not convert string to float:' in vl.args[0]:
-            raise InputNumberError('a и b должны быть действительными числами')
-        if 'not enough values to unpack' in vl.args[0]:
-            raise InputFormulaError('Неверный формат введенного выражения')
-    else:
-        try:
-            operation = {
-                '+': lambda x, y: x + y,
-                '-': lambda x, y: x - y,
-                '*': lambda x, y: x * y,
-                '**': lambda x, y: x ** y,
-                '/': lambda x, y: x / y
-            }
-            return str(operation[operator](a, b)).encode()
-        except ArithmeticError:
-            raise CalculationError('Ошибка при вычислениях')
+    except Exception as e:
+        raise InputNumberError('InputNumberError')
+    if operator not in ('+', '-', '*', '/', '**'):
+        raise InputOperatorError('InputOperatorError')
+    try:
+        operation = {
+            '+': lambda x, y: x + y,
+            '-': lambda x, y: x - y,
+            '*': lambda x, y: x * y,
+            '**': lambda x, y: x ** y,
+            '/': lambda x, y: x / y
+        }
+        return str(operation[operator](a, b))
+    except ArithmeticError:
+        raise CalculationError('CalculationError')
 
 
 def handle(sock, addr):
     try:
         data = sock.recv(1024)
     except ConnectionError:
-        print(f"Client suddenly closed while receiving")
+        print("Client suddenly closed while receiving")
         return False
     print(f"Received {data} from: {addr}")
     if not data:
         print("Disconnected by", addr)
         return False
-    # data_calc = data.upper()
-
     try:
         data_calc = calculator(data)
     except Exception as exp:
         print("Disconnected by", addr, exp)
-        data_calc = ''.encode()
-
+        data_calc = ' '
     print(f"Send: {data_calc} to: {addr}")
     try:
         data_calc = data_calc.encode()
+    except ConnectionError:
+        print(f"Client suddenly closed, cannot encode")
+        return False
+    try:
         sock.send(data_calc)
     except ConnectionError:
         print(f"Client suddenly closed, cannot send")
