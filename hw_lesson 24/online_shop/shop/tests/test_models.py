@@ -3,7 +3,7 @@ from django.test import TestCase
 from shop.models import Comment
 
 
-class TrialTests(TestCase):
+class CommentsTestsClass(TestCase):
 
     @classmethod
     def setUpTestData(cls):
@@ -19,6 +19,7 @@ class TrialTests(TestCase):
         """Выполняется после завершения каждого теста"""
         pass
 
+    # Тесты ссылаются на ошибки с экземплярами моделей 
     def test_text_verbose_name(self):
         """Функция, проверяющая название параметра verbose_name атрибута Комментария - text"""
         real_verbose_name = getattr(self.text, 'verbose_name')  # У комментария есть атрибут text,
