@@ -15,6 +15,11 @@ urlpatterns = [
         name="comment-add",
     ),
     path("game/<slug:game_slug>/", views.get_game, name="game"),
+    # path("game/add/<slug:game_slug>/", views.basket_add, name="game-add"),
+    path("basket/", views.basket, name="basket"),
+    path("basket/add/<slug:game_slug>", views.basket_add, name="basket_add"),
+    path("basket/remove/<slug:game_slug>", views.basket_remove, name="basket_remove"),
+    path("basket/order", views.basket_order, name="basket_order"),
     path(
         "comment/<int:pk>/update/",
         views.CommentUpdateView.as_view(),
@@ -26,4 +31,5 @@ urlpatterns = [
         name="comment-delete",
     ),
     path("<slug:category_slug>/", views.get_category, name="category"),
+    path("basket", views.basket, name="basket")
 ]

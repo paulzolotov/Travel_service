@@ -9,7 +9,7 @@ from django.urls import reverse
 from django.utils.html import format_html, mark_safe
 from django.utils.http import urlencode
 
-from shop.models import Category, Comment, Game, Log
+from shop.models import Category, Comment, Game, Log, Basket
 
 # Register your models here.
 
@@ -155,3 +155,9 @@ class LogAdmin(admin.ModelAdmin):
         "log_user",
     )  # Делаем так, чтобы логи нельзя было редактировать.
     search_fields = ("log_user",)
+
+
+@admin.register(Basket)
+class BasketAdmin(admin.ModelAdmin):
+    """Класс для отображения на панели администратора информации о Корзине пользователя."""
+    list_display = ("user", "game", "created_datetime")

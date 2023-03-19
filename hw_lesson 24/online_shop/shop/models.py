@@ -115,3 +115,23 @@ class Log(models.Model):
     def __str__(self):
         """Возвращает удобочитаемую строку для каждого объекта."""
         return f"{self.log_path}"
+
+
+class Basket(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    game = models.ForeignKey(Game, on_delete=models.CASCADE)
+    created_datetime = models.DateTimeField(auto_now_add=True, verbose_name="Basket creation datetime")
+
+    def __str__(self):
+        """Возвращает удобочитаемую строку для каждого объекта."""
+        return f"Basket for {self.user} | Game: {self.game}"
+
+    def total_sum(self):
+        """Функция для подсчета общей суммы, которую необходимо заплатить за все игры в корзине"""
+        baskets = Basket.objects.filter(user=self.user)
+        return sum(basket.game.price for basket in baskets)
+
+    def total_quantity(self):
+        """Функция для подсчета общего количества всех игр в корзине"""
+        baskets = Basket.objects.filter(user=self.user)
+        return len(baskets)
