@@ -34,6 +34,7 @@ def decorator_log(func):
 
 
 # Create your views here.
+@decorator_log
 def order_index(request: HttpRequest, order_by=""):
     """Функция предназначена для перехода к основной странице с играми"""
     search_name = request.GET.get("q")
