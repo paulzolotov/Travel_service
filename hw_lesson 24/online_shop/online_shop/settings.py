@@ -58,7 +58,7 @@ INSTALLED_APPS = [
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
-        "LOCATION": BASE_DIR / 'cache',
+        "LOCATION": BASE_DIR / "cache",
     }
 }
 
@@ -201,7 +201,7 @@ INTERNAL_IPS = [
 CELERY_BROKER_URL = "redis://localhost:6379"
 CELERY_RESULT_BACKEND = "redis://localhost:6379"
 
-CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 
 # LOGGING
 LOGGING = {

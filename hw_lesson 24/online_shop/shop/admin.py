@@ -9,24 +9,26 @@ from django.urls import reverse
 from django.utils.html import format_html, mark_safe
 from django.utils.http import urlencode
 
-from shop.models import Category, Comment, Game, Log, Basket
+from shop.models import Basket, Category, Comment, Game, Log
 
 # Register your models here.
 
 
 class GameInline(admin.TabularInline):
     """
-        TabularInline - подкласс InlineModelAdmin, который дает в возможность добавлять связанные записи одновременно.
-        В нашем случае, мы получаем информацию о категории и о конкретных ее играх, заходя на страницу детализации
-        категории.
-        Интерфейс администратора имеет возможность редактировать модели на той же странице, что и родительская модель.
+    TabularInline - подкласс InlineModelAdmin, который дает в возможность добавлять связанные записи одновременно.
+    В нашем случае, мы получаем информацию о категории и о конкретных ее играх, заходя на страницу детализации
+    категории.
+    Интерфейс администратора имеет возможность редактировать модели на той же странице, что и родительская модель.
     """
+
     model = Game
 
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     """Класс для отображения на панели администратора информации о конкретной Категории."""
+
     list_display = ("title", "view_game_link", "show_average_cost")
     inlines = [
         GameInline,
@@ -58,6 +60,7 @@ class CategoryAdmin(admin.ModelAdmin):
 @admin.register(Game)
 class GameAdmin(admin.ModelAdmin):
     """Класс для отображения на панели администратора информации о конкретной Игре."""
+
     date_hierarchy = "release_date"
     list_display = (
         "name",
@@ -142,12 +145,14 @@ class GameAdmin(admin.ModelAdmin):
 @admin.register(Comment)
 class CommentsAdmin(admin.ModelAdmin):
     """Класс для отображения на панели администратора информации о Комментариях."""
+
     list_display = ("text", "pub_date", "rating", "game", "author")
 
 
 @admin.register(Log)
 class LogAdmin(admin.ModelAdmin):
     """Класс для отображения на панели администратора информации о Логах."""
+
     list_display = ("log_datetime", "log_path", "log_user")
     readonly_fields = (
         "log_datetime",
@@ -160,4 +165,5 @@ class LogAdmin(admin.ModelAdmin):
 @admin.register(Basket)
 class BasketAdmin(admin.ModelAdmin):
     """Класс для отображения на панели администратора информации о Корзине пользователя."""
+
     list_display = ("user", "game", "created_datetime")

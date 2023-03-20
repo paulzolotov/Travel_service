@@ -8,6 +8,7 @@ from django.urls import reverse
 # Create your models here.
 class ShopInfoMixin(models.Model):
     """Класс Mixin, для повторяющихся полей, от которого затем наследуются классы с моделями"""
+
     slug = models.SlugField(max_length=50, verbose_name="Short Name")
     is_active = models.BooleanField(default=True, verbose_name="Is it active?")
 
@@ -17,6 +18,7 @@ class ShopInfoMixin(models.Model):
 
 class Category(ShopInfoMixin):
     """Класс для создания модели - Категория (игры)"""
+
     title = models.CharField(max_length=100, verbose_name="Category Title")
     description = RichTextField(verbose_name="Category Description")
     games_amount = models.IntegerField(
@@ -47,6 +49,7 @@ class Category(ShopInfoMixin):
 
 class Game(ShopInfoMixin):
     """Класс для создания модели - Игра"""
+
     name = models.CharField(max_length=100, verbose_name="Game Name")
     pub_date = models.DateField(auto_now_add=True, verbose_name="Game publication date")
     release_date = models.DateField(auto_now_add=False, verbose_name="Release date")
@@ -65,6 +68,7 @@ class Game(ShopInfoMixin):
 
     class Meta:
         """Добавил индексы для полей таблицы price и name"""
+
         verbose_name = "Game"
         verbose_name_plural = "Games"
         indexes = [
@@ -87,6 +91,7 @@ class Game(ShopInfoMixin):
 
 class Comment(models.Model):
     """Класс для создания модели - Комментарий (для конкретной игры, от конкретного пользователя)"""
+
     text = models.CharField(max_length=300, verbose_name="Comment text")
     pub_date = models.DateField(
         verbose_name="Comment publication date", auto_now_add=True
@@ -106,6 +111,7 @@ class Comment(models.Model):
 
 class Log(models.Model):
     """Класс для создания модели - Лог (от конкретного пользователя)"""
+
     log_path = models.CharField(max_length=300, verbose_name="request path")
     log_user = models.CharField(max_length=100, verbose_name="request user")
     log_datetime = models.DateTimeField(
@@ -118,9 +124,13 @@ class Log(models.Model):
 
 
 class Basket(models.Model):
+    """Класс для создания модели - Basket (от конкретного пользователя)"""
+
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
-    created_datetime = models.DateTimeField(auto_now_add=True, verbose_name="Basket creation datetime")
+    created_datetime = models.DateTimeField(
+        auto_now_add=True, verbose_name="Basket creation datetime"
+    )
 
     def __str__(self):
         """Возвращает удобочитаемую строку для каждого объекта."""

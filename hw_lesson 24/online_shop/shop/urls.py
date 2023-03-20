@@ -31,5 +31,5 @@ urlpatterns = [
         name="comment-delete",
     ),
     path("<slug:category_slug>/", views.get_category, name="category"),
-    path("basket", views.basket, name="basket")
+    path("basket", views.basket, name="basket"),
 ]

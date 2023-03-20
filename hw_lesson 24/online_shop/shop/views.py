@@ -12,7 +12,7 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 from .forms import CommentModelForm
-from .models import Category, Comment, Game, Basket
+from .models import Basket, Category, Comment, Game
 from .tasks import replace_text_with_censored, shop_logger_task
 
 
@@ -38,7 +38,9 @@ def decorator_log(func):
 def order_index(request: HttpRequest, order_by=""):
     """Функция предназначена для перехода к основной странице с играми"""
     search_name = request.GET.get("q")
-    games = Game.objects.filter(is_active=True)  # если поле search пустое, то возвращаем целый список игр
+    games = Game.objects.filter(
+        is_active=True
+    )  # если поле search пустое, то возвращаем целый список игр
     if search_name:  # Необходимо для поиска игры на странице
         games = games.filter(name__icontains=search_name)
     # Можно использовать get_close_matches вместо name__icontains, но необходимо будет менять поведение в template.
@@ -180,28 +182,30 @@ def basket(request: HttpRequest):
 @login_required(login_url="users:login", redirect_field_name="next")
 def basket_add(request, game_slug):
     """Функция предназначена для добавления игры в корзину пользователя.
-        Декоратор login_required запрещает посещение данной страницы, если не выполнен вход пользователя в систему."""
+    Декоратор login_required запрещает посещение данной страницы, если не выполнен вход пользователя в систему.
+    """
     game = get_object_or_404(Game, slug=game_slug)
     baskets = Basket.objects.filter(user=request.user, game=game)
     if not baskets.exists():
         Basket.objects.create(user=request.user, game=game)
 
-    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+    return HttpResponseRedirect(request.META["HTTP_REFERER"])
 
 
 @login_required(login_url="users:login", redirect_field_name="next")
 def basket_remove(request, game_slug):
     """Функция предназначена для удаления игры из корзины пользователя
-        Декоратор login_required запрещает посещение данной страницы, если не выполнен вход пользователя в систему."""
+    Декоратор login_required запрещает посещение данной страницы, если не выполнен вход пользователя в систему.
+    """
     game = get_object_or_404(Game, slug=game_slug)
     baskets = Basket.objects.get(user=request.user, game=game)
     baskets.delete()
 
-    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+    return HttpResponseRedirect(request.META["HTTP_REFERER"])
 
 
 def basket_order(request):
-    """ Сделал представление для подтверждения заказа игр в корзине, но при этом корзина просто очищается """
+    """Сделал представление для подтверждения заказа игр в корзине, но при этом корзина просто очищается"""
     baskets = Basket.objects.filter(user=request.user)
     baskets.delete()
     return render(request, "shop/order_successful.html")
