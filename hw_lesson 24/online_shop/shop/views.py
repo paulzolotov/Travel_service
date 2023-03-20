@@ -172,12 +172,17 @@ class CommentDeleteView(DeleteView):
 
 
 def basket(request: HttpRequest):
-    baskets = Basket.objects.filter(user=request.user)
+    """Функция предназначена для перехода к странице с корзиной добавленных игр пользователя"""
+    baskets = None
+    if request.user.is_authenticated:
+        baskets = Basket.objects.filter(user=request.user)
     return render(request, "shop/basket.html", context={"baskets": baskets})
 
 
-@login_required
+@login_required(login_url="users:login", redirect_field_name="next")
 def basket_add(request, game_slug):
+    """Функция предназначена для добавления игры в корзину пользователя.
+        Декоратор login_required запрещает посещение данной страницы, если не выполнен вход пользователя в систему."""
     game = get_object_or_404(Game, slug=game_slug)
     baskets = Basket.objects.filter(user=request.user, game=game)
     if not baskets.exists():
@@ -186,8 +191,10 @@ def basket_add(request, game_slug):
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 
-@login_required
+@login_required(login_url="users:login", redirect_field_name="next")
 def basket_remove(request, game_slug):
+    """Функция предназначена для удаления игры из корзины пользователя
+        Декоратор login_required запрещает посещение данной страницы, если не выполнен вход пользователя в систему."""
     game = get_object_or_404(Game, slug=game_slug)
     baskets = Basket.objects.get(user=request.user, game=game)
     baskets.delete()
@@ -196,7 +203,7 @@ def basket_remove(request, game_slug):
 
 
 def basket_order(request):
-    """ Сделал представление для подтверждения заказа игры, но при этом игра просто удаляется """
+    """ Сделал представление для подтверждения заказа игр в корзине, но при этом корзина просто очищается """
     baskets = Basket.objects.filter(user=request.user)
     baskets.delete()
     return render(request, "shop/order_successful.html")
