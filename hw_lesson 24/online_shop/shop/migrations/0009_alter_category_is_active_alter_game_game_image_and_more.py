@@ -4,25 +4,24 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('shop', '0008_alter_category_description_alter_category_slug_and_more'),
+        ("shop", "0008_alter_category_description_alter_category_slug_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='category',
-            name='is_active',
-            field=models.BooleanField(default=True, verbose_name='Category is active?'),
+            model_name="category",
+            name="is_active",
+            field=models.BooleanField(default=True, verbose_name="Category is active?"),
         ),
         migrations.AlterField(
-            model_name='game',
-            name='game_image',
-            field=models.ImageField(upload_to='shop', verbose_name='Game Image'),
+            model_name="game",
+            name="game_image",
+            field=models.ImageField(upload_to="shop", verbose_name="Game Image"),
         ),
         migrations.AlterField(
-            model_name='game',
-            name='is_active',
-            field=models.BooleanField(default=True, verbose_name='Game is active?'),
+            model_name="game",
+            name="is_active",
+            field=models.BooleanField(default=True, verbose_name="Game is active?"),
         ),
     ]

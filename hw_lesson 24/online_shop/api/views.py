@@ -1,26 +1,29 @@
+import random
+
 from django.shortcuts import render
+from django_filters import rest_framework as filters
+from rest_framework import filters as rest_filters
+from rest_framework import generics
+from rest_framework.renderers import BrowsableAPIRenderer, JSONRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.renderers import BrowsableAPIRenderer, JSONRenderer
-from rest_framework import generics
-from rest_framework import filters as rest_filters
 
-from shop.models import Game, Category
-from .serializers import GameSerializer, CategorySerializer
-import random
-from django_filters import rest_framework as filters
+from shop.models import Category, Game
 
+from .serializers import CategorySerializer, GameSerializer
 
 # Create your views here.
 
-class GetGameInfoView(APIView):
 
+class GetGameInfoView(APIView):
     renderer_classes = [BrowsableAPIRenderer, JSONRenderer]
 
     def get(self, request):
         if self.random_request():
             many_flag = False
-            queryset = Game.objects.all().order_by('?')[1]  # Получаю первую игру с упорядоченного в случайном
+            queryset = Game.objects.all().order_by("?")[
+                1
+            ]  # Получаю первую игру с упорядоченного в случайном
             # порядке списка игр через order_by('?')
         else:
             many_flag = True
@@ -29,12 +32,11 @@ class GetGameInfoView(APIView):
         return Response({"games": serializer_for_queryset.data})
 
     def random_request(self):
-        query = self.request.query_params.get('random', None)
-        return query and query.upper() == 'TRUE'
+        query = self.request.query_params.get("random", None)
+        return query and query.upper() == "TRUE"
 
 
 class GetCategoryInfoView(APIView):
-
     renderer_classes = [BrowsableAPIRenderer, JSONRenderer]
 
     def get(self, request):
@@ -44,13 +46,14 @@ class GetCategoryInfoView(APIView):
 
 
 class GetCategoryGamesInfoView(generics.ListAPIView):
-
     renderer_classes = [BrowsableAPIRenderer, JSONRenderer]
     serializer_class = GameSerializer
 
     def get_queryset(self):
-        category = self.kwargs['category']
-        return Game.objects.filter(is_active=True).filter(category__title=category.title())
+        category = self.kwargs["category"]
+        return Game.objects.filter(is_active=True).filter(
+            category__title=category.title()
+        )
 
 
 class GetGameInfoFilterView(generics.ListAPIView):
@@ -58,7 +61,7 @@ class GetGameInfoFilterView(generics.ListAPIView):
     serializer_class = GameSerializer
     renderer_classes = [BrowsableAPIRenderer, JSONRenderer]
     filter_backends = [filters.DjangoFilterBackend]
-    filterset_fields = ['category__title', 'release_date']
+    filterset_fields = ["category__title", "release_date"]
 
 
 class GetGameInfoSearchView(generics.ListAPIView):
@@ -66,7 +69,7 @@ class GetGameInfoSearchView(generics.ListAPIView):
     serializer_class = GameSerializer
     renderer_classes = [BrowsableAPIRenderer, JSONRenderer]
     filter_backends = [rest_filters.SearchFilter]
-    search_fields = ['name']
+    search_fields = ["name"]
 
 
 class GetGameInfoOrderView(generics.ListAPIView):
@@ -74,4 +77,4 @@ class GetGameInfoOrderView(generics.ListAPIView):
     serializer_class = GameSerializer
     renderer_classes = [BrowsableAPIRenderer, JSONRenderer]
     filter_backends = [rest_filters.OrderingFilter]
-    ordering_fields = ['name', 'release_date', 'price']
+    ordering_fields = ["name", "release_date", "price"]

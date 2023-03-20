@@ -4,26 +4,25 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('shop', '0012_alter_game_pub_date_alter_game_release_date'),
+        ("shop", "0012_alter_game_pub_date_alter_game_release_date"),
     ]
 
     operations = [
         migrations.AddIndex(
-            model_name='game',
-            index=models.Index(fields=['name'], name='name_asc_idx'),
+            model_name="game",
+            index=models.Index(fields=["name"], name="name_asc_idx"),
         ),
         migrations.AddIndex(
-            model_name='game',
-            index=models.Index(fields=['-name'], name='name_desc_idx'),
+            model_name="game",
+            index=models.Index(fields=["-name"], name="name_desc_idx"),
         ),
         migrations.AddIndex(
-            model_name='game',
-            index=models.Index(fields=['-price'], name='price_asc_idx'),
+            model_name="game",
+            index=models.Index(fields=["-price"], name="price_asc_idx"),
         ),
         migrations.AddIndex(
-            model_name='game',
-            index=models.Index(fields=['price'], name='price_desc_idx'),
+            model_name="game",
+            index=models.Index(fields=["price"], name="price_desc_idx"),
         ),
     ]

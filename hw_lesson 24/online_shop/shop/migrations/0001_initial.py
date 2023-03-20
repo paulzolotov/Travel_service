@@ -4,25 +4,39 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Category',
+            name="Category",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=50, verbose_name='Category Title')),
-                ('slug', models.CharField(max_length=20, verbose_name='Category Slug')),
-                ('description', models.CharField(max_length=140, verbose_name='Category Description')),
-                ('is_active', models.BooleanField(verbose_name='Category is active?')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "title",
+                    models.CharField(max_length=50, verbose_name="Category Title"),
+                ),
+                ("slug", models.CharField(max_length=20, verbose_name="Category Slug")),
+                (
+                    "description",
+                    models.CharField(
+                        max_length=140, verbose_name="Category Description"
+                    ),
+                ),
+                ("is_active", models.BooleanField(verbose_name="Category is active?")),
             ],
             options={
-                'verbose_name': 'Category',
-                'verbose_name_plural': 'Categories',
+                "verbose_name": "Category",
+                "verbose_name_plural": "Categories",
             },
         ),
     ]
