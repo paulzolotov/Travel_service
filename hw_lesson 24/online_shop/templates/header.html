@@ -1,4 +1,5 @@
-<section class="user">
+{% load static %}
+<header class="user">
     <div class="btn__back">
         <div class="game__wrapper game__wrapper-top">
             <a class="info__btn-top" href="{% url 'shop:categories' %}">Categories</a>
@@ -25,4 +26,11 @@
         </div>
         {% endif %}
     </div>
-</section>
+        <div class="basket">
+       <div class="basket__wrapper">
+            <a class="basket__link" href="{% url 'shop:basket' %}">
+                <img class="basket__svg" src="{% static 'basket.svg' %}" alt="Basket" >
+            </a>
+       </div>
+   </div>
+</header>

@@ -20,6 +20,9 @@
             {%if last_visited%}
               <p class="cookies__subtitle">You viewed the page {{ view_count }} times, the last one was on : {{ last_visited }}</p>
             {% endif %}
+              <div class="container container__comments">
+                  <a class="basket__add" href="{% url 'shop:basket_add' game.slug %}">Add to basket</a>
+              </div>
           </div>
         </div>
     </section>
