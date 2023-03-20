@@ -2,6 +2,7 @@ import socket
 import select
 
 from Exceptions import *
+from Operators import operators
 
 
 def calculator(data):
@@ -14,7 +15,7 @@ def calculator(data):
         a, b = map(float, (a, b))
     except Exception as e:
         raise InputNumberError('InputNumberError')
-    if operator not in ('+', '-', '*', '/', '**'):
+    if operator not in operators:
         raise InputOperatorError('InputOperatorError')
     try:
         operation = {
@@ -43,7 +44,7 @@ def handle(sock, addr):
         data_calc = calculator(data)
     except Exception as exp:
         print("Disconnected by", addr, exp)
-        data_calc = ' '
+        data_calc = f' , {exp}'
     print(f"Send: {data_calc} to: {addr}")
     try:
         data_calc = data_calc.encode()
