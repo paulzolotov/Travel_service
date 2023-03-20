@@ -53,16 +53,11 @@ INSTALLED_APPS = [
     "allauth.socialaccount.providers.steam",
 ]
 
-# CACHES = {
-#     "default": {
-#         "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
-#         "LOCATION": "/home/pavlin/workarea/TMS/Homework/TMS_hw/hw_lesson 24/online_shop/cache",
-#     }
-# }
+
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
-        "LOCATION": "/home/johndoe/pavel_PC_lin/TMS/Homework/hw_lesson 24/online_shop/cache",
+        "LOCATION": BASE_DIR / 'cache',
     }
 }
 
