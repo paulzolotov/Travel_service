@@ -1,8 +1,20 @@
 from Exceptions import *
-from math_module import operators, operation
+
+
+class MathUtils:
+    operators = ('+', '-', '*', '/', '**')
+    operation = {
+        '+': lambda x, y: x + y,
+        '-': lambda x, y: x - y,
+        '*': lambda x, y: x * y,
+        '**': lambda x, y: x ** y,
+        '/': lambda x, y: x / y
+    }
 
 
 class NumericOperationProcessor:
+    core = MathUtils
+
     @staticmethod
     def calculator(data: str) -> str:
         """
@@ -20,9 +32,9 @@ class NumericOperationProcessor:
             a, b = map(float, (a, b))
         except Exception as e:
             raise InputNumberError('InputNumberError')
-        if operator not in operators:
+        if operator not in MathUtils.operators:
             raise InputOperatorError('InputOperatorError')
         try:
-            return str(operation[operator](a, b))
+            return str(MathUtils.operation[operator](a, b))
         except ArithmeticError:
             raise CalculationError('CalculationError')
