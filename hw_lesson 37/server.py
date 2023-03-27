@@ -1,33 +1,19 @@
+"""
+Математический socket-сервер.
+Реализуйте socket-сервер, который умеет слушать определенный в env переменных сокет (формат host:port)
+и ожидать строку в формате: {operator} {number1} {number2}
+Например,
+add 1.1 2.2
+и в качестве ответа возвращать клиенту результат этой операции в виде строки.
+Используйте встроенный модуль `operator` для получения списка поддерживаемых операторов.
+Реализуйте обработку неверных значений с возвратом пустой строки.
+"""
+
 import socket
 import select
+from dotenv import dotenv_values
 
-from Exceptions import *
-from Operators import operators
-
-
-def calculator(data):
-    try:
-        data = data.decode()
-        a, operator, b = data.split()
-    except ValueError as e:
-        raise InputFormulaError('InputFormulaError')
-    try:
-        a, b = map(float, (a, b))
-    except Exception as e:
-        raise InputNumberError('InputNumberError')
-    if operator not in operators:
-        raise InputOperatorError('InputOperatorError')
-    try:
-        operation = {
-            '+': lambda x, y: x + y,
-            '-': lambda x, y: x - y,
-            '*': lambda x, y: x * y,
-            '**': lambda x, y: x ** y,
-            '/': lambda x, y: x / y
-        }
-        return str(operation[operator](a, b))
-    except ArithmeticError:
-        raise CalculationError('CalculationError')
+from numeric_processor import NumericOperationProcessor as nop
 
 
 def handle(sock, addr):
@@ -41,10 +27,15 @@ def handle(sock, addr):
         print("Disconnected by", addr)
         return False
     try:
-        data_calc = calculator(data)
+        data = data.decode()
+    except ConnectionError:
+        print(f"Client suddenly closed, cannot decode")
+        return False
+    try:
+        data_calc = nop.calculator(data)
     except Exception as exp:
         print("Disconnected by", addr, exp)
-        data_calc = f' , {exp}'
+        data_calc = f' "", Error: {exp}'
     print(f"Send: {data_calc} to: {addr}")
     try:
         data_calc = data_calc.encode()
@@ -59,12 +50,15 @@ def handle(sock, addr):
     return True
 
 
-HOST, PORT = "", 9999
+socket_data = dotenv_values('./.env')['SOCKET_SERVER']
+HOST = socket_data.split(':')[0]
+PORT = socket_data.split(':')[-1]
+# HOST, PORT = "", 9999
 if __name__ == "__main__":
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as serv_sock:
         # AF_INET означает интернет сокет по протоколу IPv4,
         # SOCK_STREAM - транспортный протокол передачи информации информирующий о том, что будет исп-ся TCP
-        serv_sock.bind((HOST, PORT))  # Привязка socket к адресу
+        serv_sock.bind((HOST, int(PORT)))  # Привязка socket к адресу
         serv_sock.listen(1)  # Начинает слушать подключения
         inputs = [serv_sock]  # Доступные подключения
         outputs = []  # Подключения, которым мы будем передавать информацию
