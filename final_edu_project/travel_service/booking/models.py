@@ -58,9 +58,6 @@ class DateRoute(models.Model):
         default=Direction.get_default_direction_pk,
         null=True,
     )
-    amount_trips = models.IntegerField(
-        default=0, verbose_name="Trips Amount In Date"
-    )
 
     class Meta:
         verbose_name = "DateRoute"
@@ -83,6 +80,7 @@ class TimeTrip(models.Model):
     date_of_the_trip = models.ForeignKey(DateRoute, verbose_name="Travel date", on_delete=models.CASCADE)
     carrier = models.CharField(max_length=80, verbose_name="Carrier Name")
     number_of_seats = models.IntegerField(default=0, verbose_name="Number of seats")
+    price = models.IntegerField(default=0, verbose_name="Price per seats")
 
     class Meta:
         verbose_name = "TimeTrip"
@@ -101,3 +99,22 @@ class TimeTrip(models.Model):
     def arrival_time_calculation(self):
         """Функция, предназначенная для подсчета времени прибытия"""
         ...
+
+
+class Trip(models.Model):
+    """Класс для создания модели - Информация о поездке"""
+
+    user_phone = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="User phone", on_delete=models.CASCADE)
+    departure_time = models.ForeignKey(TimeTrip, verbose_name="Departure time", on_delete=models.CASCADE)
+    number_of_reserved_places = models.IntegerField(default=0, verbose_name="Reserved places")
+    landing_place = models.CharField(max_length=70, verbose_name="Landing place")
+
+    class Meta:
+        verbose_name = "Trip"
+        verbose_name_plural = "Trips"
+
+    def __str__(self):
+        """Возвращает удобочитаемую строку для каждого объекта."""
+
+        return f"{self.user_phone}"
+
