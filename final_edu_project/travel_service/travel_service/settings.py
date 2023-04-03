@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-#&a4u!v3=wu*vyfxc7zijhcs533mo4esnn+&s6=i6mi88v$5if'
+SECRET_KEY = 'django-insecure-cvfnl775c^f!-z1vi+br)gn7)41e(a+t&wlgalk=qt%$4nef09'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -32,7 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'users.apps.UsersConfig',
-    'trip.apps.TripConfig',
+    'booking.apps.BookingConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -124,4 +124,4 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = "users.TripUser"
+AUTH_USER_MODEL = "users.BookingUser"
