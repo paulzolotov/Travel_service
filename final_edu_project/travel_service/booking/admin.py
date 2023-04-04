@@ -8,14 +8,14 @@ from .models import Direction, DateRoute, TimeTrip, Trip
 class DirectionAdmin(admin.ModelAdmin):
     """Класс для отображения на панели администратора информации о конкретном Направлении маршрута."""
 
-    list_display = ("name", "slug", "start_point", "end_point", "travel_time")
+    list_display = ("name", "is_active", "slug", "start_point", "end_point", "travel_time")
 
 
 @admin.register(DateRoute)
 class DirectionAdmin(admin.ModelAdmin):
     """Класс для отображения на панели администратора информации о конкретной Дате, определенного Направления."""
 
-    list_display = ("data_route", "slug", "direction_name")
+    list_display = ("data_route", "is_active", "slug", "direction_name")
 
 
 @admin.register(TimeTrip)

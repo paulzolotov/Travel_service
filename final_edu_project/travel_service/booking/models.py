@@ -4,14 +4,22 @@ from django.conf import settings
 from django.db import models
 from django.urls import reverse
 
+
 # Create your models here.
+class ShopInfoMixin(models.Model):
+    """Класс Mixin, для повторяющихся полей, от которого затем наследуются классы с моделями"""
+
+    slug = models.SlugField(max_length=70, verbose_name="Short Name")
+    is_active = models.BooleanField(default=True, verbose_name="Is it active?")
+
+    class Meta:
+        abstract = True
 
 
-class Direction(models.Model):
+class Direction(ShopInfoMixin):
     """Класс для создания модели - Направление поездки"""
 
     name = models.CharField(max_length=70, verbose_name="Direction Name")
-    slug = models.SlugField(max_length=70, verbose_name="Short Name")
     start_point = models.CharField(max_length=40, verbose_name="Where does the route start?")
     end_point = models.CharField(max_length=40, verbose_name="Where does the route end?")
     travel_time = models.IntegerField(default=0, verbose_name="Travel time in minutes")
@@ -35,6 +43,7 @@ class Direction(models.Model):
             start_point="default",
             end_point="default",
             travel_time=0,
+            is_active=False,
         )
         return direction.pk
 
@@ -44,13 +53,12 @@ class Direction(models.Model):
         ...
 
 
-class DateRoute(models.Model):
+class DateRoute(ShopInfoMixin):
     """Класс для создания модели - Дата поездки"""
 
     data_route = models.DateField(
         verbose_name="Date of trip", auto_now_add=False
     )
-    slug = models.SlugField(max_length=30, verbose_name="Short DateName")
     direction_name = models.ForeignKey(
         Direction,
         verbose_name="Direction Name",
