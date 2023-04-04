@@ -6,7 +6,7 @@ from django.urls import reverse
 
 
 # Create your models here.
-class ShopInfoMixin(models.Model):
+class BookingInfoMixin(models.Model):
     """Класс Mixin, для повторяющихся полей, от которого затем наследуются классы с моделями"""
 
     slug = models.SlugField(max_length=70, verbose_name="Short Name")
@@ -16,7 +16,7 @@ class ShopInfoMixin(models.Model):
         abstract = True
 
 
-class Direction(ShopInfoMixin):
+class Direction(BookingInfoMixin):
     """Класс для создания модели - Направление поездки"""
 
     name = models.CharField(max_length=70, verbose_name="Direction Name")
@@ -47,13 +47,14 @@ class Direction(ShopInfoMixin):
         )
         return direction.pk
 
-    def max_min_price(self):
-        """Функция, предназначенная для подсчета максимальной и минимальной цены от всех предложенных во все дни
+    def min_price(self):
+        """Функция, предназначенная для подсчета минимальной цены от всех предложенных во все дни
          т.е по всем имеющимся записям маршрутов"""
-        ...
+        min_price = self.dateroute_set.all()[0].timetrip_set.all()
+        return min_price
 
 
-class DateRoute(ShopInfoMixin):
+class DateRoute(BookingInfoMixin):
     """Класс для создания модели - Дата поездки"""
 
     data_route = models.DateField(
@@ -76,8 +77,13 @@ class DateRoute(ShopInfoMixin):
 
         return f"{self.data_route}"
 
-    def max_min_price(self):
-        """Функция, предназначенная для подсчета максимальной и минимальной цены в определенный день"""
+    def min_price(self):
+        """Функция, предназначенная для подсчета минимальной цены в определенный день"""
+        min_price = self.dateroute_set.all()[0].timetrip_set.all()
+        return min_price
+
+    def max_price(self):
+        """Функция, предназначенная для подсчета максимальной цены в определенный день"""
         ...
 
 
@@ -89,6 +95,7 @@ class TimeTrip(models.Model):
     carrier = models.CharField(max_length=80, verbose_name="Carrier Name")
     number_of_seats = models.IntegerField(default=0, verbose_name="Number of seats")
     price = models.IntegerField(default=0, verbose_name="Price per seats")
+    auto_number = models.CharField(default='1234AB-7', max_length=10, verbose_name="Auto Number")
 
     class Meta:
         verbose_name = "TimeTrip"

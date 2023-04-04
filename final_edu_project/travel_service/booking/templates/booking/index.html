@@ -8,6 +8,8 @@
             {% for direction in directions %}
                 {{ direction.name }}
                 {{ direction.travel_time }}
+                {{ direction.max_min_price }}
+                <a class="go_direction__btn" href="{% url 'booking:direction' direction_slug=direction.slug date_route=today %}">Перейти</a>
             {% endfor %}
         </div>
     </section>

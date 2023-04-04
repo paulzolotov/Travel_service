@@ -4,32 +4,8 @@
         <div class="booking__wrapper booking__wrapper-top">
             <a class="info__btn-top" href="{% url 'booking:index' %}">BusBY</a>
         </div>
-<!--        <div class="contacts__wrapper contacts__wrapper-top">-->
-<!--            <a class="info__btn-top" href="{% url 'booking:contacts' %}">Контакты</a>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <div class="user__greetings">-->
-<!--        {% if user.is_authenticated %}-->
-<!--        <p class="greeting__text">Welcome, <span class="greeting__text greeting__text-span">{{ user.username }}</span>.-->
-<!--            Thanks for logging in. </p>-->
-<!--        <div class="user__wrapper user__wrapper-top">-->
-<!--            <a class="user__btn-top" href="{% url 'users:logout' %}">Logout</a>-->
-<!--            <a class="user__btn-top" href="{% url 'users:change' %}">Change password</a>-->
-<!--        </div>-->
-<!--        {% else %}-->
-<!--        <p class="greeting__text">Welcome, new user. Please log in to book trip.</p>-->
-<!--        <div class="user__wrapper user__wrapper-top">-->
-<!--            <a class="user__btn-top" href="{% url 'users:register' %}">Register</a>-->
-<!--            <a class="user__btn-top" href="{% url 'users:login' %}">Login</a>-->
-<!--            <a class="user__btn-top" href="{% url 'account_login' %}">Facebook</a>-->
-<!--        </div>-->
-<!--        {% endif %}-->
-<!--    </div>-->
-<!--        <div class="account">-->
-<!--       <div class="account__wrapper">-->
-<!--            <a class="account__link" href="{% url 'booking:account' %}">-->
-<!--                <img class="account__svg" src="{% static 'account.svg' %}" alt="Account" >-->
-<!--            </a>-->
-<!--       </div>-->
+        <div class="contacts__wrapper contacts__wrapper-top">
+            <a class="info__btn-top" href="{% url 'booking:contacts' %}">Контакты</a>
+        </div>
    </div>
 </header>
