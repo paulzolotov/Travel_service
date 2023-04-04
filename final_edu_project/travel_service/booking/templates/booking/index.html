@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<body>
+<main>
+    <section class="directions">
+        <div class="container">
+            {% for direction in directions %}
+                {{ direction.name }}
+                {{ direction.travel_time }}
+            {% endfor %}
+        </div>
+    </section>
+</main>
+</body>
+
+{% endblock  %}
