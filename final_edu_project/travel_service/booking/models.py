@@ -23,6 +23,8 @@ class Direction(BookingInfoMixin):
     name = models.CharField(max_length=70, verbose_name="Direction Name")
     start_point = models.CharField(max_length=40, verbose_name="Where does the route start?")
     end_point = models.CharField(max_length=40, verbose_name="Where does the route end?")
+    list_of_stops = models.CharField(default="Rest.1, Rest.2", max_length=200,
+                                     verbose_name="Enter stops separated by commas.(For example: Rest.1, Rest.2)")
     travel_time = models.IntegerField(default=0, verbose_name="Travel time in minutes")
 
     class Meta:
@@ -45,6 +47,7 @@ class Direction(BookingInfoMixin):
             end_point="default",
             travel_time=0,
             is_active=False,
+            list_of_stops="default",
         )
         return direction.pk
 
@@ -94,7 +97,7 @@ class TimeTrip(models.Model):
                                   verbose_name="Travel direction", on_delete=models.CASCADE, null=True)
     car = models.CharField(default='Mercedes-Benz Sprinter', max_length=80, verbose_name="Car Name")
     auto_number = models.CharField(default='1234AB-7', max_length=10, verbose_name="Auto Number")
-    carrier_phone = PhoneNumberField(default='+375441111111')
+    carrier_phone = PhoneNumberField()
     number_of_seats = models.IntegerField(default=0, verbose_name="Number of seats")
     price = models.IntegerField(default=0, verbose_name="Price per seats")
 
@@ -120,10 +123,19 @@ class TimeTrip(models.Model):
 class Trip(models.Model):
     """Класс для создания модели - Информация о поездке"""
 
+    CHOICES = (
+        ('1', 'Stopping 1'),
+        ('2', 'Stopping 2'),
+        ('3', 'Stopping 3'),
+        ('4', 'Stopping 4'),
+        ('5', 'Stopping 5'),
+    )
+
     user_phone = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="User phone", on_delete=models.CASCADE)
     departure_time = models.ForeignKey(TimeTrip, verbose_name="Departure time", on_delete=models.CASCADE)
     number_of_reserved_places = models.IntegerField(default=0, verbose_name="Reserved places")
-    landing_place = models.CharField(max_length=70, verbose_name="Landing place")
+    landing_place = models.CharField(max_length=300, choices=CHOICES, verbose_name="Landing place")
+    user_comment = models.CharField(max_length=200, verbose_name="User Comment", default='nothing')
 
     class Meta:
         verbose_name = "Trip"
@@ -134,3 +146,8 @@ class Trip(models.Model):
 
         return f"{self.user_phone}"
 
+    def get_list_stops(self):
+        '''Надо связать list_of_stops в Direction с landing_place'''
+        # my_list = self.direction_set.all()
+        # return my_list
+        ...

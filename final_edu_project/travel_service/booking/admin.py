@@ -23,7 +23,9 @@ class DirectionAdmin(admin.ModelAdmin):
 class DirectionAdmin(admin.ModelAdmin):
     """Класс для отображения на панели администратора информации о конкретной Дате, определенного Направления."""
 
+    filter_horizontal = ['direction_name']  # для наглядной демонстрации используемых маршрутов в день
     list_display = ("data_route", "is_active", "slug")
+    list_editable = ("is_active",)
 
 
 @admin.register(TimeTrip)
@@ -31,13 +33,19 @@ class DirectionAdmin(admin.ModelAdmin):
     """Класс для отображения на панели администратора информации о конкретных временных отметках, в
     которые возможно отправление."""
 
-    list_display = ("departure_time", "date_of_the_trip", "direction", "number_of_seats", "price", "car",
+    list_display = ("departure_time", "date_of_the_trip", "direction", "number_of_seats", "show_pretty_price", "car",
                     "auto_number", "carrier_phone")
     form = ContactForm
+
+    @admin.display(description="custom price")
+    def show_pretty_price(self, obj):
+        """Функция для отображения кастомной записи для 'цены за место' (В данном случае добавили знак $)"""
+        return f"{obj.price} $"
 
 
 @admin.register(Trip)
 class DirectionAdmin(admin.ModelAdmin):
     """Класс для отображения на панели администратора информации о конкретной поездке в определенное время."""
 
-    list_display = ("user_phone", "departure_time", "number_of_reserved_places", "landing_place")
+    list_display = ("user_phone", "departure_time", "number_of_reserved_places",
+                    "landing_place", "user_comment", "get_list_stops")
