@@ -3,6 +3,7 @@ import datetime
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 # Create your models here.
@@ -60,12 +61,9 @@ class DateRoute(BookingInfoMixin):
     data_route = models.DateField(
         verbose_name="Date of trip", auto_now_add=False
     )
-    direction_name = models.ForeignKey(
+    direction_name = models.ManyToManyField(
         Direction,
         verbose_name="Direction Name",
-        on_delete=models.SET_DEFAULT,
-        default=Direction.get_default_direction_pk,
-        null=True,
     )
 
     class Meta:
@@ -92,10 +90,13 @@ class TimeTrip(models.Model):
 
     departure_time = models.TimeField(verbose_name="Departure time")
     date_of_the_trip = models.ForeignKey(DateRoute, verbose_name="Travel date", on_delete=models.CASCADE)
-    carrier = models.CharField(max_length=80, verbose_name="Carrier Name")
+    direction = models.ForeignKey(Direction, default=Direction.get_default_direction_pk,
+                                  verbose_name="Travel direction", on_delete=models.CASCADE, null=True)
+    car = models.CharField(default='Mercedes-Benz Sprinter', max_length=80, verbose_name="Car Name")
+    auto_number = models.CharField(default='1234AB-7', max_length=10, verbose_name="Auto Number")
+    carrier_phone = PhoneNumberField(default='+375441111111')
     number_of_seats = models.IntegerField(default=0, verbose_name="Number of seats")
     price = models.IntegerField(default=0, verbose_name="Price per seats")
-    auto_number = models.CharField(default='1234AB-7', max_length=10, verbose_name="Auto Number")
 
     class Meta:
         verbose_name = "TimeTrip"

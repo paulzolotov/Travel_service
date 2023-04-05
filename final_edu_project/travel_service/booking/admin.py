@@ -1,7 +1,15 @@
 from django.contrib import admin
 from .models import Direction, DateRoute, TimeTrip, Trip
+from django import forms
+from phonenumber_field.widgets import PhoneNumberPrefixWidget
+
 
 # Register your models here.
+class ContactForm(forms.ModelForm):
+    class Meta:
+        widgets = {
+            'carrier_phone': PhoneNumberPrefixWidget(initial='BY'),
+        }
 
 
 @admin.register(Direction)
@@ -15,7 +23,7 @@ class DirectionAdmin(admin.ModelAdmin):
 class DirectionAdmin(admin.ModelAdmin):
     """Класс для отображения на панели администратора информации о конкретной Дате, определенного Направления."""
 
-    list_display = ("data_route", "is_active", "slug", "direction_name")
+    list_display = ("data_route", "is_active", "slug")
 
 
 @admin.register(TimeTrip)
@@ -23,7 +31,9 @@ class DirectionAdmin(admin.ModelAdmin):
     """Класс для отображения на панели администратора информации о конкретных временных отметках, в
     которые возможно отправление."""
 
-    list_display = ("departure_time", "date_of_the_trip", "carrier", "number_of_seats", "price")
+    list_display = ("departure_time", "date_of_the_trip", "direction", "number_of_seats", "price", "car",
+                    "auto_number", "carrier_phone")
+    form = ContactForm
 
 
 @admin.register(Trip)
