@@ -9,7 +9,7 @@ def index(request: HttpRequest):
     """Функция предназначена для перехода к странице со списком направлений"""
 
     directions = Direction.objects.filter(is_active=True).all()
-    today = '2023_04_04'  # сделать по сегодняшнему дню
+    today = '2023_04_05'  # сделать по сегодняшнему дню
     return render(request, "booking/index.html", context={"directions": directions, "today": today})
 
 

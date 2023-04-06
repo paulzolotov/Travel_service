@@ -132,6 +132,8 @@ class Trip(models.Model):
     )
 
     user_phone = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="User phone", on_delete=models.CASCADE)
+    # user_name = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="User name", on_delete=models.CASCADE)
+    # user_surname = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="User surname", on_delete=models.CASCADE)
     departure_time = models.ForeignKey(TimeTrip, verbose_name="Departure time", on_delete=models.CASCADE)
     number_of_reserved_places = models.IntegerField(default=0, verbose_name="Reserved places")
     landing_place = models.CharField(max_length=300, choices=CHOICES, verbose_name="Landing place")
