@@ -27,7 +27,8 @@ def get_daytime_trip(request: HttpRequest, direction_slug, date_route):
     # Получили список всех поездок сортированных по времени (с утра до вечера)
     day = get_object_or_404(date_routes, date_route=date_route)
     trip_times = day.timetrip_set.all()  # timetrip в timetrip_set взяли из модели
-    return render(request, "booking/daytime_trip.html", context={"direction_slug": direction_slug,
+    return render(request, "booking/daytime_trip.html", context={"direction": direction,
+                                                                 "direction_slug": direction_slug,
                                                                  "date_routes": date_routes, "trip_times": trip_times})
 
 

@@ -1,19 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+{% extends 'base.html' %}
+
+{% block content %}
 <body>
+<h1>{{ direction }}</h1>
     <p> Даты: </p>
     {% for date_route in date_routes %}
         <a class="go_date_route__btn" href="{% url 'booking:direction' direction_slug=direction_slug date_route=date_route.date_route %}">{{ date_route }}</a>
     {% endfor %}
     <br>
     <p> Поездки: </p>
-    {% for trip_time in trip_times %}
-        {{ trip_time.departure_time }}
-        <a class="go_date_route__btn" href="{% url 'booking:trip' direction_slug=direction_slug date_route=trip_time.date_of_the_trip trip_id=trip_time.id %}">Забронировать</a>
-    {% endfor %}
+    {% if trip_times %}
+        <div class="basket_info">
+            <ul class="basket__list-wrap">
+                {% for trip_time in trip_times %}
+                    <li class="basket__list-item">
+                        <p class="basket_game">
+                            {{ trip_time.departure_time }}
+                            {{ trip_time.number_of_free_places }}
+                            {{ trip_time.number_of_seats }}
+                            {{ trip_time.price }} BYN
+                            <a class="go_date_route__btn" href="{% url 'booking:trip' direction_slug=direction_slug date_route=trip_time.date_of_the_trip trip_id=trip_time.id %}">Забронировать</a>
+                        </p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% else %}
+        <h4 class="basket__empty">
+            На выбранную дату поездок нет :(
+        </h4>
+    {% endif %}
 </body>
-</html>
+
+{% endblock  %}
