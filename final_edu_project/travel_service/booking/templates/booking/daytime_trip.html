@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <p> Даты: </p>
+    {% for date_route in date_routes %}
+        <a class="go_date_route__btn" href="{% url 'booking:direction' direction_slug=direction_slug date_route=date_route.date_route %}">{{ date_route }}</a>
+    {% endfor %}
+    <br>
+    <p> Поездки: </p>
+    {% for trip_time in trip_times %}
+        {{ trip_time.departure_time }}
+        <a class="go_date_route__btn" href="{% url 'booking:trip' direction_slug=direction_slug date_route=trip_time.date_of_the_trip trip_id=trip_time.id %}">Забронировать</a>
+    {% endfor %}
+</body>
+</html>

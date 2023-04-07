@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib import admin
 from .models import Direction, DateRoute, TimeTrip, Trip
 from django import forms
@@ -45,9 +47,9 @@ class DirectionAdmin(admin.ModelAdmin):
     """Класс для отображения на панели администратора информации о конкретной Дате, определенного Направления."""
 
     filter_horizontal = ['direction_name']  # для наглядной демонстрации используемых маршрутов в день
-    list_display = ("data_route", "view_time_trips_link", "is_active", "slug")
-    sortable_by = ("data_route",)
-    list_filter = ("data_route", "is_active", "slug")
+    list_display = ("date_route", "view_time_trips_link", "is_active",)
+    sortable_by = ("date_route",)
+    list_filter = ("date_route", "is_active")
     actions = (
         "make_inactive",
     )
@@ -68,9 +70,12 @@ class DirectionAdmin(admin.ModelAdmin):
     def make_inactive(self, request, queryset):
         """Функция для проверки даты с текущей и если данная дата уже прошла, то переводим выбранные неподходящие даты
         в строке 'action' в состояние 'inactive'"""
-        # today = '2023_04_06'
-        # date = self.data_route
-        # print(date)
+        # today = datetime.datetime(2023, 4, 6).date() - необходимо для тестирования
+        # today = datetime.datetime.now().date()
+        # for obj in queryset:
+        #     date = obj.date_route
+        #     if date < today:
+        #         print('del obj in queryset')
         # queryset.update(is_active=False)
 
 
@@ -149,6 +154,6 @@ class DirectionAdmin(admin.ModelAdmin):
 class DirectionAdmin(admin.ModelAdmin):
     """Класс для отображения на панели администратора информации о конкретной поездке в определенное время."""
 
-    list_display = ("user_phone", "departure_time", "number_of_reserved_places",
+    list_display = ("user_phone", "date_of_the_trip", "departure_time", "number_of_reserved_places",
                     "landing_place", "user_comment", "get_list_stops")
     sortable_by = ()

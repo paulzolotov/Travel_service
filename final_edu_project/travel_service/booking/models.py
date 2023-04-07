@@ -4,13 +4,13 @@ from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from phonenumber_field.modelfields import PhoneNumberField
+from django.core.validators import MinValueValidator
 
 
 # Create your models here.
 class BookingInfoMixin(models.Model):
     """Класс Mixin, для повторяющихся полей, от которого затем наследуются классы с моделями"""
 
-    slug = models.SlugField(max_length=70, verbose_name="Short Name")
     is_active = models.BooleanField(default=True, verbose_name="Is it active?")
 
     class Meta:
@@ -20,12 +20,13 @@ class BookingInfoMixin(models.Model):
 class Direction(BookingInfoMixin):
     """Класс для создания модели - Направление поездки"""
 
+    slug = models.SlugField(max_length=70, verbose_name="Short Name")
     name = models.CharField(max_length=70, verbose_name="Direction Name")
     start_point = models.CharField(max_length=40, verbose_name="Where does the route start?")
     end_point = models.CharField(max_length=40, verbose_name="Where does the route end?")
     list_of_stops = models.CharField(default="Rest.1, Rest.2", max_length=200,
                                      verbose_name="Enter stops separated by commas.(For example: Rest.1, Rest.2)")
-    travel_time = models.IntegerField(default=0, verbose_name="Travel time in minutes")
+    travel_time = models.IntegerField(default=0, validators=[MinValueValidator(1)], verbose_name="Travel time in minutes")
 
     class Meta:
         verbose_name = "Direction"
@@ -61,7 +62,7 @@ class Direction(BookingInfoMixin):
 class DateRoute(BookingInfoMixin):
     """Класс для создания модели - Дата поездки"""
 
-    data_route = models.DateField(
+    date_route = models.DateField(
         verbose_name="Date of trip", auto_now_add=False
     )
     direction_name = models.ManyToManyField(
@@ -76,7 +77,7 @@ class DateRoute(BookingInfoMixin):
     def __str__(self):
         """Возвращает удобочитаемую строку для каждого объекта."""
 
-        return f"{self.data_route}"
+        return f"{self.date_route}"
 
     def min_price(self):
         """Функция, предназначенная для подсчета минимальной цены в определенный день"""
@@ -98,8 +99,8 @@ class TimeTrip(models.Model):
     car = models.CharField(default='Mercedes-Benz Sprinter', max_length=80, verbose_name="Car Name")
     auto_number = models.CharField(default='1234AB-7', max_length=10, verbose_name="Auto Number")
     carrier_phone = PhoneNumberField()
-    number_of_seats = models.IntegerField(default=0, verbose_name="Number of seats")
-    price = models.IntegerField(default=0, verbose_name="Price per seats")
+    number_of_seats = models.IntegerField(default=20, validators=[MinValueValidator(1)], verbose_name="Number of seats")
+    price = models.IntegerField(default=0, validators=[MinValueValidator(1)], verbose_name="Price per seats")
 
     class Meta:
         verbose_name = "TimeTrip"
@@ -135,9 +136,11 @@ class Trip(models.Model):
     # user_name = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="User name", on_delete=models.CASCADE)
     # user_surname = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="User surname", on_delete=models.CASCADE)
     departure_time = models.ForeignKey(TimeTrip, verbose_name="Departure time", on_delete=models.CASCADE)
-    number_of_reserved_places = models.IntegerField(default=0, verbose_name="Reserved places")
+    date_of_the_trip = models.ForeignKey(DateRoute, verbose_name="Trip date", on_delete=models.CASCADE, null=True)
+    number_of_reserved_places = models.IntegerField(default=1, validators=[MinValueValidator(1)],
+                                                    verbose_name="Reserved places")
     landing_place = models.CharField(max_length=300, choices=CHOICES, verbose_name="Landing place")
-    user_comment = models.CharField(max_length=200, verbose_name="User Comment", default='nothing')
+    user_comment = models.CharField(max_length=200, verbose_name="User Comment", default='nothing', null=True)
 
     class Meta:
         verbose_name = "Trip"
