@@ -31,14 +31,14 @@ class DirectionAdmin(admin.ModelAdmin):
 
     @admin.action(description="Switch to inactive state")
     def make_inactive(self, request, queryset):
-        """Функция для перевода
-        в строке 'action' в состояние 'inactive'"""
+        """Функция для перевода в строке 'action' в состояние 'inactive'"""
+        
         queryset.update(is_active=False)
 
     @admin.action(description="Switch to active state")
     def make_active(self, request, queryset):
-        """Функция для перевода
-        в строке 'action' в состояние 'inactive'"""
+        """Функция для перевода в строке 'action' в состояние 'active'"""
+
         queryset.update(is_active=True)
 
 
@@ -58,6 +58,7 @@ class DirectionAdmin(admin.ModelAdmin):
     def view_time_trips_link(self, obj):
         """Функция для подсчета количества временных отправлений в данной день, а также генерации ссылки
          на эти временные отправления"""
+
         count = obj.timetrip_set.count()
         url = (
             reverse("admin:booking_timetrip_changelist")
@@ -69,6 +70,7 @@ class DirectionAdmin(admin.ModelAdmin):
     @admin.action(description="Switch to inactive state")
     def make_inactive(self, request, queryset):
         """Функция для проверки даты с текущей и если данная дата уже прошла, то переводим выбранные неподходящие даты
+
         в строке 'action' в состояние 'inactive'"""
         # today = datetime.datetime(2023, 4, 6).date() - необходимо для тестирования
         # today = datetime.datetime.now().date()
@@ -97,11 +99,13 @@ class DirectionAdmin(admin.ModelAdmin):
     @admin.display(description="custom price")
     def show_pretty_price(self, obj):
         """Функция для отображения кастомной записи для 'цены за место' (В данном случае добавили знак $)"""
+
         return f"{obj.price} BYN"
 
     @admin.display(description="reserved places")
     def show_reserved_places(self, obj):
         """Функция для отображения кастомной записи для количества зарезервированных мест в данной поездке"""
+
         trip_from_time = obj.trip_set.all()
         sum_places = 0
         if trip_from_time:
@@ -113,6 +117,7 @@ class DirectionAdmin(admin.ModelAdmin):
     @admin.display(description="free places")
     def show_free_places(self, obj):
         """Функция для отображения кастомной записи для количества свободных мест в данной поездке"""
+
         count_free_places = obj.number_of_seats - int(self.show_reserved_places(obj))
         return f"{count_free_places}"
 
@@ -120,6 +125,7 @@ class DirectionAdmin(admin.ModelAdmin):
     def view_trips_link(self, obj):
         """Функция для подсчета количества совершенных бронирований данной поездки, а также генерации ссылки
          на эти брони"""
+
         count = obj.trip_set.count()
         url = (
             reverse("admin:booking_trip_changelist")

@@ -26,7 +26,8 @@ def get_daytime_trip(request: HttpRequest, direction_slug, date_route):
     date_routes = direction.dateroute_set.filter(is_active=True).all()  # dateroute в dateroute_set взяли из модели
     # Получили список всех поездок сортированных по времени (с утра до вечера)
     day = get_object_or_404(date_routes, date_route=date_route)
-    trip_times = day.timetrip_set.all()  # timetrip в timetrip_set взяли из модели
+    # timetrip в timetrip_set взяли из модели
+    trip_times = day.timetrip_set.filter(direction=direction).order_by('departure_time').all()
     return render(request, "booking/daytime_trip.html", context={"direction": direction,
                                                                  "direction_slug": direction_slug,
                                                                  "date_routes": date_routes, "trip_times": trip_times})
@@ -40,10 +41,11 @@ def booking_trip(request: HttpRequest, direction_slug, date_route, trip_id):
     date_routes = direction.dateroute_set.filter(is_active=True).all()  # dateroute в dateroute_set взяли из модели
     # Получили список всех поездок сортированных по времени (с утра до вечера)
     day = get_object_or_404(date_routes, date_route=date_route)
-    trip_times = day.timetrip_set.all()  # timetrip в timetrip_set взяли из модели
+    # timetrip в timetrip_set взяли из модели
+    trip_times = day.timetrip_set.filter(direction=direction).order_by('departure_time').all()
     time = get_object_or_404(trip_times, id=trip_id)
     records = time.trip_set.all()
-    print(records)
+    # print(records)
     for rec in records:
         print(rec.date_of_the_trip)
     return render(request, "booking/trip.html")

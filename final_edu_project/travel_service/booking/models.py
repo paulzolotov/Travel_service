@@ -1,10 +1,11 @@
-import datetime
+from datetime import datetime, timedelta, date
+import time
 
 from django.conf import settings
 from django.db import models
-from django.urls import reverse
 from phonenumber_field.modelfields import PhoneNumberField
 from django.core.validators import MinValueValidator
+from django.shortcuts import get_object_or_404
 
 
 # Create your models here.
@@ -52,10 +53,20 @@ class Direction(BookingInfoMixin):
         )
         return direction.pk
 
+    def format_travel_time(self):
+        """Функция, предназначенная для форматирования времени пути т.е минуты переводим в часы и минуты"""
+        return time.strftime("%H:%M", time.gmtime(self.travel_time * 60))
+
     def min_price(self):
         """Функция, предназначенная для подсчета минимальной цены от всех предложенных во все дни
          т.е по всем имеющимся записям маршрутов"""
-        min_price = self.dateroute_set.all()[0].timetrip_set.all()
+        dateroutes_from_direction = self.dateroute_set.filter(is_active=True).all()
+        price_list = []
+        for dateroute in dateroutes_from_direction:
+            timetrips_from_dateroute = dateroute.timetrip_set.filter(direction=self.id).all()
+            for timetrip in timetrips_from_dateroute:
+                price_list.append(timetrip.price)
+        min_price = min(price_list)
         return min_price
 
 
@@ -78,15 +89,6 @@ class DateRoute(BookingInfoMixin):
         """Возвращает удобочитаемую строку для каждого объекта."""
 
         return f"{self.date_route}"
-
-    def min_price(self):
-        """Функция, предназначенная для подсчета минимальной цены в определенный день"""
-        min_price = self.dateroute_set.all()[0].timetrip_set.all()
-        return min_price
-
-    def max_price(self):
-        """Функция, предназначенная для подсчета максимальной цены в определенный день"""
-        ...
 
 
 class TimeTrip(models.Model):
@@ -114,6 +116,7 @@ class TimeTrip(models.Model):
     def number_of_free_places(self):
         """Функция, предназначенная для подсчета количества забронированных мест пользователями
         на определенное дату и время"""
+
         trip_from_time = self.trip_set.all()
         sum_places = 0
         if trip_from_time:
@@ -125,7 +128,9 @@ class TimeTrip(models.Model):
 
     def arrival_time_calculation(self):
         """Функция, предназначенная для подсчета времени прибытия"""
-        ...
+        minutes = self.direction.travel_time
+        result = datetime.combine(date.today(), self.departure_time) + timedelta(minutes=int(minutes))
+        return result.time()
 
 
 class Trip(models.Model):

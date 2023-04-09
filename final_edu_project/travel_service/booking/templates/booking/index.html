@@ -7,9 +7,9 @@
         <div class="container">
             {% for direction in directions %}
                 {{ direction.name }}
-                {{ direction.travel_time }}
-                {{ direction.max_min_price }}
-                <a class="go_direction__btn" href="{% url 'booking:direction' direction_slug=direction.slug date_route=today %}">Перейти</a>
+                {{ direction.format_travel_time }}
+                {{ direction.min_price }}
+                <a class="go_direction__btn" href="{% url 'booking:direction' direction_slug=direction.slug date_route=today %}">Перейти</a> <br>
             {% endfor %}
         </div>
     </section>
