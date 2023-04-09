@@ -1,11 +1,17 @@
 {% load static %}
-<header class="user">
-    <div class="btn__back">
-        <div class="booking__wrapper booking__wrapper-top">
-            <a class="info__btn-top" href="{% url 'booking:index' %}">BusBY</a>
-        </div>
-        <div class="contacts__wrapper contacts__wrapper-top">
-            <a class="info__btn-top" href="{% url 'booking:contacts' %}">Контакты</a>
+<header class="header">
+    <div class="container">
+        <div class="header__wrap">
+            <div class="header__logotype">
+                <a class="header__logotype-btn" href="{% url 'booking:index' %}">
+                    <img class="header__logotype-img" src="{% static 'logo.png' %}" alt="BusBY"></a>
+            </div>
+            <div class="header__contacts">
+                <a class="header__contacts-btn" href="{% url 'booking:contacts' %}">Контакты</a>
+            </div>
+            <div class="header__user">
+
+            </div>
         </div>
    </div>
 </header>

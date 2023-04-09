@@ -1,0 +1,119 @@
+/*сброс стилей браузера*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+/*стили для всей стр*/
+.container {
+    max-width: 1900px;
+    padding: 10px 15px;
+    margin: 0 auto;
+    position: relative;
+}
+/*Стили для header*/
+.header {
+    background-color: black;
+}
+.header__wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header__logotype-btn {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.header__logotype-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.header__contacts-btn {
+    font-family: "Raleway", sans-serif;
+    font-size: 18px;
+    text-align: center;
+    line-height: 20px;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: #0E6038;
+    text-decoration: NONE;
+}
+/*Стили для страницы с информацией*/
+.main {
+    background-image: url(../background.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+    padding: 200px 0;
+}
+.main::before {
+    content: "";
+    display: block;
+    background: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    }
+/*Список всех направлений*/
+.main__list-wrap {
+    max-width: 700px;
+    width: 100%;
+    margin: 0 auto;
+}
+/*Элементы списка-Строка с направлением*/
+.main__list-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-bottom: 30px;
+    column-gap: 30px;
+}
+/*Направление*/
+.main__direction {
+    font-family: "Raleway", sans-serif;
+    font-size: 30px;
+    color: white;
+    line-height: 30px;
+    font-weight: 400;
+}
+.main__btn {
+    display: block;
+    padding: 3px 5px;
+    border-radius: 10px;
+    margin: 0 auto;
+    max-width: 150px;
+    width: 100%;
+    font-family: "Raleway", sans-serif;
+    font-size: 25px;
+    line-height: 30px;
+    font-weight: 400;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    background-color: #0E6038;
+    border: none;
+}
+/*Стили для footer*/
+.footer {
+    background-color: black;
+}
+.footer__text {
+    max-width: 500px;
+    width: 100%;
+    margin: 0 auto;
+    font-family: "Raleway", sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 21px;
+    text-align: center;
+    text-transform: capitalize;
+    color: white;
+}

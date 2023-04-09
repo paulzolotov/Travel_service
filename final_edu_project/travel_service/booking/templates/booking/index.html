@@ -3,14 +3,25 @@
 {% block content %}
 <body>
 <main>
-    <section class="directions">
+    <section class="main">
         <div class="container">
-            {% for direction in directions %}
-                {{ direction.name }}
-                {{ direction.format_travel_time }}
-                {{ direction.min_price }}
-                <a class="go_direction__btn" href="{% url 'booking:direction' direction_slug=direction.slug date_route=today %}">Перейти</a> <br>
-            {% endfor %}
+            <table class="main__list-wrap">
+                <tr class="main__list-item">
+                    <th class="main__direction">Направление</th>
+                    <th class="main__direction">Время в пути</th>
+                    <th class="main__direction">Цена</th>
+                    <th class="main__direction"></th>
+
+                </tr>
+                {% for direction in directions %}
+                <tr class="main__list-item">
+                    <td class="main__direction">{{ direction.name }}</td>
+                    <td class="main__direction">{{ direction.format_travel_time }}</td>
+                    <td class="main__direction">от {{ direction.min_price }} BYN</td>
+                    <td><a class="main__btn" href="{% url 'booking:direction' direction_slug=direction.slug date_route=today %}">Перейти</a></td>
+                </tr>
+                {% endfor %}
+            </table>
         </div>
     </section>
 </main>

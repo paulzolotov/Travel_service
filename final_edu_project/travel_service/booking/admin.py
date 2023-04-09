@@ -32,7 +32,7 @@ class DirectionAdmin(admin.ModelAdmin):
     @admin.action(description="Switch to inactive state")
     def make_inactive(self, request, queryset):
         """Функция для перевода в строке 'action' в состояние 'inactive'"""
-        
+
         queryset.update(is_active=False)
 
     @admin.action(description="Switch to active state")
