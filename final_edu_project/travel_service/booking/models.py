@@ -66,7 +66,10 @@ class Direction(BookingInfoMixin):
             timetrips_from_dateroute = dateroute.timetrip_set.filter(direction=self.id).all()
             for timetrip in timetrips_from_dateroute:
                 price_list.append(timetrip.price)
-        min_price = min(price_list)
+        if price_list:
+            min_price = min(price_list)
+        else:
+            min_price = 0
         return min_price
 
 
@@ -164,7 +167,6 @@ class Trip(models.Model):
         return f"{self.user_phone}"
 
     def get_list_stops(self):
-        '''Надо связать list_of_stops в Direction с landing_place'''
-        # my_list = self.direction_set.all()
-        # return my_list
+        """Надо связать list_of_stops в Direction с landing_place """
+
         ...

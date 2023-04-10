@@ -2,12 +2,11 @@
 
 {% block content %}
 <body>
-        <h1>{{ direction }}</h1>
-            <p> Даты: </p>
-            {% for date_route in date_routes %}
-                <a class="go_date_route__btn" href="{% url 'booking:direction' direction_slug=direction_slug date_route=date_route.date_route %}">{{ date_route }}</a>
-            {% endfor %}
-    </section>
+    <h1>{{ direction }}</h1>
+        <p> Даты: </p>
+        {% for date_route in date_routes %}
+            <a class="go_date_route__btn" href="{% url 'booking:direction' direction_slug=direction_slug date_route=date_route.date_route %}">{{ date_route }}</a>
+        {% endfor %}
     <p> Поездки: </p>
     {% if trip_times %}
         <div class="basket_info">
