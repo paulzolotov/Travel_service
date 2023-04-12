@@ -15,7 +15,13 @@ import csv
 class ContactForm(forms.ModelForm):
     class Meta:
         widgets = {
-            'carrier_phone': PhoneNumberPrefixWidget(initial='BY'),
+            'carrier_phone': PhoneNumberPrefixWidget(initial='BY',
+                                                     country_choices=[
+                                                         ("BY", "375"),
+                                                         ("RU", "7"),
+                                                         ("UA", "380")
+                                                     ],
+                                                     ),
         }
 
 

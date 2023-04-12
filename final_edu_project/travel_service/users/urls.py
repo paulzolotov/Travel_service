@@ -1,6 +1,5 @@
 from django.contrib.auth import views as auth_views
-from django.urls import include, path, reverse_lazy
-# from . views import UserRegisterView
+from django.urls import path, reverse_lazy
 
 from . import forms, views
 
@@ -9,8 +8,7 @@ app_name = "users"
 urlpatterns = [
     path("register/", views.register, name="register"),
     path(
-        "login/",
-        auth_views.LoginView.as_view(
+        "login/", auth_views.LoginView.as_view(
             next_page="booking:index", template_name="users/login.html"
         ),
         name="login",

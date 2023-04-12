@@ -9,28 +9,6 @@ from .forms import CustomUserCreationForm
 from .models import BookingUser
 
 
-# class UserRegisterView(LoginView):
-#     form_class = CustomUserCreationForm
-#     success_url = reverse_lazy('index')
-#     template_name = 'user/login.html'
-#
-#     # def post(self, requests, *args, **kwargs):
-#     #     form = CustomUserCreationForm()
-#     #     if form.is_valid():
-#     #         user = form.save(commit=False)
-#     #         user.save()
-#     #     else:
-#     #         return render(requests, self.template_name, {'form': form})
-#
-#     # def form_valid(self, form):
-#     #     username = form.cleaned_data['username']
-#     #     email = form.cleaned_data['email']
-#     #     raw_password = form.cleaned_data['password1']
-#     #     user = BookingUser.objects.create_user(username, email, raw_password)
-#     #     login(self.request, user)
-#     #     return HttpResponseRedirect(reverse('index'))
-
-
 def register(request):
     """Функция для регистрации пользователя"""
     if request.method == "GET":

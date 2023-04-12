@@ -43,6 +43,59 @@
     color: #0E6038;
     text-decoration: NONE;
 }
+
+/*поле с пользователем*/
+.user {
+    display: grid;
+    grid-template-columns: 1fr 0.4fr 0.1fr;
+    justify-content: space-between;
+    padding: 20px 20px 0;
+    align-items: center;
+    column-gap: 15px;
+}
+.btn__back {
+    display: flex;
+    column-gap: 30px;
+}
+.header__user {
+    text-align: right;
+}
+/*Кнопки регистрации, login/logout*/
+.user__wrapper-top {
+    display: flex;
+    justify-content: end;
+    column-gap: 15px;
+}
+.user__btn-top {
+    padding: 4px;
+    border-radius: 10px;
+    max-width: 85px;
+    width: 100%;
+    font-family: "Raleway", sans-serif;
+    line-height: 20px;
+    font-weight: 900;
+    text-decoration: none;
+    color: #eae7dc;
+    background-color: #7BA7AB;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/*Приветственный текст*/
+.greeting__text {
+    font-family: "Raleway", sans-serif;
+    line-height: 20px;
+    font-weight: 900;
+    text-decoration: none;
+    color: #8e8d8a;
+    margin-bottom: 10px;
+}
+.greeting__text-span {
+    color: #7BA7AB;
+    font-size: 26px;
+}
+
 /*Стили для страницы с информацией*/
 .main {
     background-image: url(../background.png);
