@@ -1,20 +1,26 @@
-from django import forms
 from django.contrib.auth.forms import UserCreationForm
+from django.forms import SelectDateWidget
+
+from .models import BookingUser
+from django import forms
 
 
 class CustomUserCreationForm(UserCreationForm):
     """Класс для создания формы по регистрации пользователя"""
 
+    phone = forms.CharField(
+        label="Phone", widget=forms.TextInput(attrs={"class": "form-input"})
+    )
     first_name = forms.CharField(
-        label="Username", widget=forms.TextInput(attrs={"class": "form-input"})
+        label="First_name", widget=forms.TextInput(attrs={"class": "form-input"})
     )
     last_name = forms.CharField(
-        label="Username", widget=forms.TextInput(attrs={"class": "form-input"})
+        label="Last_name", widget=forms.TextInput(attrs={"class": "form-input"})
+    )
+    date_of_birth = forms.DateField(
+        label="Date of birth", widget=SelectDateWidget(years=range(1940, 2010))
     )
     email = forms.EmailField(
-        label="Email address", widget=forms.EmailInput(attrs={"class": "form-input"})
-    )
-    phone_number = forms.EmailField(
         label="Email address", widget=forms.EmailInput(attrs={"class": "form-input"})
     )
     password1 = forms.CharField(
@@ -28,4 +34,10 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         """Добавляем доп. поле"""
 
-        fields = UserCreationForm.Meta.fields + ("first_name", "last_name", "phone_number", "email",)
+        model = BookingUser
+        fields = ("phone", "first_name", "last_name", "date_of_birth", "email", "password1", "password2",
+                  "cookie_consent")
+
+
+class CustomPasswordChangeForm:
+    pass

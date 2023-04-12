@@ -10,7 +10,20 @@
                 <a class="header__contacts-btn" href="{% url 'booking:contacts' %}">Контакты</a>
             </div>
             <div class="header__user">
-                <a class="header__register-btn" href="{% url 'users:register' %}">Регистрация</a>
+                {% if user.is_authenticated %}
+                <p class="greeting__text">Welcome, <span class="greeting__text greeting__text-span">{{ user.username }}</span>.
+                    Thanks for logging in. </p>
+                <div class="user__wrapper user__wrapper-top">
+                    <a class="user__btn-top" href="{% url 'users:logout' %}">Logout</a>
+                    <a class="user__btn-top" href="{% url 'users:change' %}">Change password</a>
+                </div>
+                {% else %}
+                <p class="greeting__text">Welcome, new user. Please log in.</p>
+                <div class="user__wrapper user__wrapper-top">
+                    <a class="header__register-btn" href="{% url 'users:register' %}">Регистрация</a>
+                    <a class="user__btn-top" href="{% url 'users:login' %}">Войти</a>
+                </div>
+                {% endif %}
             </div>
         </div>
    </div>
