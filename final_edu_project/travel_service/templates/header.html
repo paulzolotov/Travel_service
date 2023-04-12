@@ -20,7 +20,7 @@
                 {% else %}
                 <p class="greeting__text">Приветствуем, нового пользователя. Пожалуйста, войдите на сервис.</p>
                 <div class="user__wrapper user__wrapper-top">
-                    <a class="header__register-btn" href="{% url 'users:register' %}">Регистрация</a>
+                    <a class="user__btn-top" href="{% url 'users:register' %}">Регистрация</a>
                     <a class="user__btn-top" href="{% url 'users:login' %}">Войти</a>
                 </div>
                 {% endif %}
