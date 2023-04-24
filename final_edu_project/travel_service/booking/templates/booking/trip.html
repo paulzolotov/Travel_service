@@ -2,8 +2,33 @@
 
 {% block content %}
 <body>
-    Пожалуйста, введите корректно ваши данные!
+    {{ direction }}<br>
+    {{ day }}<br>
+    {{ time }}<br>
+    {{ user.phone }}<br>
+    {{ user.get_full_name }}<br>
+
+    <section class="form__section">
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="form__comm">
+                {% for field in form %}
+                  <p>
+                    {{ field.label_tag }}<br>
+                    {{ field }}
+                    {% if field.help_text %}
+                      <small style="color: grey">{{ field.help_text }}</small>
+                    {% endif %}
+                    {% for error in field.errors %}
+                      <p style="color: red">{{ error }}</p>
+                    {% endfor %}
+                  </p>
+                {% endfor %}
+
+                <input type="submit" value="Забронировать">
+            </div>
+        </form>
+    </section>
 </body>
-</html>
 
 {% endblock  %}

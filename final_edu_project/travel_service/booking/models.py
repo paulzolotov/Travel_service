@@ -140,22 +140,20 @@ class Trip(models.Model):
     """Класс для создания модели - Информация о поездке"""
 
     CHOICES = (
-        ('1', 'Stopping 1'),
-        ('2', 'Stopping 2'),
-        ('3', 'Stopping 3'),
-        ('4', 'Stopping 4'),
-        ('5', 'Stopping 5'),
+        ('1', 'Ост. 1'),
+        ('2', 'Ост. 2'),
+        ('3', 'Ост. 3'),
+        ('4', 'Ост. 4'),
+        ('5', 'Ост. 5'),
     )
 
-    user_phone = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="User phone", on_delete=models.CASCADE)
-    # user_name = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="User name", on_delete=models.CASCADE)
-    # user_surname = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="User surname", on_delete=models.CASCADE)
+    username = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="User name", on_delete=models.CASCADE)
     departure_time = models.ForeignKey(TimeTrip, verbose_name="Departure time", on_delete=models.CASCADE)
     date_of_the_trip = models.ForeignKey(DateRoute, verbose_name="Trip date", on_delete=models.CASCADE, null=True)
     number_of_reserved_places = models.IntegerField(default=1, validators=[MinValueValidator(1)],
                                                     verbose_name="Reserved places")
     landing_place = models.CharField(max_length=300, choices=CHOICES, verbose_name="Landing place")
-    user_comment = models.CharField(max_length=200, verbose_name="User Comment", default='nothing', null=True)
+    user_comment = models.CharField(max_length=200, verbose_name="User Comment", null=True, blank=True)
 
     class Meta:
         verbose_name = "Trip"
@@ -164,7 +162,7 @@ class Trip(models.Model):
     def __str__(self):
         """Возвращает удобочитаемую строку для каждого объекта."""
 
-        return f"{self.user_phone}"
+        return f"{self.username}"
 
     def get_list_stops(self):
         """Надо связать list_of_stops в Direction с landing_place """

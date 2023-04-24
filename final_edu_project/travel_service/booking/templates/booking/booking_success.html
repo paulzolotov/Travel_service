@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<body>
+    <p>Спасибо за бронирование, {{ user.get_full_name }}.</p>
+    <p>На указанный email - {{ user.email }} выслан забронированный Вами билет на данную поездку.</p>
+
+    <p>Поездка:
+        ...
+    </p>
+
+    <a href="{% url 'booking:index' %}">Вернуться на главную страницу</a>
+
+</body>
+
+{% endblock  %}

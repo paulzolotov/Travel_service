@@ -166,6 +166,6 @@ class DirectionAdmin(admin.ModelAdmin):
 class DirectionAdmin(admin.ModelAdmin):
     """Класс для отображения на панели администратора информации о конкретной поездке в определенное время."""
 
-    list_display = ("user_phone", "date_of_the_trip", "departure_time", "number_of_reserved_places",
+    list_display = ("username", "date_of_the_trip", "departure_time", "number_of_reserved_places",
                     "landing_place", "user_comment", "get_list_stops")
     sortable_by = ()
