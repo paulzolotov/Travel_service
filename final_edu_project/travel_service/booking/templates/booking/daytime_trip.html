@@ -16,7 +16,7 @@
                         <p class="basket_game">
                             {{ trip_time.departure_time }}
                             {{ trip_time.arrival_time_calculation }}
-                            {{ trip_time.number_of_free_places }}
+                            {{ trip_time.number_of_free_places_in_trip }}
                             {{ trip_time.number_of_seats }}
                             {{ trip_time.price }} BYN
                             <a class="go_date_route__btn" href="{% url 'booking:trip' direction_slug=direction_slug date_route=trip_time.date_of_the_trip trip_id=trip_time.id %}">Забронировать</a>

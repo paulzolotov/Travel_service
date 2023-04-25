@@ -78,18 +78,6 @@ class TripCreateView(LoginRequiredMixin, CreateView):
         time = get_object_or_404(trip_times, id=trip_id)
         return direction, day, time
 
-    def checking_seats_when_booking(self, form):
-        """Функция, предназначенная для проверки, может ли пользователь заказать столько мест, сколько он указал"""
-
-        direction, day, time = self.get_path_params()
-        number_of_seats = int(form.instance.number_of_reserved_places)
-        number_of_free_seats = int(time.number_of_free_places_in_trip())
-        if number_of_seats > number_of_free_seats:
-            form.add_error(None, 'нет мест')
-            # print('нет мест')
-        else:
-            print('все хорошо')
-
     def form_valid(self, form):
         """Функция для проверки валидности"""
 
@@ -99,7 +87,15 @@ class TripCreateView(LoginRequiredMixin, CreateView):
         form.instance.date_of_the_trip = day
         form.instance.departure_time = time
 
-        self.checking_seats_when_booking(form)
+        # Необходимо для валидации поля number_of_reserved_places модели Trip. Достаем значение о количестве свободных
+        # мест в поездке
+        direction, day, time = self.get_path_params()
+        number_of_seats = int(form.instance.number_of_reserved_places)
+        number_of_free_seats = int(time.number_of_free_places_in_trip())
+
+        if number_of_seats > number_of_free_seats:
+            form.add_error('number_of_reserved_places', f'Свободных мест осталось {number_of_free_seats}')
+            return super().form_invalid(form)
 
         self.object = form.save()
         return HttpResponseRedirect(self.get_success_url())
