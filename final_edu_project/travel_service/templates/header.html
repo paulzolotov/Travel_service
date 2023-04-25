@@ -9,6 +9,9 @@
             <div class="header__contacts">
                 <a class="header__contacts-btn" href="{% url 'booking:contacts' %}">Контакты</a>
             </div>
+            <div class="header__contacts">
+                <a class="header__contacts-btn" href="{% url 'booking:account' %}">Личный кабинет</a>
+            </div>
             <div class="header__user">
                 {% if user.is_authenticated %}
                 <p class="greeting__text">Приветствуем, <span class="greeting__text greeting__text-span">{{ user.first_name }} {{ user.last_name }}</span>.

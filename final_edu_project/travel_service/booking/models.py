@@ -131,6 +131,7 @@ class TimeTrip(models.Model):
 
     def arrival_time_calculation(self):
         """Функция, предназначенная для подсчета времени прибытия"""
+
         minutes = self.direction.travel_time
         result = datetime.combine(date.today(), self.departure_time) + timedelta(minutes=int(minutes))
         return result.time()
@@ -163,6 +164,18 @@ class Trip(models.Model):
         """Возвращает удобочитаемую строку для каждого объекта."""
 
         return f"{self.username}"
+
+    def get_price(self):
+        """Функция, достающая информацию о цене за одно место в поездке"""
+
+        price = self.departure_time.price
+        return price
+
+    def get_full_price(self):
+        """Функция, подсчитывающая полную цену за поездку с учетом количества забронированных мест"""
+
+        price = self.get_price() * self.number_of_reserved_places
+        return price
 
     def get_list_stops(self):
         """Надо связать list_of_stops в Direction с landing_place """

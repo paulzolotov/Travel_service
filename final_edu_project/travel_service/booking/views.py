@@ -59,7 +59,7 @@ class TripCreateView(LoginRequiredMixin, CreateView):
         """URL, на который будет произведено перенаправление"""
 
         return reverse("booking:trip-success", kwargs={"direction_slug": self.kwargs["direction_slug"],
-                                                       "date_route":self.kwargs["date_route"],
+                                                       "date_route": self.kwargs["date_route"],
                                                        "trip_id": self.kwargs["trip_id"]})
 
     def get_path_params(self):
@@ -95,6 +95,25 @@ def booking_success(request: HttpRequest, direction_slug, date_route, trip_id):
 
     context = {}
     return render(request, "booking/booking_success.html", context=context)
+
+
+def account(request: HttpRequest):
+    """Функция предназначена для перехода к странице с контактной информацией"""
+
+    user_trips = None
+    if request.user.is_authenticated:
+        user_trips = Trip.objects.filter(username=request.user)
+
+    return render(request, "booking/account.html", context={"user_trips": user_trips})
+
+
+def trip_remove_in_account(request, trip_id):
+    """Функция предназначена для удаления поездки из всех поездок пользователя """
+
+    trip = Trip.objects.get(username=request.user, id=trip_id)
+    trip.delete()
+
+    return HttpResponseRedirect(request.META["HTTP_REFERER"])
 
 
 def contacts(request: HttpRequest):

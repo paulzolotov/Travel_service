@@ -10,5 +10,6 @@ urlpatterns = [
     path("<slug:direction_slug>/<date_route>/<int:trip_id>/success", views.booking_success, name="trip-success"),
     path("<slug:direction_slug>/<date_route>/<int:trip_id>/", views.TripCreateView.as_view(), name="trip"),
     path("contacts", views.contacts, name="contacts"),
-    # path("account", views.account, name="account"),
+    path("account/trip/remove/<int:trip_id>/", views.trip_remove_in_account, name="trip_remove"),
+    path("account", views.account, name="account"),
 ]

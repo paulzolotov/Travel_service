@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+<body>
+    <p>{{ user.get_full_name }}</p>
+
+    {% if user_trips %}
+        <div class="user_trip_info">
+            <ul class="user_trip__list-wrap">
+                {% for trip in user_trips %}
+                    <li class="user_trip__list-item">
+                        <p class="user_trip_item">Направление</p>
+                        <p class="user_trip_item">{{ trip.date_of_the_trip}}</p>
+                        <p class="user_trip_item">{{ trip.departure_time }}</p>
+                        <p class="user_trip_item">{{ trip.landing_place}}</p>
+                        {% if trip.user_comment %}
+                            <p class="user_trip_item">{{ trip.user_comment}}</p>
+                        {% else %}
+                            <p class="user_trip_item">_</p>
+                        {% endif %}
+                        <p class="user_trip_item">{{ trip.number_of_reserved_places}}</p>
+                        <p class="user_trip_item">{{ trip.get_price }}</p>
+                        <p class="user_trip_item">{{ trip.get_full_price }}</p>
+                        <a class="user_trip__remove" href="{% url 'booking:trip_remove' trip.id %}">
+                            <img class="user_trip__remove-svg" src="{% static 'remove.svg' %}" alt="remove" >
+                        </a>
+                    </li>
+                {% endfor %}
+                </ul>
+        </div>
+    {% else %}
+        <h4 class="user_trip__empty">
+            У вас нет забронированных поездок
+        </h4>
+    {% endif %}
+
+    <a href="{% url 'booking:index' %}">Вернуться на главную страницу</a>
+
+</body>
+
+{% endblock  %}
