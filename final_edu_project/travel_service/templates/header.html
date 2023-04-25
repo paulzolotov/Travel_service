@@ -7,10 +7,8 @@
                     <img class="header__logotype-img" src="{% static 'logo.png' %}" alt="BusBY"></a>
             </div>
             <div class="header__contacts">
-                <a class="header__contacts-btn" href="{% url 'booking:contacts' %}">Контакты</a>
-            </div>
-            <div class="header__contacts">
                 <a class="header__contacts-btn" href="{% url 'booking:account' %}">Личный кабинет</a>
+                <a class="header__contacts-btn" href="{% url 'booking:contacts' %}">Контакты</a>
             </div>
             <div class="header__user">
                 {% if user.is_authenticated %}

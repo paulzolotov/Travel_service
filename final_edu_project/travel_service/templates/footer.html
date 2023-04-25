@@ -1,9 +1,10 @@
+{% load static %}
 <footer class="footer">
     <div class="container">
         <div class="footer_contacts">
-            <a class="footer_contacts-link" href="https://www.instagram.com/">Instagram</a>
-            <a class="footer_contacts-link" href="https://vk.com/">Вконтакте</a>
-            <a class="footer_contacts-link" href="https://mail.ru/">Mail</a>
+            <a class="footer_contacts-link" href="https://www.instagram.com/"><img src="{% static 'instagram.svg' %}"></a>
+            <a class="footer_contacts-link" href="https://vk.com/"><img src="{% static 'vk.svg' %}"></a>
+            <a class="footer_contacts-link" href="https://mail.ru/"><img src="{% static 'yandex.svg' %}"></a>
         </div>
         <div class="footer__wrap">
             <p class="footer__text">Copyright © 2023 Travel booking service. All Rights Reserved
