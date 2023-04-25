@@ -2,34 +2,44 @@
 
 {% block content %}
 <body>
-    <h1>{{ direction }}</h1>
-        <p> Даты: </p>
-        {% for date_route in date_routes %}
-            <a class="go_date_route__btn" href="{% url 'booking:direction' direction_slug=direction_slug date_route=date_route.date_route %}">{{ date_route }}</a>
-        {% endfor %}
-    <p> Поездки: </p>
-    {% if trip_times %}
-        <div class="basket_info">
-            <ul class="basket__list-wrap">
-                {% for trip_time in trip_times %}
-                    <li class="basket__list-item">
-                        <p class="basket_game">
-                            {{ trip_time.departure_time }}
-                            {{ trip_time.arrival_time_calculation }}
-                            {{ trip_time.number_of_free_places_in_trip }}
-                            {{ trip_time.number_of_seats }}
-                            {{ trip_time.price }} BYN
-                            <a class="go_date_route__btn" href="{% url 'booking:trip' direction_slug=direction_slug date_route=trip_time.date_of_the_trip trip_id=trip_time.id %}">Забронировать</a>
-                        </p>
-                    </li>
-                {% endfor %}
-            </ul>
+    <div class="daytime">
+        <div class="container">
+            <h2 class="daytime__title">{{ direction }}</h2>
+                <h3 class="daytime__date"> Даты: </h3>
+                    <div class="daytime__info">
+                        {% for date_route in date_routes %}
+                            <a class="daytime__date-btn" href="{% url 'booking:direction' direction_slug=direction_slug date_route=date_route.date_route %}">{{ date_route }}</a>
+                        {% endfor %}
+                    </div>
+                <h3 class="daytime__date"> Поездки: </h3>
+                {% if trip_times %}
+                    <table class="daytime__list-wrap">
+                        <tr class="daytime__list-item">
+                            <th class="daytime__tabletop">Время отправления</th>
+                            <th class="daytime__tabletop">Время прибытия</th>
+                            <th class="daytime__tabletop">Свободные места</th>
+                            <th class="daytime__tabletop">Всего мест</th>
+                            <th class="daytime__tabletop">Цена</th>
+                            <th class="daytime__tabletop">&nbsp;</th>
+                        </tr>
+                        {% for trip_time in trip_times %}
+                        <tr class="daytime__list-item">
+                            <td class="daytime__trip">{{ trip_time.departure_time }}</td>
+                            <td class="daytime__trip">{{ trip_time.arrival_time_calculation }}</td>
+                            <td class="daytime__trip">{{ trip_time.number_of_free_places_in_trip }} </td>
+                            <td class="daytime__trip">{{ trip_time.number_of_seats }}</td>
+                            <td class="daytime__trip">{{ trip_time.price }} BYN</td>
+                            <td><a class="daytime__trip-btn" href="{% url 'booking:trip' direction_slug=direction_slug date_route=trip_time.date_of_the_trip trip_id=trip_time.id %}">Забронировать</a></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                {% else %}
+                    <h2 class="daytime__title">
+                        На выбранную дату поездок нет :(
+                    </h2>
+                {% endif %}
         </div>
-    {% else %}
-        <h4 class="basket__empty">
-            На выбранную дату поездок нет :(
-        </h4>
-    {% endif %}
+    </div>
 </body>
 
 {% endblock  %}

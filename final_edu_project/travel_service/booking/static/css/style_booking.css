@@ -107,7 +107,7 @@
     background-repeat: no-repeat;
     background-position: center;
     position: relative;
-    padding: 140px 0;
+    padding: 137px 0;
 }
 .main::before {
     content: "";
@@ -161,10 +161,6 @@
 /*Стили для footer*/
 .footer {
     background-color: black;
-    position: fixed;
-    left:0;
-    bottom:0;
-    width: 100%;
 }
 .footer_contacts{
     display: flex;
@@ -199,7 +195,7 @@
     background-repeat: no-repeat;
     background-position: center;
     position: relative;
-    padding: 50px 150px 100px; /* НЕ правильно выставлять так левую границу*/
+    padding: 50px 150px 99px; /* НЕ правильно выставлять так левую границу*/
 }
 .contacts::before {
     content: "";
@@ -230,4 +226,108 @@
     line-height: 21px;
     color: white;
     margin-bottom: 5px;
+}
+
+/*Стили для страницы с датами и поездками*/
+.daytime {
+    background-image: url(../background.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+    padding: 50px 150px 100px; /* НЕ правильно выставлять так левую границу*/
+}
+.daytime::before {
+    content: "";
+    display: block;
+    background: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+}
+.daytime__title {
+    font-family: "Raleway", sans-serif;
+    font-size: 48px;
+    color: white;
+    line-height: 52px;
+    font-weight: 500;
+    margin-bottom: 50px;
+    text-align: center;
+}
+.daytime__info{
+   display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    column-gap: 10px;
+    row-gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 50px;
+
+}
+.daytime__date-btn {
+    display: block;
+    padding: 3px 5px;
+    border-radius: 10px;
+    max-width: 115px;
+    width: 100%;
+    font-family: "Raleway", sans-serif;
+    font-size: 18px;
+    line-height: 22px;
+    font-weight: 500;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    background-color: #0E6038;
+    border: none;
+}
+.daytime__date {
+    font-family: "Raleway", sans-serif;
+    font-size: 30px;
+    color: white;
+    line-height: 30px;
+    font-weight: 400;
+    margin-bottom: 30px;
+    text-align: center;
+}
+.daytime__list-wrap{
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+}
+.daytime__tabletop {
+    padding: 10px 20px;
+    text-align: center;
+    font-family: "Raleway", sans-serif;
+    font-size: 22px;
+    color: #8e8d8a;
+    line-height: 24px;
+    font-weight: 500;
+}
+.daytime__trip {
+    padding: 10px 20px;
+    text-align: center;
+    font-family: "Raleway", sans-serif;
+    font-size: 18px;
+    color: white;
+    line-height: 22px;
+    font-weight: 500;
+}
+.daytime__trip-btn {
+    display: block;
+    padding: 3px 5px;
+    border-radius: 10px;
+    margin: 0 auto;
+    max-width: 150px;
+    width: 100%;
+    font-family: "Raleway", sans-serif;
+    font-size: 18px;
+    line-height: 22px;
+    font-weight: 500;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    background-color: #0E6038;
+    border: none;
 }
