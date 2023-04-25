@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import ValidationError
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest, HttpResponseRedirect
@@ -77,6 +78,18 @@ class TripCreateView(LoginRequiredMixin, CreateView):
         time = get_object_or_404(trip_times, id=trip_id)
         return direction, day, time
 
+    def checking_seats_when_booking(self, form):
+        """Функция, предназначенная для проверки, может ли пользователь заказать столько мест, сколько он указал"""
+
+        direction, day, time = self.get_path_params()
+        number_of_seats = int(form.instance.number_of_reserved_places)
+        number_of_free_seats = int(time.number_of_free_places_in_trip())
+        if number_of_seats > number_of_free_seats:
+            form.add_error(None, 'нет мест')
+            # print('нет мест')
+        else:
+            print('все хорошо')
+
     def form_valid(self, form):
         """Функция для проверки валидности"""
 
@@ -85,6 +98,8 @@ class TripCreateView(LoginRequiredMixin, CreateView):
         form.instance.username = self.request.user
         form.instance.date_of_the_trip = day
         form.instance.departure_time = time
+
+        self.checking_seats_when_booking(form)
 
         self.object = form.save()
         return HttpResponseRedirect(self.get_success_url())

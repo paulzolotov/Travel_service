@@ -2,9 +2,10 @@ from datetime import datetime, timedelta, date
 import time
 
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
-from django.core.validators import MinValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.shortcuts import get_object_or_404
 
 
@@ -55,6 +56,7 @@ class Direction(BookingInfoMixin):
 
     def format_travel_time(self):
         """Функция, предназначенная для форматирования времени пути т.е минуты переводим в часы и минуты"""
+
         return time.strftime("%H:%M", time.gmtime(self.travel_time * 60))
 
     def min_price(self):
@@ -116,9 +118,8 @@ class TimeTrip(models.Model):
 
         return f"{self.departure_time}"
 
-    def number_of_free_places(self):
-        """Функция, предназначенная для подсчета количества забронированных мест пользователями
-        на определенное дату и время"""
+    def number_of_reserved_places_in_trip(self):
+        """Функция для подсчета количества зарезервированных мест в данной поездке"""
 
         trip_from_time = self.trip_set.all()
         sum_places = 0
@@ -126,8 +127,14 @@ class TimeTrip(models.Model):
             sum_places = sum(
                 list(map(lambda trip: trip.number_of_reserved_places, trip_from_time))
             )
-        count_free_places = self.number_of_seats - int(sum_places)
-        return count_free_places
+        return f"{sum_places}"
+
+    def number_of_free_places_in_trip(self):
+        """Функция, предназначенная для подсчета количества свободных мест
+        на определенное дату и время"""
+
+        count_free_places = self.number_of_seats - int(self.number_of_reserved_places_in_trip())
+        return f"{count_free_places}"
 
     def arrival_time_calculation(self):
         """Функция, предназначенная для подсчета времени прибытия"""
@@ -176,6 +183,21 @@ class Trip(models.Model):
 
         price = self.get_price() * self.number_of_reserved_places
         return price
+
+    def number_of_free_places_in_trip(self):
+        """Функция, достающая информацию о количестве свободных мест в поездке"""
+
+        seats = self.departure_time.number_of_free_places_in_trip()
+        return seats
+
+    # def clean(self):
+    #
+    #     free_seats = self.number_of_free_places_in_trip()
+    #     if self.number_of_reserved_places > free_seats:
+    #         raise ValidationError(
+    #                     'Осталось свободных мест: %(value)s',
+    #                     params={'value': free_seats},
+    #                 )
 
     def get_list_stops(self):
         """Надо связать list_of_stops в Direction с landing_place """

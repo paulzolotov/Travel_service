@@ -49,7 +49,7 @@ class DirectionAdmin(admin.ModelAdmin):
 
 
 @admin.register(DateRoute)
-class DirectionAdmin(admin.ModelAdmin):
+class DateRouteAdmin(admin.ModelAdmin):
     """Класс для отображения на панели администратора информации о конкретной Дате, определенного Направления."""
 
     filter_horizontal = ['direction_name']  # для наглядной демонстрации используемых маршрутов в день
@@ -88,13 +88,13 @@ class DirectionAdmin(admin.ModelAdmin):
 
 
 @admin.register(TimeTrip)
-class DirectionAdmin(admin.ModelAdmin):
+class TimeTripAdmin(admin.ModelAdmin):
     """Класс для отображения на панели администратора информации о конкретных временных отметках, в
     которые возможно отправление."""
 
     form = ContactForm
     list_display = ("departure_time", "date_of_the_trip", "direction", "view_trips_link", "number_of_seats",
-                    "show_reserved_places", "show_free_places", "show_pretty_price", "car", "auto_number",
+                    "number_of_reserved_places_in_trip", "number_of_free_places_in_trip", "show_pretty_price", "car", "auto_number",
                     "carrier_phone")
     sortable_by = ("departure_time", "date_of_the_trip", "direction", "number_of_seats")
     list_filter = ("departure_time", "date_of_the_trip", "direction")
@@ -107,25 +107,6 @@ class DirectionAdmin(admin.ModelAdmin):
         """Функция для отображения кастомной записи для 'цены за место' (В данном случае добавили знак $)"""
 
         return f"{obj.price} BYN"
-
-    @admin.display(description="reserved places")
-    def show_reserved_places(self, obj):
-        """Функция для отображения кастомной записи для количества зарезервированных мест в данной поездке"""
-
-        trip_from_time = obj.trip_set.all()
-        sum_places = 0
-        if trip_from_time:
-            sum_places = sum(
-                list(map(lambda trip: trip.number_of_reserved_places, trip_from_time))
-            )
-        return f"{sum_places}"
-
-    @admin.display(description="free places")
-    def show_free_places(self, obj):
-        """Функция для отображения кастомной записи для количества свободных мест в данной поездке"""
-
-        count_free_places = obj.number_of_seats - int(self.show_reserved_places(obj))
-        return f"{count_free_places}"
 
     @admin.display(description="trips")
     def view_trips_link(self, obj):
@@ -163,9 +144,9 @@ class DirectionAdmin(admin.ModelAdmin):
 
 
 @admin.register(Trip)
-class DirectionAdmin(admin.ModelAdmin):
+class TripAdmin(admin.ModelAdmin):
     """Класс для отображения на панели администратора информации о конкретной поездке в определенное время."""
 
     list_display = ("username", "date_of_the_trip", "departure_time", "number_of_reserved_places",
-                    "landing_place", "user_comment", "get_price", "get_full_price", "get_list_stops")
+                    "landing_place", "user_comment", "get_price", "get_full_price", "number_of_free_places_in_trip", "get_list_stops")
     sortable_by = ()
