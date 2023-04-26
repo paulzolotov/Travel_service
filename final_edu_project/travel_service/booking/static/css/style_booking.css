@@ -331,3 +331,87 @@
     background-color: #0E6038;
     border: none;
 }
+
+.account {
+    background-image: url(../background.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+    padding: 50px 10px 10px;
+}
+.account::before {
+    content: "";
+    display: block;
+    background: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+}
+.account__wrap {
+    display:grid;
+    grid-template-columns: 0.7fr 0.1fr;
+}
+.account__title {
+   font-family: "Raleway", sans-serif;
+    font-size: 30px;
+    color: white;
+    line-height: 30px;
+    font-weight: 400;
+    margin-bottom: 30px;
+    text-align: center;
+}
+.account__table-wrap {
+    max-width: 900px;
+    width: 100%;
+    margin: 0 auto;
+}
+.account__tabletop {
+    padding: 10px 15px;
+    text-align: center;
+    font-family: "Raleway", sans-serif;
+    font-size: 22px;
+    color: #8e8d8a;
+    line-height: 24px;
+    font-weight: 500;
+}
+.account__text {
+    padding: 10px 20px;
+    text-align: center;
+    font-family: "Raleway", sans-serif;
+    font-size: 18px;
+    color: white;
+    line-height: 22px;
+    font-weight: 500;
+}
+.account__list-item {
+    margin-bottom: 30px;
+}
+.account__list {
+}
+.account__text {
+    font-family: "Raleway", sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 21px;
+    color: white;
+}
+.account__btn-remove {
+    display: block;
+    padding: 3px 5px;
+    border-radius: 10px;
+    margin: 0 auto;
+    max-width: 110px;
+    width: 100%;
+    font-family: "Raleway", sans-serif;
+    font-size: 18px;
+    line-height: 20px;
+    font-weight: 500;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    background-color: #0E6038;
+    border: none;
+}

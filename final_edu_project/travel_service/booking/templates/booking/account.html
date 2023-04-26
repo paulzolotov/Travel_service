@@ -3,38 +3,55 @@
 {% load static %}
 {% block content %}
 <body>
-    <p>{{ user.get_full_name }}</p>
-
-    {% if user_trips %}
-        <div class="user_trip_info">
-            <ul class="user_trip__list-wrap">
-                {% for trip in user_trips %}
-                    <li class="user_trip__list-item">
-                        <p class="user_trip_item">Направление: </p>
-                        <p class="user_trip_item">Дата: {{ trip.date_of_the_trip}}</p>
-                        <p class="user_trip_item">Время отправления: {{ trip.departure_time }}</p>
-                        <p class="user_trip_item">Время прибытия: {{ trip.arrival_time_calculation }}</p>
-                        <p class="user_trip_item">Номер остановки: {{ trip.landing_place}}</p>
+    <div class="account">
+        <div class="container">
+            <div class="account__wrap">
+                <div class="account__user">
+                    <h3 class="account__title">{{ user.get_full_name }}</h3>
+                </div>
+            {% if user_trips %}
+                <div class="account__info">
+                    <h3 class="account__title">Информация о поездке</h3>
+                        <table class="account__table-wrap">
+                            <tr class="account__table-item">
+                                <th class="account__tabletop">Направление</th>
+                                <th class="account__tabletop">Дата поездки</th>
+                                <th class="account__tabletop">Время отправления</th>
+                                <th class="account__tabletop">Время прибытия</th>
+                                <th class="account__tabletop">Номер остановки</th>
+                                <th class="account__tabletop">Места</th>
+                                <th class="account__tabletop">Цена</th>
+                            </tr>
+                        {% for trip in user_trips %}
+                            <tr class="account__table-item">
+                                <th class="account__table">Направление</th>
+                                <th class="account__text">{{ trip.date_of_the_trip}}</th>
+                                <th class="account__text">{{ trip.departure_time }}</th>
+                                <th class="account__text">{{ trip.arrival_time_calculation }}</th>
+                                <th class="account__text">{{ trip.landing_place}}</th>
+                                <th class="account__text">{{ trip.number_of_reserved_places}}</th>
+                                <th class="account__text">{{ trip.get_full_price }} BYN</th>
+                            </tr>
+                        </table>
+                        <div class="account__list">
+                            <p class="account__text">Информация о перевозчике: {{ trip.car_info_in_trip.name }}, гос.номер {{ trip.car_info_in_trip.auto_number }}, {{ trip.car_info_in_trip.carrier_phone }}</p>
                         {% if trip.user_comment %}
-                            <p class="user_trip_item">Комментарий: {{ trip.user_comment}}</p>
+                            <p class="account__text">Комментарий: {{ trip.user_comment}}</p>
                         {% else %}
-                            <p class="user_trip_item">Комментарий: &nbsp;</p>
+                            <p class="account__text">Комментарий: &nbsp;</p>
                         {% endif %}
-                        <p class="user_trip_item">{{ trip.number_of_reserved_places}}</p>
-                        <p class="user_trip_item">{{ trip.get_full_price }}</p>
-                        <p class="user_trip_item">{{ trip.car_info_in_trip.name }}</p>
-                        <p class="user_trip_item">{{ trip.car_info_in_trip.auto_number }}</p>
-                        <p class="user_trip_item">{{ trip.car_info_in_trip.carrier_phone }}</p>
-                        <a class="user_trip__remove" href="{% url 'booking:trip_remove' trip.id %}">Отменить</a>
-                    </li>
-                {% endfor %}
-                </ul>
+                        </div>
+                        <a class="account__btn-remove" href="{% url 'booking:trip_remove' trip.id %}">Отменить поездку</a>
+                        {% endfor %}
+                        {% else %}
+                            <h4 class="account__text-notrip">
+                                У вас нет забронированных поездок
+                            </h4>
+                        {% endif %}
+                </div>
+            </div>
         </div>
-    {% else %}
-        <h4 class="user_trip__empty">
-            У вас нет забронированных поездок
-        </h4>
-    {% endif %}
+    </div>
 </body>
 
 {% endblock  %}
