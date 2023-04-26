@@ -1,11 +1,10 @@
-from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
-from django.forms import SelectDateWidget
-from django.forms import ValidationError
-from phonenumber_field.widgets import PhoneNumberPrefixWidget
+from django import forms
+from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm
+from django.forms import SelectDateWidget, ValidationError
 from phonenumber_field.formfields import PhoneNumberField
+from phonenumber_field.widgets import PhoneNumberPrefixWidget
 
 from .models import BookingUser
-from django import forms
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -13,13 +12,9 @@ class CustomUserCreationForm(UserCreationForm):
 
     phone = PhoneNumberField(
         label="Номер телефона",
-        region='BY',
+        region="BY",
         widget=PhoneNumberPrefixWidget(
-            country_choices=[
-                ("BY", "375"),
-                ("RU", "7"),
-                ("UA", "380")
-            ],
+            country_choices=[("BY", "375"), ("RU", "7"), ("UA", "380")],
         ),
     )
     username = forms.CharField(
@@ -42,19 +37,30 @@ class CustomUserCreationForm(UserCreationForm):
     )
     password2 = forms.CharField(
         label="Подтверждение пароля",
-        widget=forms.PasswordInput(attrs={"class": "form-input"})
+        widget=forms.PasswordInput(attrs={"class": "form-input"}),
     )
-    cookie_consent = forms.BooleanField(label="Вы соглашаетесь с размещением файлов cookie на вашем компьютере, "
-                                              "с целью анализа использования Веб-сайта?",
-                                        initial=1,
-                                        widget=forms.CheckboxInput(attrs={"class": "form-input"}))
+    cookie_consent = forms.BooleanField(
+        label="Вы соглашаетесь с размещением файлов cookie на вашем компьютере, "
+        "с целью анализа использования Веб-сайта?",
+        initial=1,
+        widget=forms.CheckboxInput(attrs={"class": "form-input"}),
+    )
 
     class Meta(UserCreationForm.Meta):
         """Добавляем доп. поле"""
 
         model = BookingUser
-        fields = ("phone", "username", "first_name", "last_name", "email", "date_of_birth", "password1", "password2",
-                  "cookie_consent")
+        fields = (
+            "phone",
+            "username",
+            "first_name",
+            "last_name",
+            "email",
+            "date_of_birth",
+            "password1",
+            "password2",
+            "cookie_consent",
+        )
 
 
 class CustomPasswordChangeForm(PasswordChangeForm):

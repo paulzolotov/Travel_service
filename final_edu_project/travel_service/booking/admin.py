@@ -1,27 +1,25 @@
+import csv
 import datetime
 
-from django.contrib import admin
-from .models import Direction, DateRoute, TimeTrip, Trip
 from django import forms
-from django.urls import reverse
-from django.utils.http import urlencode
-from django.utils.html import format_html
-from phonenumber_field.widgets import PhoneNumberPrefixWidget
+from django.contrib import admin
 from django.http import HttpResponse
-import csv
+from django.urls import reverse
+from django.utils.html import format_html
+from django.utils.http import urlencode
+from phonenumber_field.widgets import PhoneNumberPrefixWidget
+
+from .models import DateRoute, Direction, TimeTrip, Trip
 
 
 # Register your models here.
 class ContactForm(forms.ModelForm):
     class Meta:
         widgets = {
-            'carrier_phone': PhoneNumberPrefixWidget(initial='BY',
-                                                     country_choices=[
-                                                         ("BY", "375"),
-                                                         ("RU", "7"),
-                                                         ("UA", "380")
-                                                     ],
-                                                     ),
+            "carrier_phone": PhoneNumberPrefixWidget(
+                initial="BY",
+                country_choices=[("BY", "375"), ("RU", "7"), ("UA", "380")],
+            ),
         }
 
 
@@ -29,11 +27,15 @@ class ContactForm(forms.ModelForm):
 class DirectionAdmin(admin.ModelAdmin):
     """Класс для отображения на панели администратора информации о конкретном Направлении маршрута."""
 
-    list_display = ("name", "is_active", "slug", "start_point", "end_point", "travel_time")
-    actions = (
-        "make_inactive",
-        "make_active"
+    list_display = (
+        "name",
+        "is_active",
+        "slug",
+        "start_point",
+        "end_point",
+        "travel_time",
     )
+    actions = ("make_inactive", "make_active")
 
     @admin.action(description="Switch to inactive state")
     def make_inactive(self, request, queryset):
@@ -52,18 +54,22 @@ class DirectionAdmin(admin.ModelAdmin):
 class DateRouteAdmin(admin.ModelAdmin):
     """Класс для отображения на панели администратора информации о конкретной Дате, определенного Направления."""
 
-    filter_horizontal = ['direction_name']  # для наглядной демонстрации используемых маршрутов в день
-    list_display = ("date_route", "view_time_trips_link", "is_active",)
+    filter_horizontal = [
+        "direction_name"
+    ]  # для наглядной демонстрации используемых маршрутов в день
+    list_display = (
+        "date_route",
+        "view_time_trips_link",
+        "is_active",
+    )
     sortable_by = ("date_route",)
     list_filter = ("date_route", "is_active")
-    actions = (
-        "make_inactive",
-    )
+    actions = ("make_inactive",)
 
     @admin.display(description="time_trips")
     def view_time_trips_link(self, obj):
         """Функция для подсчета количества временных отправлений в данной день, а также генерации ссылки
-         на эти временные отправления"""
+        на эти временные отправления"""
 
         count = obj.timetrip_set.count()
         url = (
@@ -93,14 +99,22 @@ class TimeTripAdmin(admin.ModelAdmin):
     которые возможно отправление."""
 
     form = ContactForm
-    list_display = ("departure_time", "date_of_the_trip", "direction", "view_trips_link", "number_of_seats",
-                    "number_of_reserved_places_in_trip", "number_of_free_places_in_trip", "show_pretty_price", "car", "auto_number",
-                    "carrier_phone")
+    list_display = (
+        "departure_time",
+        "date_of_the_trip",
+        "direction",
+        "view_trips_link",
+        "number_of_seats",
+        "number_of_reserved_places_in_trip",
+        "number_of_free_places_in_trip",
+        "show_pretty_price",
+        "car",
+        "auto_number",
+        "carrier_phone",
+    )
     sortable_by = ("departure_time", "date_of_the_trip", "direction", "number_of_seats")
     list_filter = ("departure_time", "date_of_the_trip", "direction")
-    actions = (
-        "export_to_csv",
-    )
+    actions = ("export_to_csv",)
 
     @admin.display(description="custom price")
     def show_pretty_price(self, obj):
@@ -111,7 +125,7 @@ class TimeTripAdmin(admin.ModelAdmin):
     @admin.display(description="trips")
     def view_trips_link(self, obj):
         """Функция для подсчета количества совершенных бронирований данной поездки, а также генерации ссылки
-         на эти брони"""
+        на эти брони"""
 
         count = obj.trip_set.count()
         url = (
@@ -135,10 +149,14 @@ class TimeTripAdmin(admin.ModelAdmin):
         writer = csv.writer(response)
         # Записываем строку заголовка, включая имена полей.
         fields = opts.get_fields()  # Возвращает кортеж полей
-        writer.writerow([field.verbose_name for field in fields if hasattr(field, 'verbose_name')])
+        writer.writerow(
+            [field.verbose_name for field in fields if hasattr(field, "verbose_name")]
+        )
         # Записываем строку для каждого объекта
         for obj in queryset:
-            data_row = [getattr(obj, field.name) for field in fields if field.name != 'trip']
+            data_row = [
+                getattr(obj, field.name) for field in fields if field.name != "trip"
+            ]
             writer.writerow(data_row)
         return response
 
@@ -147,6 +165,15 @@ class TimeTripAdmin(admin.ModelAdmin):
 class TripAdmin(admin.ModelAdmin):
     """Класс для отображения на панели администратора информации о конкретной поездке в определенное время."""
 
-    list_display = ("username", "date_of_the_trip", "departure_time", "number_of_reserved_places",
-                    "landing_place", "user_comment", "get_price", "get_full_price", "get_list_stops")
+    list_display = (
+        "username",
+        "date_of_the_trip",
+        "departure_time",
+        "number_of_reserved_places",
+        "landing_place",
+        "user_comment",
+        "get_price",
+        "get_full_price",
+        "get_list_stops",
+    )
     sortable_by = ()

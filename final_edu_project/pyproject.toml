@@ -1,0 +1,10 @@
+[tool.isort]
+skip = [".gitignore", ".dockerignore", "venv", ".venv"]
+
+[flake8]
+ignore = ['E203', 'E266', 'E501', 'W503', 'F403', 'F401']
+#ignore = """E203, E266, E501, W503, F403, F401"""
+max-line-length = 120
+
+[interrogate]
+fail-under = 95

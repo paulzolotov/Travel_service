@@ -1,13 +1,16 @@
+import datetime
+
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ValidationError
-from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest, HttpResponseRedirect
-from django.views.generic import CreateView
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.views.generic import CreateView
+
 from .forms import TripModelForm
-from .models import Direction, DateRoute, TimeTrip, Trip
-import datetime
+from .models import DateRoute, Direction, TimeTrip, Trip
+
 # Create your views here.
 
 
@@ -15,10 +18,16 @@ def index(request: HttpRequest):
     """Функция предназначена для перехода к странице со списком направлений"""
 
     directions = Direction.objects.filter(is_active=True).all()
-    today = str(datetime.datetime(2023, 4, 6).date())  # указываем определенный день, чтобы записи в бд
+    today = str(
+        datetime.datetime(2023, 4, 6).date()
+    )  # указываем определенный день, чтобы записи в бд
     # не создавать каждый раз
     # today = datetime.datetime.now().date()
-    return render(request, "booking/index.html", context={"directions": directions, "today": today})
+    return render(
+        request,
+        "booking/index.html",
+        context={"directions": directions, "today": today},
+    )
 
 
 def get_daytime_trip(request: HttpRequest, direction_slug, date_route):
@@ -29,14 +38,25 @@ def get_daytime_trip(request: HttpRequest, direction_slug, date_route):
 
     # Получили список всех дат по которым возможна бронь поездки
     direction = get_object_or_404(Direction, slug=direction_slug)
-    date_routes = direction.dateroute_set.filter(is_active=True).all()  # dateroute в dateroute_set взяли из модели
+    date_routes = direction.dateroute_set.filter(
+        is_active=True
+    ).all()  # dateroute в dateroute_set взяли из модели
     # Получили список всех поездок сортированных по времени (с утра до вечера)
     day = get_object_or_404(date_routes, date_route=date_route)
     # timetrip в timetrip_set взяли из модели
-    trip_times = day.timetrip_set.filter(direction=direction).order_by('departure_time').all()
-    return render(request, "booking/daytime_trip.html", context={"direction": direction,
-                                                                 "direction_slug": direction_slug,
-                                                                 "date_routes": date_routes, "trip_times": trip_times})
+    trip_times = (
+        day.timetrip_set.filter(direction=direction).order_by("departure_time").all()
+    )
+    return render(
+        request,
+        "booking/daytime_trip.html",
+        context={
+            "direction": direction,
+            "direction_slug": direction_slug,
+            "date_routes": date_routes,
+            "trip_times": trip_times,
+        },
+    )
 
 
 class TripCreateView(LoginRequiredMixin, CreateView):
@@ -59,22 +79,33 @@ class TripCreateView(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         """URL, на который будет произведено перенаправление"""
 
-        return reverse("booking:trip-success", kwargs={"direction_slug": self.kwargs["direction_slug"],
-                                                       "date_route": self.kwargs["date_route"],
-                                                       "trip_id": self.kwargs["trip_id"]})
+        return reverse(
+            "booking:trip-success",
+            kwargs={
+                "direction_slug": self.kwargs["direction_slug"],
+                "date_route": self.kwargs["date_route"],
+                "trip_id": self.kwargs["trip_id"],
+            },
+        )
 
     def get_path_params(self):
         """Функция, предназначенная для получения записей, по параметрам пути"""
 
         direction_slug = self.kwargs["direction_slug"]
         direction = get_object_or_404(Direction, slug=direction_slug)
-        date_routes = direction.dateroute_set.filter(is_active=True).all()  # dateroute в dateroute_set взяли из модели
+        date_routes = direction.dateroute_set.filter(
+            is_active=True
+        ).all()  # dateroute в dateroute_set взяли из модели
         # Получили список всех поездок сортированных по времени (с утра до вечера)
         date_route = self.kwargs["date_route"]
         day = get_object_or_404(date_routes, date_route=date_route)
         # timetrip в timetrip_set взяли из модели
         trip_id = self.kwargs["trip_id"]
-        trip_times = day.timetrip_set.filter(direction=direction).order_by('departure_time').all()
+        trip_times = (
+            day.timetrip_set.filter(direction=direction)
+            .order_by("departure_time")
+            .all()
+        )
         time = get_object_or_404(trip_times, id=trip_id)
         return direction, day, time
 
@@ -94,7 +125,10 @@ class TripCreateView(LoginRequiredMixin, CreateView):
         number_of_free_seats = int(time.number_of_free_places_in_trip())
 
         if number_of_seats > number_of_free_seats:
-            form.add_error('number_of_reserved_places', f'Свободных мест осталось {number_of_free_seats}')
+            form.add_error(
+                "number_of_reserved_places",
+                f"Свободных мест осталось {number_of_free_seats}",
+            )
             return super().form_invalid(form)
 
         self.object = form.save()
@@ -119,7 +153,7 @@ def account(request: HttpRequest):
 
 
 def trip_remove_in_account(request, trip_id):
-    """Функция предназначена для удаления поездки из всех поездок пользователя """
+    """Функция предназначена для удаления поездки из всех поездок пользователя"""
 
     trip = Trip.objects.get(username=request.user, id=trip_id)
     trip.delete()

@@ -1,7 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import BookingUser
+
 from .forms import CustomUserCreationForm
+from .models import BookingUser
 
 
 class CustomUserAdmin(UserAdmin):
@@ -11,15 +12,15 @@ class CustomUserAdmin(UserAdmin):
     fieldsets = (
         *UserAdmin.fieldsets,
         (
-            'User additional fields',
+            "User additional fields",
             {
-                'fields': (
-                    'phone',
-                    'date_of_birth',
-                    'cookie_consent',
+                "fields": (
+                    "phone",
+                    "date_of_birth",
+                    "cookie_consent",
                 )
-            }
-        )
+            },
+        ),
     )
 
 

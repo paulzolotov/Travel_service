@@ -4,15 +4,16 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('users', '0003_rename_carrier_phone_bookinguser_phone'),
+        ("users", "0003_rename_carrier_phone_bookinguser_phone"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='bookinguser',
-            name='cookie_consent',
-            field=models.BooleanField(default=True, verbose_name='Do you agree to the use of cookies?'),
+            model_name="bookinguser",
+            name="cookie_consent",
+            field=models.BooleanField(
+                default=True, verbose_name="Do you agree to the use of cookies?"
+            ),
         ),
     ]

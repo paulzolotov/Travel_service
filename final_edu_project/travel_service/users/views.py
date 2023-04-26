@@ -1,9 +1,8 @@
-from django.shortcuts import redirect, render
-from django.contrib.auth.views import LoginView
-from django.urls import reverse_lazy
 from django.contrib.auth import login
+from django.contrib.auth.views import LoginView
 from django.http import HttpResponseRedirect
-from django.urls import reverse
+from django.shortcuts import redirect, render
+from django.urls import reverse, reverse_lazy
 
 from .forms import CustomUserCreationForm
 from .models import BookingUser
@@ -17,7 +16,7 @@ def register(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+            login(request, user, backend="django.contrib.auth.backends.ModelBackend")
             return redirect(reverse("booking:index"))
         else:
             form = CustomUserCreationForm(request.POST)
