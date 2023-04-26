@@ -187,19 +187,23 @@ class Trip(models.Model):
     def number_of_free_places_in_trip(self):
         """Функция, достающая информацию о количестве свободных мест в поездке"""
 
-        seats = self.departure_time.number_of_free_places_in_trip()
-        return seats
+        return self.departure_time.number_of_free_places_in_trip()
 
-    # def clean(self):
-    #
-    #     free_seats = self.number_of_free_places_in_trip()
-    #     if self.number_of_reserved_places > free_seats:
-    #         raise ValidationError(
-    #                     'Осталось свободных мест: %(value)s',
-    #                     params={'value': free_seats},
-    #                 )
+    def car_info_in_trip(self):
+        """Функция, достающая информацию о перевозчике в данной поездке"""
+
+        car_info = {'name': self.departure_time.car,
+                    'auto_number': self.departure_time.auto_number,
+                    'carrier_phone': self.departure_time.carrier_phone}
+        return car_info
+
+    def arrival_time_calculation(self):
+        """Функция, достающая информацию о перевозчике в данной поездке"""
+
+        return self.departure_time.arrival_time_calculation()
 
     def get_list_stops(self):
         """Надо связать list_of_stops в Direction с landing_place """
 
-        ...
+        return self.departure_time.direction.list_of_stops # НЕ знаю как передать полученный результат в
+        # CHOICES поля landing_place модели Trip

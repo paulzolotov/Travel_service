@@ -10,21 +10,22 @@
             <ul class="user_trip__list-wrap">
                 {% for trip in user_trips %}
                     <li class="user_trip__list-item">
-                        <p class="user_trip_item">Направление</p>
-                        <p class="user_trip_item">{{ trip.date_of_the_trip}}</p>
-                        <p class="user_trip_item">{{ trip.departure_time }}</p>
-                        <p class="user_trip_item">{{ trip.landing_place}}</p>
+                        <p class="user_trip_item">Направление: </p>
+                        <p class="user_trip_item">Дата: {{ trip.date_of_the_trip}}</p>
+                        <p class="user_trip_item">Время отправления: {{ trip.departure_time }}</p>
+                        <p class="user_trip_item">Время прибытия: {{ trip.arrival_time_calculation }}</p>
+                        <p class="user_trip_item">Номер остановки: {{ trip.landing_place}}</p>
                         {% if trip.user_comment %}
-                            <p class="user_trip_item">{{ trip.user_comment}}</p>
+                            <p class="user_trip_item">Комментарий: {{ trip.user_comment}}</p>
                         {% else %}
-                            <p class="user_trip_item">_</p>
+                            <p class="user_trip_item">Комментарий: &nbsp;</p>
                         {% endif %}
                         <p class="user_trip_item">{{ trip.number_of_reserved_places}}</p>
-                        <p class="user_trip_item">{{ trip.get_price }}</p>
                         <p class="user_trip_item">{{ trip.get_full_price }}</p>
-                        <a class="user_trip__remove" href="{% url 'booking:trip_remove' trip.id %}">
-                            <img class="user_trip__remove-svg" src="{% static 'remove.svg' %}" alt="remove" >
-                        </a>
+                        <p class="user_trip_item">{{ trip.car_info_in_trip.name }}</p>
+                        <p class="user_trip_item">{{ trip.car_info_in_trip.auto_number }}</p>
+                        <p class="user_trip_item">{{ trip.car_info_in_trip.carrier_phone }}</p>
+                        <a class="user_trip__remove" href="{% url 'booking:trip_remove' trip.id %}">Отменить</a>
                     </li>
                 {% endfor %}
                 </ul>
@@ -34,9 +35,6 @@
             У вас нет забронированных поездок
         </h4>
     {% endif %}
-
-    <a href="{% url 'booking:index' %}">Вернуться на главную страницу</a>
-
 </body>
 
 {% endblock  %}

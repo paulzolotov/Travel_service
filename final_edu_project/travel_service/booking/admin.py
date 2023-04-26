@@ -148,5 +148,5 @@ class TripAdmin(admin.ModelAdmin):
     """Класс для отображения на панели администратора информации о конкретной поездке в определенное время."""
 
     list_display = ("username", "date_of_the_trip", "departure_time", "number_of_reserved_places",
-                    "landing_place", "user_comment", "get_price", "get_full_price", "number_of_free_places_in_trip", "get_list_stops")
+                    "landing_place", "user_comment", "get_price", "get_full_price", "get_list_stops")
     sortable_by = ()

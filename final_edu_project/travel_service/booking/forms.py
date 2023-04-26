@@ -12,17 +12,6 @@ class TripModelForm(forms.ModelForm):
         # Должно было поменять пустое поле в выборе остановки на "Остановка не выбрана"
         self.fields['landing_place'].empty_label = "Остановка не выбрана"
 
-    # def clean_number_of_reserved_places(self):
-    #     number_of_seats = self.cleaned_data["number_of_reserved_places"]
-    #     free_seats = self.departure_time.number_of_free_places_in_trip()
-    #     if number_of_seats > free_seats:
-    #         raise forms.ValidationError(
-    #             'Осталось свободных мест: %(value)s',
-    #             code='invalid',
-    #             params={'value': free_seats},
-    #         )
-    #     return number_of_seats
-
     class Meta:
         model = Trip
         fields = ["number_of_reserved_places", "landing_place", "user_comment"]
