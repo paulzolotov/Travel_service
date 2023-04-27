@@ -77,7 +77,7 @@ class CustomPasswordChangeForm(PasswordChangeForm):
         widget=forms.PasswordInput(attrs={"class": "form-input"}),
     )
 
-    def clean(self):
+    def clean(self) -> None:
         """Функция для проверки несовпадения нового пароля и старого"""
         cleaned_data = super().clean()
         user = self.user

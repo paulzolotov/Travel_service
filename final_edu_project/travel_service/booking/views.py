@@ -1,20 +1,19 @@
 import datetime
+from typing import Any
 
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.exceptions import ValidationError
 from django.http import HttpRequest, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views.generic import CreateView
 
 from .forms import TripModelForm
-from .models import DateRoute, Direction, TimeTrip, Trip
+from .models import Direction, Trip
 
 # Create your views here.
 
 
-def index(request: HttpRequest):
+def index(request: HttpRequest) -> HttpRequest:
     """Функция предназначена для перехода к странице со списком направлений"""
 
     directions = Direction.objects.filter(is_active=True).all()
@@ -30,7 +29,9 @@ def index(request: HttpRequest):
     )
 
 
-def get_daytime_trip(request: HttpRequest, direction_slug, date_route):
+def get_daytime_trip(
+    request: HttpRequest, direction_slug: str, date_route: datetime
+) -> HttpRequest:
     """Функция предназначена для перехода к странице со списком дней в которые имеются поездки по данному направлению.
     При выборе определенной даты, высвечиваются все возможные поездки, по умолчанию при переходе на данную страницу
     выбирается текущий день
@@ -66,7 +67,7 @@ class TripCreateView(LoginRequiredMixin, CreateView):
     form_class = TripModelForm  # либо form_class либо fields
     template_name = "booking/trip.html"
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict:
         """Функция для передачи context в template"""
 
         context = super().get_context_data(**kwargs)
@@ -76,7 +77,7 @@ class TripCreateView(LoginRequiredMixin, CreateView):
         context["time"] = time
         return context
 
-    def get_success_url(self):
+    def get_success_url(self) -> str:
         """URL, на который будет произведено перенаправление"""
 
         return reverse(
@@ -88,7 +89,7 @@ class TripCreateView(LoginRequiredMixin, CreateView):
             },
         )
 
-    def get_path_params(self):
+    def get_path_params(self) -> Any:
         """Функция, предназначенная для получения записей, по параметрам пути"""
 
         direction_slug = self.kwargs["direction_slug"]
@@ -109,7 +110,7 @@ class TripCreateView(LoginRequiredMixin, CreateView):
         time = get_object_or_404(trip_times, id=trip_id)
         return direction, day, time
 
-    def form_valid(self, form):
+    def form_valid(self, form: Any) -> HttpRequest:
         """Функция для проверки валидности"""
 
         direction, day, time = self.get_path_params()
@@ -135,14 +136,16 @@ class TripCreateView(LoginRequiredMixin, CreateView):
         return HttpResponseRedirect(self.get_success_url())
 
 
-def booking_success(request: HttpRequest, direction_slug, date_route, trip_id):
+def booking_success(
+    request: HttpRequest, direction_slug: str, date_route: datetime, trip_id: int
+) -> HttpRequest:
     """Функция, предназначенная для перехода к template после успешного бронирования поездки"""
 
     context = {}
     return render(request, "booking/booking_success.html", context=context)
 
 
-def account(request: HttpRequest):
+def account(request: HttpRequest) -> HttpRequest:
     """Функция предназначена для перехода к странице с контактной информацией"""
 
     user_trips = None
@@ -152,7 +155,7 @@ def account(request: HttpRequest):
     return render(request, "booking/account.html", context={"user_trips": user_trips})
 
 
-def trip_remove_in_account(request, trip_id):
+def trip_remove_in_account(request: HttpRequest, trip_id: int) -> HttpRequest:
     """Функция предназначена для удаления поездки из всех поездок пользователя"""
 
     trip = Trip.objects.get(username=request.user, id=trip_id)
@@ -161,7 +164,7 @@ def trip_remove_in_account(request, trip_id):
     return HttpResponseRedirect(request.META["HTTP_REFERER"])
 
 
-def contacts(request: HttpRequest):
+def contacts(request: HttpRequest) -> HttpRequest:
     """Функция предназначена для перехода к странице с контактной информацией"""
 
     return render(request, "booking/contacts.html")

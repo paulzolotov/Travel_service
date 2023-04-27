@@ -4,6 +4,8 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 
 class BookingUser(AbstractUser):
+    """Пользовательский класс User, необходимый для расширения возможностей базового User"""
+
     phone = PhoneNumberField(null=True)
     date_of_birth = models.DateTimeField(verbose_name="Date of birth", null=True)
     cookie_consent = models.BooleanField(
@@ -14,7 +16,7 @@ class BookingUser(AbstractUser):
         verbose_name = "User"
         verbose_name_plural = "Users"
 
-    def get_full_name(self):
+    def get_full_name(self) -> str:
         """Возвращает first_name и last_name с пробелом между ними."""
 
         full_name = "%s %s" % (self.first_name, self.last_name)

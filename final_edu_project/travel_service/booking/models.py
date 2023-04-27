@@ -1,11 +1,10 @@
 import time
 from datetime import date, datetime, timedelta
+from typing import Any
 
 from django.conf import settings
-from django.core.exceptions import ValidationError
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import MinValueValidator
 from django.db import models
-from django.shortcuts import get_object_or_404
 from phonenumber_field.modelfields import PhoneNumberField
 
 
@@ -45,13 +44,13 @@ class Direction(BookingInfoMixin):
         verbose_name = "Direction"
         verbose_name_plural = "Directions"
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Возвращает удобочитаемую строку для каждого объекта."""
 
         return f"{self.name}"
 
     @classmethod
-    def get_default_direction_pk(cls):
+    def get_default_direction_pk(cls) -> Any:
         """Необходим для значений по default"""
 
         direction, created = cls.objects.get_or_create(
@@ -65,14 +64,15 @@ class Direction(BookingInfoMixin):
         )
         return direction.pk
 
-    def format_travel_time(self):
+    def format_travel_time(self) -> str:
         """Функция, предназначенная для форматирования времени пути т.е минуты переводим в часы и минуты"""
 
         return time.strftime("%H:%M", time.gmtime(self.travel_time * 60))
 
-    def min_price(self):
+    def min_price(self) -> int:
         """Функция, предназначенная для подсчета минимальной цены от всех предложенных во все дни
         т.е по всем имеющимся записям маршрутов"""
+
         dateroutes_from_direction = self.dateroute_set.filter(is_active=True).all()
         price_list = []
         for dateroute in dateroutes_from_direction:
@@ -101,7 +101,7 @@ class DateRoute(BookingInfoMixin):
         verbose_name = "DateRoute"
         verbose_name_plural = "DateRoutes"
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Возвращает удобочитаемую строку для каждого объекта."""
 
         return f"{self.date_route}"
@@ -139,12 +139,12 @@ class TimeTrip(models.Model):
         verbose_name = "TimeTrip"
         verbose_name_plural = "TimeTrips"
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Возвращает удобочитаемую строку для каждого объекта."""
 
         return f"{self.departure_time}"
 
-    def number_of_reserved_places_in_trip(self):
+    def number_of_reserved_places_in_trip(self) -> str:
         """Функция для подсчета количества зарезервированных мест в данной поездке"""
 
         trip_from_time = self.trip_set.all()
@@ -155,7 +155,7 @@ class TimeTrip(models.Model):
             )
         return f"{sum_places}"
 
-    def number_of_free_places_in_trip(self):
+    def number_of_free_places_in_trip(self) -> str:
         """Функция, предназначенная для подсчета количества свободных мест
         на определенное дату и время"""
 
@@ -164,7 +164,7 @@ class TimeTrip(models.Model):
         )
         return f"{count_free_places}"
 
-    def arrival_time_calculation(self):
+    def arrival_time_calculation(self) -> time:
         """Функция, предназначенная для подсчета времени прибытия"""
 
         minutes = self.direction.travel_time
@@ -208,29 +208,29 @@ class Trip(models.Model):
         verbose_name = "Trip"
         verbose_name_plural = "Trips"
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Возвращает удобочитаемую строку для каждого объекта."""
 
         return f"{self.username}"
 
-    def get_price(self):
+    def get_price(self) -> int:
         """Функция, достающая информацию о цене за одно место в поездке"""
 
         price = self.departure_time.price
         return price
 
-    def get_full_price(self):
+    def get_full_price(self) -> int:
         """Функция, подсчитывающая полную цену за поездку с учетом количества забронированных мест"""
 
         price = self.get_price() * self.number_of_reserved_places
         return price
 
-    def number_of_free_places_in_trip(self):
+    def number_of_free_places_in_trip(self) -> int:
         """Функция, достающая информацию о количестве свободных мест в поездке"""
 
         return self.departure_time.number_of_free_places_in_trip()
 
-    def car_info_in_trip(self):
+    def car_info_in_trip(self) -> dict:
         """Функция, достающая информацию о перевозчике в данной поездке"""
 
         car_info = {
@@ -240,10 +240,15 @@ class Trip(models.Model):
         }
         return car_info
 
-    def arrival_time_calculation(self):
+    def arrival_time_calculation(self) -> str:
         """Функция, достающая информацию о перевозчике в данной поездке"""
 
         return self.departure_time.arrival_time_calculation()
+
+    def get_direction(self) -> str:
+        """Функция, достающая информацию о направлении данной поездке"""
+
+        return self.departure_time.direction.name
 
     def get_list_stops(self):
         """Надо связать list_of_stops в Direction с landing_place"""

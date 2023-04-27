@@ -1,14 +1,12 @@
 from django.contrib.auth import login
-from django.contrib.auth.views import LoginView
-from django.http import HttpResponseRedirect
+from django.http import HttpRequest
 from django.shortcuts import redirect, render
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
 
 from .forms import CustomUserCreationForm
-from .models import BookingUser
 
 
-def register(request):
+def register(request: HttpRequest) -> HttpRequest:
     """Функция для регистрации пользователя"""
     if request.method == "GET":
         return render(request, "users/register.html", {"form": CustomUserCreationForm})

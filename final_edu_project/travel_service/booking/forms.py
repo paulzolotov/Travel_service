@@ -5,7 +5,11 @@ from .models import TimeTrip, Trip
 
 
 class TripModelForm(forms.ModelForm):
+    """Форма для модели Trip"""
+
     def __int__(self, *args, **kwargs):
+        """Изменение параметров формы при инициализации"""
+
         super().__init__(*args, **kwargs)
         # Должно было поменять пустое поле в выборе остановки на "Остановка не выбрана"
         self.fields["landing_place"].empty_label = "Остановка не выбрана"

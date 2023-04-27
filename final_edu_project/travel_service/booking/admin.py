@@ -3,7 +3,7 @@ import datetime
 
 from django import forms
 from django.contrib import admin
-from django.http import HttpResponse
+from django.http import HttpRequest, HttpResponse
 from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.http import urlencode
@@ -14,6 +14,8 @@ from .models import DateRoute, Direction, TimeTrip, Trip
 
 # Register your models here.
 class ContactForm(forms.ModelForm):
+    """Класс для установки виджета для поля 'номер телефона'"""
+
     class Meta:
         widgets = {
             "carrier_phone": PhoneNumberPrefixWidget(
@@ -37,14 +39,14 @@ class DirectionAdmin(admin.ModelAdmin):
     )
     actions = ("make_inactive", "make_active")
 
-    @admin.action(description="Switch to inactive state")
-    def make_inactive(self, request, queryset):
+    @admin.action(description="Перевести в неактивное состояние")
+    def make_inactive(self, request: HttpRequest, queryset) -> None:
         """Функция для перевода в строке 'action' в состояние 'inactive'"""
 
         queryset.update(is_active=False)
 
-    @admin.action(description="Switch to active state")
-    def make_active(self, request, queryset):
+    @admin.action(description="Перевести в активное состояние")
+    def make_active(self, request: HttpRequest, queryset) -> None:
         """Функция для перевода в строке 'action' в состояние 'active'"""
 
         queryset.update(is_active=True)
@@ -56,7 +58,7 @@ class DateRouteAdmin(admin.ModelAdmin):
 
     filter_horizontal = [
         "direction_name"
-    ]  # для наглядной демонстрации используемых маршрутов в день
+    ]  # применили для наглядной демонстрации используемых маршрутов в день
     list_display = (
         "date_route",
         "view_time_trips_link",
@@ -79,18 +81,18 @@ class DateRouteAdmin(admin.ModelAdmin):
         )
         return format_html('<a href="{}">{} TimeTrips</a>', url, count)
 
-    @admin.action(description="Switch to inactive state")
-    def make_inactive(self, request, queryset):
+    @admin.action(description="Перевести в неактивное состояние")
+    def make_inactive(self, request: HttpRequest, queryset) -> None:
         """Функция для проверки даты с текущей и если данная дата уже прошла, то переводим выбранные неподходящие даты
-
         в строке 'action' в состояние 'inactive'"""
-        # today = datetime.datetime(2023, 4, 6).date() - необходимо для тестирования
-        # today = datetime.datetime.now().date()
-        # for obj in queryset:
-        #     date = obj.date_route
-        #     if date < today:
-        #         print('del obj in queryset')
-        # queryset.update(is_active=False)
+
+        # today = datetime.datetime(2023, 4, 7).date()  # необходимо для тестирования
+        today = datetime.datetime.now().date()
+        print(queryset)
+        for obj in queryset:
+            date = obj.date_route
+            if date < today:
+                queryset.filter(date_route=date).update(is_active=False)
 
 
 @admin.register(TimeTrip)
@@ -117,7 +119,7 @@ class TimeTripAdmin(admin.ModelAdmin):
     actions = ("export_to_csv",)
 
     @admin.display(description="custom price")
-    def show_pretty_price(self, obj):
+    def show_pretty_price(self, obj) -> str:
         """Функция для отображения кастомной записи для 'цены за место' (В данном случае добавили знак $)"""
 
         return f"{obj.price} BYN"
@@ -136,7 +138,7 @@ class TimeTripAdmin(admin.ModelAdmin):
         return format_html('<a href="{}">{} Trips</a>', url, count)
 
     @admin.action(description="Export to CSV")
-    def export_to_csv(self, request, queryset):
+    def export_to_csv(self, request: HttpRequest, queryset) -> HttpResponse:
         """Функция для выгрузки данных в виде логов в формате CSV"""
         opts = self.model._meta
         # Создаем экземпляр HttpResponse, включающий кастомный text/csv-тип контента, чтобы сообщить браузеру,
