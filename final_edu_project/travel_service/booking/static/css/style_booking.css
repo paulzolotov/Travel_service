@@ -338,7 +338,7 @@
     background-repeat: no-repeat;
     background-position: center;
     position: relative;
-    padding: 50px 10px 10px;
+    padding: 50px 10px 130px;
 }
 .account::before {
     content: "";
@@ -352,7 +352,7 @@
 }
 .account__wrap {
     display:grid;
-    grid-template-columns: 0.7fr 0.1fr;
+    grid-template-columns: 0.4fr 1fr;
 }
 .account__title {
    font-family: "Raleway", sans-serif;
@@ -363,10 +363,12 @@
     margin-bottom: 30px;
     text-align: center;
 }
+
 .account__table-wrap {
-    max-width: 900px;
+    max-width: 1000px;
     width: 100%;
     margin: 0 auto;
+    margin-bottom: 30px;
 }
 .account__tabletop {
     padding: 10px 15px;
@@ -386,12 +388,15 @@
     line-height: 22px;
     font-weight: 500;
 }
-.account__list-item {
-    margin-bottom: 30px;
-}
 .account__list {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
-.account__text {
+.account__text-left_top{
+    margin-bottom: 20px;
+}
+.account__text-left {
     font-family: "Raleway", sans-serif;
     font-weight: 400;
     font-size: 18px;
@@ -414,4 +419,12 @@
     color: white;
     background-color: #0E6038;
     border: none;
+}
+.account__text-notrip{
+    text-align: center;
+    font-family: "Raleway", sans-serif;
+    font-size: 22px;
+    color: white;
+    line-height: 24px;
+    font-weight: 500;
 }

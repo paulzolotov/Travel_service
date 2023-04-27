@@ -11,7 +11,7 @@
                 </div>
             {% if user_trips %}
                 <div class="account__info">
-                    <h3 class="account__title">Информация о поездке</h3>
+                    <h3 class="account__title">Информация о поездках</h3>
                         <table class="account__table-wrap">
                             <tr class="account__table-item">
                                 <th class="account__tabletop">Направление</th>
@@ -24,7 +24,7 @@
                             </tr>
                         {% for trip in user_trips %}
                             <tr class="account__table-item">
-                                <th class="account__table">{{ trip.get_direction }}</th>
+                                <th class="account__text">{{ trip.get_direction }}</th>
                                 <th class="account__text">{{ trip.date_of_the_trip}}</th>
                                 <th class="account__text">{{ trip.departure_time }}</th>
                                 <th class="account__text">{{ trip.arrival_time_calculation }}</th>
@@ -34,20 +34,27 @@
                             </tr>
                         </table>
                         <div class="account__list">
-                            <p class="account__text">Информация о перевозчике: {{ trip.car_info_in_trip.name }}, гос.номер {{ trip.car_info_in_trip.auto_number }}, {{ trip.car_info_in_trip.carrier_phone }}</p>
+                            <div class="account__list-item">
+                            <p class="account__text-left account__text-left_top">Информация о перевозчике: {{ trip.car_info_in_trip.name }}, гос.номер {{ trip.car_info_in_trip.auto_number }}, {{ trip.car_info_in_trip.carrier_phone }}</p>
                         {% if trip.user_comment %}
-                            <p class="account__text">Комментарий: {{ trip.user_comment}}</p>
+                            <p class="account__text-left">Комментарий: {{ trip.user_comment}}</p>
                         {% else %}
-                            <p class="account__text">Комментарий: &nbsp;</p>
+                            <p class="account__text-left">Комментарий: &nbsp;</p>
                         {% endif %}
+                            </div>
+                            <div class="account__list-item">
+                                <a class="account__btn-remove" href="{% url 'booking:trip_remove' trip.id %}">Отменить поездку</a>
+                                {% endfor %}
+                            </div>
                         </div>
-                        <a class="account__btn-remove" href="{% url 'booking:trip_remove' trip.id %}">Отменить поездку</a>
-                        {% endfor %}
                         {% else %}
+                    <div class="account__info">
+                        <h3 class="account__title">Информация о поездках</h3>
                             <h4 class="account__text-notrip">
                                 У вас нет забронированных поездок
                             </h4>
                         {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
