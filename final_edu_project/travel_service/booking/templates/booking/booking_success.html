@@ -5,14 +5,7 @@
     <p>Спасибо за бронирование, {{ user.get_full_name }}.</p>
     <p>На указанный email - {{ user.email }} выслан забронированный Вами билет на данную поездку.</p>
 
-    <p>Поездка:
-        {{ trip.username }}
-        {{ trip.get_direction }}
-        {{ trip.date_of_the_trip }}
-        {{ trip.departure_time }}
-        {{ trip.landing_place }}
-        {{ trip.user_comment }}
-    </p>
+    {% include 'ticket.html' %}
 
     <a href="{% url 'booking:index' %}">Вернуться на главную страницу</a>
 

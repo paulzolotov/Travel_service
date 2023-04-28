@@ -1,12 +1,14 @@
 import datetime
 from typing import Any
 
+import pdfkit
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpRequest, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views.generic import CreateView
+from jinja2 import Template
 
 from .forms import TripModelForm
 from .models import Direction, Trip
@@ -159,6 +161,12 @@ def booking_success(
     """Функция, предназначенная для перехода к template после успешного бронирования поездки"""
 
     trip = Trip.objects.get(username=request.user, departure_time=timetrip_id)
+    print(trip.username)
+
+    # # Написать функцию для генерации html шаблона билета
+    # ticket_template = Template("<p>Hello</p><br>{{ trip.username }}").render(trip=trip)
+    # ticket = pdfkit.from_string(ticket_template, 'ticket.pdf')
+
     context = {"trip": trip}
     return render(request, "booking/booking_success.html", context=context)
 
