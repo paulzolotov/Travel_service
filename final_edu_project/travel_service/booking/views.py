@@ -1,6 +1,7 @@
 import datetime
 from typing import Any
 
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpRequest, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
@@ -85,7 +86,7 @@ class TripCreateView(LoginRequiredMixin, CreateView):
             kwargs={
                 "direction_slug": self.kwargs["direction_slug"],
                 "date_route": self.kwargs["date_route"],
-                "trip_id": self.kwargs["trip_id"],
+                "timetrip_id": self.kwargs["timetrip_id"],
             },
         )
 
@@ -101,19 +102,35 @@ class TripCreateView(LoginRequiredMixin, CreateView):
         date_route = self.kwargs["date_route"]
         day = get_object_or_404(date_routes, date_route=date_route)
         # timetrip в timetrip_set взяли из модели
-        trip_id = self.kwargs["trip_id"]
+        timetrip_id = self.kwargs["timetrip_id"]
         trip_times = (
             day.timetrip_set.filter(direction=direction)
             .order_by("departure_time")
             .all()
         )
-        time = get_object_or_404(trip_times, id=trip_id)
+        time = get_object_or_404(trip_times, id=timetrip_id)
+
         return direction, day, time
 
-    def form_valid(self, form: Any) -> HttpRequest:
+    def form_valid(self, form: Any) -> HttpResponseRedirect:
         """Функция для проверки валидности"""
 
         direction, day, time = self.get_path_params()
+
+        # Проверка того, имеет ли пользователь запись на данную поездку пользователь.
+        # Идея такая: 1 пользователь - 1 заказ на данную поездку
+        trip = time.trip_set.filter(username=self.request.user)
+        if trip:
+            return HttpResponseRedirect(
+                reverse(
+                    "booking:trip-impossible",
+                    kwargs={
+                        "direction_slug": self.kwargs["direction_slug"],
+                        "date_route": self.kwargs["date_route"],
+                        "timetrip_id": self.kwargs["timetrip_id"],
+                    },
+                )
+            )
 
         form.instance.username = self.request.user
         form.instance.date_of_the_trip = day
@@ -137,14 +154,24 @@ class TripCreateView(LoginRequiredMixin, CreateView):
 
 
 def booking_success(
-    request: HttpRequest, direction_slug: str, date_route: datetime, trip_id: int
+    request: HttpRequest, direction_slug: str, date_route: datetime, timetrip_id: int
 ) -> HttpRequest:
     """Функция, предназначенная для перехода к template после успешного бронирования поездки"""
 
-    context = {}
+    trip = Trip.objects.get(username=request.user, departure_time=timetrip_id)
+    context = {"trip": trip}
     return render(request, "booking/booking_success.html", context=context)
 
 
+def booking_impossible(
+    request: HttpRequest, direction_slug: str, date_route: datetime, timetrip_id: int
+) -> HttpRequest:
+    """Функция, предназначенная для перехода к template в случае, если пользователь бронировал уже данную поездку"""
+
+    return render(request, "booking/booking_impossible.html")
+
+
+@login_required(login_url="users:login", redirect_field_name="next")
 def account(request: HttpRequest) -> HttpRequest:
     """Функция предназначена для перехода к странице с контактной информацией"""
 
@@ -155,7 +182,7 @@ def account(request: HttpRequest) -> HttpRequest:
     return render(request, "booking/account.html", context={"user_trips": user_trips})
 
 
-def trip_remove_in_account(request: HttpRequest, trip_id: int) -> HttpRequest:
+def trip_remove_in_account(request: HttpRequest, trip_id: int) -> HttpResponseRedirect:
     """Функция предназначена для удаления поездки из всех поездок пользователя"""
 
     trip = Trip.objects.get(username=request.user, id=trip_id)

@@ -10,12 +10,17 @@ urlpatterns = [
         "<slug:direction_slug>/<date_route>/", views.get_daytime_trip, name="direction"
     ),
     path(
-        "<slug:direction_slug>/<date_route>/<int:trip_id>/success",
+        "<slug:direction_slug>/<date_route>/<int:timetrip_id>/success",
         views.booking_success,
         name="trip-success",
     ),
     path(
-        "<slug:direction_slug>/<date_route>/<int:trip_id>/",
+        "<slug:direction_slug>/<date_route>/<int:timetrip_id>/impossible",
+        views.booking_impossible,
+        name="trip-impossible",
+    ),
+    path(
+        "<slug:direction_slug>/<date_route>/<int:timetrip_id>/",
         views.TripCreateView.as_view(),
         name="trip",
     ),
