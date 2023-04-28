@@ -1,20 +1,24 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 <body>
-    {{ direction }}<br>
-    {{ day }}<br>
-    {{ time }}<br>
-    {{ user.phone }}<br>
-    {{ user.get_full_name }}<br>
-
-    <section class="form__section">
-        <form action="" method="post">
-            {% csrf_token %}
-            <div class="form__comm">
-                {% for field in form %}
-                  <p>
-                    {{ field.label_tag }}<br>
+<div class="booking">
+    <div class="container">
+      <form class="booking__form" action="" method="post">
+          {% csrf_token %}
+            <div class="booking__form-wrap">
+              <h2 class="booking__title">Бронирование</h2>
+                <div class="booking__form-group">
+                    <p class="booking__info">  {{ direction }}</p>
+                    <p class="booking__info">  {{ day}}</p>
+                    <p class="booking__info">  {{ time }}</p>
+                    <p class="booking__info">  {{ user.phone }}</p>
+                    <p class="booking__info">  {{ user.get_full_name }}</p>
+                </div>
+                <div class="booking__form-group">
+                  {% for field in form %}
+                    <h3 class="booking__text"> {{ field.label_tag }}</h3>
                     {{ field }}
                     {% if field.help_text %}
                       <small style="color: grey">{{ field.help_text }}</small>
@@ -22,13 +26,13 @@
                     {% for error in field.errors %}
                       <p style="color: red">{{ error }}</p>
                     {% endfor %}
-                  </p>
-                {% endfor %}
-
-                <input type="submit" value="Забронировать">
+                  {% endfor %}
+                    <input class="booking__form-btn" type="submit" value="Забронировать">
+              </div>
             </div>
-        </form>
-    </section>
+      </form>
+    </div>
+</div>
 </body>
 
 {% endblock  %}

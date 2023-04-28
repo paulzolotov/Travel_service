@@ -19,9 +19,10 @@ class TripModelForm(forms.ModelForm):
         fields = ["number_of_reserved_places", "landing_place", "user_comment"]
         widgets = {
             "number_of_reserved_places": forms.NumberInput(
-                attrs={"class": "number-select", "cols": 40, "rows": 4}
+                attrs={"class": "booking__form-input booking__form-input__num"}
             ),
-            "user_comment": forms.TextInput(attrs={"class": "form-input"}),
+            "landing_place": forms.Select(attrs={"class": "booking__form-input"}),
+            "user_comment": forms.Textarea(attrs={"class": "booking__form-input booking__form-input__area"}),
         }
         labels = {
             "text": "Comment text",
