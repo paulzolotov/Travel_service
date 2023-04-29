@@ -1,6 +1,8 @@
 from booking.models import DateRoute, Direction, TimeTrip
 from django.db.models import QuerySet
 from django.shortcuts import get_object_or_404
+from django_filters import rest_framework as filters
+from rest_framework import filters as rest_filters
 from rest_framework import generics
 from rest_framework.renderers import BrowsableAPIRenderer, JSONRenderer
 from rest_framework.request import Request
@@ -72,3 +74,37 @@ class DirectionDateRouteView(generics.ListAPIView):
         trip_times = day.timetrip_set.filter(direction=direction).all()
 
         return trip_times
+
+
+class GetTimeTripInfoFilterView(generics.ListAPIView):
+    """Класс для фильтрации поездок по параметрам: Направление, Дата, Время"""
+
+    queryset = TimeTrip.objects.all()
+    serializer_class = TimeTripSerializer
+    renderer_classes = [BrowsableAPIRenderer, JSONRenderer]
+    filter_backends = [filters.DjangoFilterBackend]
+    filterset_fields = ["direction", "date_of_the_trip", "departure_time"]
+
+
+class GetTimeTripInfoSearchView(generics.ListAPIView):
+    """Класс для поиска поездок по параметрам: Имя направления, Место отправления, Место прибытия"""
+
+    queryset = TimeTrip.objects.all()
+    serializer_class = TimeTripSerializer
+    renderer_classes = [BrowsableAPIRenderer, JSONRenderer]
+    filter_backends = [rest_filters.SearchFilter]
+    search_fields = [
+        "direction__name",
+        "direction__start_point",
+        "direction__end_point",
+    ]
+
+
+class GetTimeTripInfoOrderView(generics.ListAPIView):
+    """Класс для упорядочивания поездок по параметрам: Направление, Дата, Время, Цена за место"""
+
+    queryset = TimeTrip.objects.all()
+    serializer_class = TimeTripSerializer
+    renderer_classes = [BrowsableAPIRenderer, JSONRenderer]
+    filter_backends = [rest_filters.OrderingFilter]
+    ordering_fields = ["direction", "date_of_the_trip", "departure_time", "price"]

@@ -10,4 +10,7 @@ urlpatterns = [
         "info/<slug:direction_slug>/<date_route>/",
         views.DirectionDateRouteView.as_view(),
     ),
+    path("filter-timetrips/", views.GetTimeTripInfoFilterView.as_view()),
+    path("search-timetrips/", views.GetTimeTripInfoSearchView.as_view()),
+    path("order-timetrips/", views.GetTimeTripInfoOrderView.as_view()),
 ]

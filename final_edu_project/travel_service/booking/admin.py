@@ -114,7 +114,7 @@ class TimeTripAdmin(admin.ModelAdmin):
         "auto_number",
         "carrier_phone",
     )
-    sortable_by = ("departure_time", "date_of_the_trip", "direction", "number_of_seats")
+    sortable_by = ("departure_time", "date_of_the_trip", "direction")
     list_filter = ("departure_time", "date_of_the_trip", "direction")
     actions = ("export_to_csv",)
 
