@@ -22,7 +22,9 @@ class TripModelForm(forms.ModelForm):
                 attrs={"class": "booking__form-input booking__form-input__num"}
             ),
             "landing_place": forms.Select(attrs={"class": "booking__form-input"}),
-            "user_comment": forms.Textarea(attrs={"class": "booking__form-input booking__form-input__area"}),
+            "user_comment": forms.Textarea(
+                attrs={"class": "booking__form-input booking__form-input__area"}
+            ),
         }
         labels = {
             "text": "Comment text",
