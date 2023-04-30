@@ -543,3 +543,20 @@
     border: none;
     border-radius: 0 0 5px 5px;
 }
+
+.booking__info-wrap {
+  margin: 0 auto;
+  margin-bottom: 250px;
+}
+.booking__text-green {
+color: #0E6038;
+}
+.booking__text-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Raleway", sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 21px;
+}

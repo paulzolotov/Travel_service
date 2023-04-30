@@ -2,11 +2,16 @@
 
 {% block content %}
 <body>
-    <p>Вы уже забронировали поездку на выбранные Вами дату и время.</p><br>
-    <p>Вы можете увидеть подробную информацию о ней в своем личном кабинете.</p>
+    <div class="booking">
+        <div class="container">
+            <div class="booking__info-wrap">
+                <p  class="booking__text">Вы уже забронировали поездку на выбранные Вами дату и время.</p>
+                <p  class="booking__text">Вы можете увидеть подробную информацию о ней в своем личном кабинете.</p>
+            </div>
 
-    <a href="{% url 'booking:index' %}">Вернуться на главную страницу</a>
-
+            <a class="booking__text booking__text-btn" href="{% url 'booking:index' %}">Вернуться на главную страницу</a>
+        </div>
+    </div>
 </body>
 
 {% endblock  %}

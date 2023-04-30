@@ -1,10 +1,15 @@
 <body>
     <p>Поездка:
         {{ trip.username }}
+        {{ trip.get_full_name }}
         {{ trip.get_direction }}
         {{ trip.date_of_the_trip }}
         {{ trip.departure_time }}
-        {{ trip.landing_place }}
-        {{ trip.user_comment }}
+        Остановка: {{ trip.landing_place }}
+        {% if trip.user_comment %}
+            <p class="">Комментарий: {{ trip.user_comment}}</p>
+        {% else %}
+            <p class="">Комментарий: &nbsp;</p>
+        {% endif %}
     </p>
 </body>

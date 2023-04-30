@@ -2,13 +2,18 @@
 
 {% block content %}
 <body>
-    <p>Спасибо за бронирование, {{ user.get_full_name }}.</p>
-    <p>На указанный email - {{ user.email }} выслан забронированный Вами билет на данную поездку.</p>
+    <div class="booking">
+        <div class="container">
+            <div class="booking__info-wrap">
+                <p class="booking__text">Спасибо за бронирование, <span class="booking__text booking__text-green">{{ user.get_full_name }}</span>.</p>
+                <p class="booking__text">На указанный email - <span class="booking__text booking__text-green">{{ user.email }}</span> выслан забронированный Вами билет на данную поездку.</p>
+            </div>
 
-    {% include 'ticket.html' %}
+            {% include 'ticket.html' %}
 
-    <a href="{% url 'booking:index' %}">Вернуться на главную страницу</a>
-
+            <a class="booking__text booking__text-btn" href="{% url 'booking:index' %}">Вернуться на главную страницу</a>
+        </div>
+    </div>
 </body>
 
 {% endblock  %}
