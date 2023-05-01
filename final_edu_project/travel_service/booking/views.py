@@ -6,9 +6,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpRequest, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
+from django.template.loader import get_template
 from django.urls import reverse
 from django.views.generic import CreateView
-from jinja2 import Template
+from django.core.files.base import File
 
 from .forms import TripModelForm
 from .models import Direction, Trip
@@ -161,13 +162,24 @@ def booking_success(
     """Функция, предназначенная для перехода к template после успешного бронирования поездки"""
 
     trip = Trip.objects.get(username=request.user, departure_time=timetrip_id)
-    print(trip.username)
 
-    # # Написать функцию для генерации html шаблона билета
-    # ticket_template = Template("<p>Hello</p><br>{{ trip.username }}").render(trip=trip)
-    # ticket = pdfkit.from_string(ticket_template, 'ticket.pdf')
-
+    # Генерация html шаблона билета
+    template = get_template('ticket.html')
     context = {"trip": trip}
+    ticket_template = template.render(context)
+    ticket_name = f'{trip.username}_{trip.get_direction()}_{trip.date_of_the_trip}_{trip.departure_time}_' \
+                  f'{datetime.datetime.now()}.pdf'
+    # Конвертирование html шаблона в pdf файл
+    ticket = pdfkit.from_string(ticket_template, f"media/booking/{ticket_name}")
+
+    # Считывание билета и сохранение в бд билета в формате pdf
+    with open(f'media/booking/{ticket_name}', 'rb') as f:
+        trip.user_trip_ticket = File(f)
+        trip.save()
+
+    # Тут будет отправка на почту
+
+    context = {"ticket_template": ticket_template}
     return render(request, "booking/booking_success.html", context=context)
 
 

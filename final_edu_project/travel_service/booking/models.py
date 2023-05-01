@@ -203,6 +203,7 @@ class Trip(models.Model):
     user_comment = models.CharField(
         max_length=200, verbose_name="User Comment", null=True, blank=True
     )
+    user_trip_ticket = models.FileField(upload_to='booking/', null=True, blank=True)
 
     class Meta:
         verbose_name = "Trip"

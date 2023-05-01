@@ -1,15 +1,39 @@
+<head>
+    <meta charset="UTF-8" />
+</head>
 <body>
-    <p>Поездка:
-        {{ trip.username }}
-        {{ trip.get_full_name }}
-        {{ trip.get_direction }}
-        {{ trip.date_of_the_trip }}
-        {{ trip.departure_time }}
-        Остановка: {{ trip.landing_place }}
-        {% if trip.user_comment %}
-            <p class="">Комментарий: {{ trip.user_comment}}</p>
-        {% else %}
-            <p class="">Комментарий: &nbsp;</p>
-        {% endif %}
-    </p>
+    <div class="ticket">
+        <div class="ticket__header">
+            <h3>Билет</h3>
+        </div>
+      <div class="ticket__body">
+        <div class="ticket__section">
+            <h3>Информация о поездке</h3>
+            <p>Пассажир: {{ trip.get_full_name }}</p>
+            <p>Направление: {{ trip.get_direction }}</p>
+            <p>Дата: {{ trip.date_of_the_trip }}</p>
+            <p>Время отправления: {{ trip.departure_time }}</p>
+            <p>Время прибытия: {{ trip.arrival_time_calculation }}</p>
+            <p>Кол-во мест: {{ trip.number_of_reserved_places }}</p>
+            <p>Остановка: {{ trip.landing_place }}</p>
+        </div>
+        <div class="ticket__section">
+            <h3>Информация о перевозчике: </h3>
+            <p>{{ trip.car_info_in_trip.name }}</p>
+            <p>гос.номер {{ trip.car_info_in_trip.auto_number }}</p>
+            <p>{{ trip.car_info_in_trip.carrier_phone }}</p>
+        </div>
+        <div class="ticket__section">
+            {% if trip.user_comment %}
+                <h3>Комментарий: {{ trip.user_comment }}</h3>
+                <p>{{ trip.user_comment }}</p>
+            {% else %}
+                <h3>Комментарий: &nbsp;</h3>
+            {% endif %}
+        </div>
+      </div>
+      <div class="ticket__footer">
+        <p>Итого: <span>{{ trip.get_full_price }} BYN</span></p>
+      </div>
+    </div>
 </body>

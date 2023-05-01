@@ -9,7 +9,7 @@
                 <p class="booking__text">На указанный email - <span class="booking__text booking__text-green">{{ user.email }}</span> выслан забронированный Вами билет на данную поездку.</p>
             </div>
 
-            {% include 'ticket.html' %}
+            {{ ticket_template }}
 
             <a class="booking__text booking__text-btn" href="{% url 'booking:index' %}">Вернуться на главную страницу</a>
         </div>

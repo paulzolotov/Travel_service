@@ -560,3 +560,40 @@ color: #0E6038;
     font-size: 18px;
     line-height: 21px;
 }
+
+
+.ticket {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  max-width: 24rem;
+  }
+
+.ticket__header {
+    padding: 1.25rem;
+    background-color: hsl(200, 0%, 100%);
+    border: 1px solid hsl(200, 10%, 70%);
+    box-shadow: 0 2px 4px hsla(200, 20%, 20%, 0.25);
+  }
+ .ticket__body {
+     padding: 1.25rem;
+    background-color: hsl(200, 0%, 100%);
+    border: 1px solid hsl(200, 10%, 70%);
+    box-shadow: 0 2px 4px hsla(200, 20%, 20%, 0.25);
+  }
+ .ticket__footer {
+    padding: 1.25rem;
+    background-color: hsl(200, 0%, 100%);
+    border: 0.25px solid hsl(200, 10%, 70%);
+    box-shadow: 0 2px 4px hsla(200, 20%, 20%, 0.25);
+        font-weight: bold;
+    font-size: 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 0 0 0.325rem 0.325rem;
+  }
+  .ticket__header {
+    font-size: 1.5rem;
+    border-top: 0.25rem solid red;
+    border-bottom: none;
+    box-shadow: none;
+  }

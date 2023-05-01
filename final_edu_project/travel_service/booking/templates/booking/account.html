@@ -25,11 +25,11 @@
                         {% for trip in user_trips %}
                             <tr class="account__table-item">
                                 <th class="account__text">{{ trip.get_direction }}</th>
-                                <th class="account__text">{{ trip.date_of_the_trip}}</th>
+                                <th class="account__text">{{ trip.date_of_the_trip }}</th>
                                 <th class="account__text">{{ trip.departure_time }}</th>
                                 <th class="account__text">{{ trip.arrival_time_calculation }}</th>
-                                <th class="account__text">{{ trip.landing_place}}</th>
-                                <th class="account__text">{{ trip.number_of_reserved_places}}</th>
+                                <th class="account__text">{{ trip.landing_place }}</th>
+                                <th class="account__text">{{ trip.number_of_reserved_places }}</th>
                                 <th class="account__text">{{ trip.get_full_price }} BYN</th>
                             </tr>
                         </table>
