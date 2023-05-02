@@ -7,7 +7,13 @@
         <div class="container">
             <div class="account__wrap">
                 <div class="account__user">
-                    <h3 class="account__title">{{ user.get_full_name }}</h3>
+                    <h3 class="account__title">{{ user.get_full_name }}</h3><br>
+                    <h3 class="account__title">Информация о пользователе</h3>
+                    <h3 class="account__title">Username: {{ user.username }}</h3>
+                    <h3 class="account__title">Моб. телефон: {{ user.phone }}</h3>
+                    <h3 class="account__title">Дата рождения: {{ user.date_of_birth }}</h3>
+                    <h3 class="account__title">Email: {{ user.mail }}</h3>
+                    <h3 class="account__title">Дата регистрации: {{ user.date_joined }}</h3>
                 </div>
             {% if user_trips %}
                 <div class="account__info">

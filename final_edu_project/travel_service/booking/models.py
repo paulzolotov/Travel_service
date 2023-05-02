@@ -144,7 +144,7 @@ class TimeTrip(models.Model):
 
         return f"{self.departure_time}"
 
-    def number_of_reserved_places_in_trip(self) -> str:
+    def number_of_reserved_places_in_trip(self) -> int:
         """Функция для подсчета количества зарезервированных мест в данной поездке"""
 
         trip_from_time = self.trip_set.all()
@@ -153,16 +153,16 @@ class TimeTrip(models.Model):
             sum_places = sum(
                 list(map(lambda trip: trip.number_of_reserved_places, trip_from_time))
             )
-        return f"{sum_places}"
+        return sum_places
 
-    def number_of_free_places_in_trip(self) -> str:
+    def number_of_free_places_in_trip(self) -> int:
         """Функция, предназначенная для подсчета количества свободных мест
         на определенное дату и время"""
 
         count_free_places = self.number_of_seats - int(
             self.number_of_reserved_places_in_trip()
         )
-        return f"{count_free_places}"
+        return count_free_places
 
     def arrival_time_calculation(self) -> time:
         """Функция, предназначенная для подсчета времени прибытия"""

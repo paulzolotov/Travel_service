@@ -1,9 +1,11 @@
 import datetime
+import os
 from typing import Any
 
 import pdfkit
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.mail import send_mail
 from django.http import HttpRequest, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.template.loader import get_template
@@ -170,14 +172,23 @@ def booking_success(
     ticket_name = f'{trip.username}_{trip.get_direction()}_{trip.date_of_the_trip}_{trip.departure_time}_' \
                   f'{datetime.datetime.now()}.pdf'
     # Конвертирование html шаблона в pdf файл
-    ticket = pdfkit.from_string(ticket_template, f"media/booking/{ticket_name}")
+    css_path = os.path.join(os.path.dirname(__file__), 'static/css/style_booking.css')
+    ticket = pdfkit.from_string(ticket_template, f"media/booking/{ticket_name}", css=css_path)
 
     # Считывание билета и сохранение в бд билета в формате pdf
     with open(f'media/booking/{ticket_name}', 'rb') as f:
         trip.user_trip_ticket = File(f)
         trip.save()
 
-    # Тут будет отправка на почту
+        # Тут будет отправка на почту
+        send_mail(
+            f"Билет на поездку {trip.date_of_the_trip}",  # тема письма
+            '',
+            "support@busby.by",  # от кого письмо
+            [request.user.email],  # кому письмо
+            html_message=f"{File(f)}",
+            fail_silently=False,  # чтобы не вызывалась ошибка, что email не удалось отправить(при возникновении ошибки)
+        )
 
     context = {"ticket_template": ticket_template}
     return render(request, "booking/booking_success.html", context=context)

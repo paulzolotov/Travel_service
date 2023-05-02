@@ -29,7 +29,9 @@
                             <td class="daytime__trip">{{ trip_time.number_of_free_places_in_trip }} </td>
                             <td class="daytime__trip">{{ trip_time.number_of_seats }}</td>
                             <td class="daytime__trip">{{ trip_time.price }} BYN</td>
-                            <td><a class="daytime__trip-btn" href="{% url 'booking:trip' direction_slug=direction_slug date_route=trip_time.date_of_the_trip timetrip_id=trip_time.id %}">Забронировать</a></td>
+                            {% if trip_time.number_of_free_places_in_trip %}
+                                <td><a class="daytime__trip-btn" href="{% url 'booking:trip' direction_slug=direction_slug date_route=trip_time.date_of_the_trip timetrip_id=trip_time.id %}">Забронировать</a></td>
+                            {% endif %}
                         </tr>
                         {% endfor %}
                     </table>
