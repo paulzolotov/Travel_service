@@ -11,7 +11,7 @@ from django.template.loader import get_template
 from django.urls import reverse
 from django.core.files.base import File
 from django.views.generic import CreateView
-from .tasks import send_tripticket
+from .tasks import send_tripticket_task, booking_logger_task
 
 from .forms import TripModelForm
 from .models import Direction, Trip
@@ -19,6 +19,20 @@ from .models import Direction, Trip
 # Create your views here.
 
 
+def decorator_log(func):
+    """Декоратор для логгинга. """
+
+    def wrapper(*args, **kwargs):
+        request = args[0]
+        booking_logger_task.delay(
+            request.path, request.user.username, datetime.datetime.now()
+        )
+        return func(*args, **kwargs)
+
+    return wrapper
+
+
+@decorator_log
 def index(request: HttpRequest) -> HttpRequest:
     """Функция предназначена для перехода к странице со списком направлений"""
 
@@ -35,6 +49,7 @@ def index(request: HttpRequest) -> HttpRequest:
     )
 
 
+@decorator_log
 def get_daytime_trip(
     request: HttpRequest, direction_slug: str, date_route: datetime
 ) -> HttpRequest:
@@ -158,6 +173,7 @@ class TripCreateView(LoginRequiredMixin, CreateView):
         return HttpResponseRedirect(self.get_success_url())
 
 
+@decorator_log
 def booking_success(
     request: HttpRequest, direction_slug: str, date_route: datetime, timetrip_id: int
 ) -> HttpRequest:
@@ -183,12 +199,13 @@ def booking_success(
         trip.save()
 
     # Задача в celery
-    send_tripticket.delay(request.user.email, ticket_name, str(trip.date_of_the_trip))
+    send_tripticket_task.delay(request.user.email, ticket_name, str(trip.date_of_the_trip))
 
     context = {"ticket_template": ticket_template}
     return render(request, "booking/booking_success.html", context=context)
 
 
+@decorator_log
 def booking_impossible(
     request: HttpRequest, direction_slug: str, date_route: datetime, timetrip_id: int
 ) -> HttpRequest:
@@ -198,6 +215,7 @@ def booking_impossible(
 
 
 @login_required(login_url="users:login", redirect_field_name="next")
+@decorator_log
 def account(request: HttpRequest) -> HttpRequest:
     """Функция предназначена для перехода к странице с контактной информацией"""
 
@@ -208,6 +226,7 @@ def account(request: HttpRequest) -> HttpRequest:
     return render(request, "booking/account.html", context={"user_trips": user_trips})
 
 
+@decorator_log
 def trip_remove_in_account(request: HttpRequest, trip_id: int) -> HttpResponseRedirect:
     """Функция предназначена для удаления поездки из всех поездок пользователя"""
 
@@ -217,6 +236,7 @@ def trip_remove_in_account(request: HttpRequest, trip_id: int) -> HttpResponseRe
     return HttpResponseRedirect(request.META["HTTP_REFERER"])
 
 
+@decorator_log
 def contacts(request: HttpRequest) -> HttpRequest:
     """Функция предназначена для перехода к странице с контактной информацией"""
 

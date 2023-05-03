@@ -9,7 +9,7 @@ from django.utils.html import format_html
 from django.utils.http import urlencode
 from phonenumber_field.widgets import PhoneNumberPrefixWidget
 
-from .models import DateRoute, Direction, TimeTrip, Trip
+from .models import DateRoute, Direction, TimeTrip, Trip, Log
 
 
 # Register your models here.
@@ -179,3 +179,16 @@ class TripAdmin(admin.ModelAdmin):
         "get_list_stops",
     )
     sortable_by = ()
+
+
+@admin.register(Log)
+class LogAdmin(admin.ModelAdmin):
+    """Класс для отображения на панели администратора информации о Логах."""
+
+    list_display = ("log_datetime", "log_path", "log_user")
+    readonly_fields = (
+        "log_datetime",
+        "log_path",
+        "log_user",
+    )  # Делаем так, чтобы логи нельзя было редактировать.
+    search_fields = ("log_user",)

@@ -258,3 +258,17 @@ class Trip(models.Model):
             self.departure_time.direction.list_of_stops
         )  # НЕ знаю как передать полученный результат в
         # CHOICES поля landing_place модели Trip
+
+
+class Log(models.Model):
+    """Класс для создания модели - Лог (от конкретного пользователя)"""
+
+    log_path = models.CharField(max_length=300, verbose_name="request path")
+    log_user = models.CharField(max_length=100, verbose_name="request user")
+    log_datetime = models.DateTimeField(
+        verbose_name="Response datetime", auto_now_add=True
+    )
+
+    def __str__(self):
+        """Возвращает удобочитаемую строку для каждого объекта."""
+        return f"{self.log_path}"
