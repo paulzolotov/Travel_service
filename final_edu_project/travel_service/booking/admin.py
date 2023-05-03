@@ -9,7 +9,7 @@ from django.utils.html import format_html
 from django.utils.http import urlencode
 from phonenumber_field.widgets import PhoneNumberPrefixWidget
 
-from .models import DateRoute, Direction, TimeTrip, Trip, Log
+from .models import DateRoute, Direction, Log, TimeTrip, Trip
 
 
 # Register your models here.

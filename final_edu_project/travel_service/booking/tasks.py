@@ -1,11 +1,11 @@
 import datetime
 import logging
 
-from django.core.files.base import File
 from celery import shared_task
+from django.core.files.base import File
 from django.core.mail import send_mail
-from .models import DateRoute
-from .models import Log
+
+from .models import DateRoute, Log
 
 logger = logging.getLogger(__name__)  # необходимо для логгинга
 
@@ -23,10 +23,10 @@ def booking_logger_task(path: str, user: str, time: datetime):
 def send_tripticket_task(user_email: str, ticket_name: str, date: str) -> None:
     """Функция предназначена для отправления билета на поездку в pdf формате на почту пользователя"""
 
-    with open(f'media/booking/{ticket_name}', 'rb') as f:
+    with open(f"media/booking/{ticket_name}", "rb") as f:
         send_mail(
             f"Билет на поездку {date}",  # тема письма
-            '',
+            "",
             "support@busby.by",  # от кого письмо
             [user_email],  # кому письмо
             html_message=f"{File(f)}",
@@ -42,7 +42,9 @@ def make_inactive_last_day_task():
 
     # today = datetime.datetime(2023, 4, 6).date()  # for debug
     today = datetime.datetime.now().date()
-    all_dates = [x["date_route"] for x in DateRoute.objects.filter(is_active=True).values()]
+    all_dates = [
+        x["date_route"] for x in DateRoute.objects.filter(is_active=True).values()
+    ]
     if today in all_dates:
         queryset = DateRoute.objects.filter(date_route=today)
         print(queryset)

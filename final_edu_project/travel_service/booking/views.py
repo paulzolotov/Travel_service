@@ -5,24 +5,25 @@ from typing import Any
 import pdfkit
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.files.base import File
 from django.http import HttpRequest, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.template.loader import get_template
 from django.urls import reverse
-from django.core.files.base import File
 from django.views.generic import CreateView
-from .tasks import send_tripticket_task, booking_logger_task
 
 from .forms import TripModelForm
 from .models import Direction, Trip
+from .tasks import booking_logger_task, send_tripticket_task
 
 # Create your views here.
 
 
 def decorator_log(func):
-    """Декоратор для логгинга. """
+    """Декоратор для логгинга."""
 
     def wrapper(*args, **kwargs):
+        """Обертка"""
         request = args[0]
         booking_logger_task.delay(
             request.path, request.user.username, datetime.datetime.now()
@@ -182,24 +183,28 @@ def booking_success(
     trip = Trip.objects.get(username=request.user, departure_time=timetrip_id)
 
     # Генерация html шаблона билета
-    template = get_template('ticket.html')
+    template = get_template("ticket.html")
     context = {"trip": trip}
     ticket_template = template.render(context)
-    ticket_name = f'{trip.username}_{trip.get_direction()}_{trip.date_of_the_trip}_{trip.departure_time}_' \
-                  f'{datetime.datetime.now()}.pdf'
+    ticket_name = (
+        f"{trip.username}_{trip.get_direction()}_{trip.date_of_the_trip}_{trip.departure_time}_"
+        f"{datetime.datetime.now()}.pdf"
+    )
     # Конвертирование html шаблона в pdf файл
-    css_path = os.path.join(os.path.dirname(__file__), 'static/css/style_booking.css')
-    ticket = pdfkit.from_string(ticket_template, f"media/booking/{ticket_name}", css=css_path)
+    css_path = os.path.join(os.path.dirname(__file__), "static/css/style_booking.css")
+    pdfkit.from_string(ticket_template, f"media/booking/{ticket_name}", css=css_path)
 
     # Считывание билета и сохранение в бд билета в формате pdf
     # !!! Планировал передать данную функцию тоже в celery, но этому помешало передача объекта trip
     # (не удавалась сериализовать данный тип объекта)
-    with open(f'media/booking/{ticket_name}', 'rb') as f:
+    with open(f"media/booking/{ticket_name}", "rb") as f:
         trip.user_trip_ticket = File(f)
         trip.save()
 
     # Задача в celery
-    send_tripticket_task.delay(request.user.email, ticket_name, str(trip.date_of_the_trip))
+    send_tripticket_task.delay(
+        request.user.email, ticket_name, str(trip.date_of_the_trip)
+    )
 
     context = {"ticket_template": ticket_template}
     return render(request, "booking/booking_success.html", context=context)
