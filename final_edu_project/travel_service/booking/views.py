@@ -25,7 +25,7 @@ def index(request: HttpRequest) -> HttpRequest:
     directions = Direction.objects.filter(is_active=True).all()
     today = str(
         datetime.datetime(2023, 4, 6).date()
-    )  # указываем определенный день, чтобы записи в бд
+    )  # for debug - указываем определенный день, чтобы записи в бд
     # не создавать каждый раз
     # today = datetime.datetime.now().date()
     return render(

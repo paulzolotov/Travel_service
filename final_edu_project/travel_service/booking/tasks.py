@@ -3,6 +3,7 @@ import datetime
 from django.core.files.base import File
 from celery import shared_task
 from django.core.mail import send_mail
+from .models import DateRoute
 
 
 @shared_task()
@@ -18,3 +19,18 @@ def send_tripticket(user_email: str, ticket_name: str, date: str) -> None:
             html_message=f"{File(f)}",
             fail_silently=False,  # чтобы не вызывалась ошибка, что email не удалось отправить(при возникновении ошибки)
         )
+
+
+@shared_task()
+def make_inactive_last_day_task():
+    """Функция для ежедневной проверки активных дней в сервисе. Идея такова: если день уже прошел т.е наступило 0.00
+    мин нового дня и это день имел статус 'активен', переводим его в 'неактивный'
+    """
+
+    # today = datetime.datetime(2023, 4, 6).date()  # for debug
+    today = datetime.datetime.now().date()
+    all_dates = [x["date_route"] for x in DateRoute.objects.filter(is_active=True).values()]
+    if today in all_dates:
+        queryset = DateRoute.objects.filter(date_route=today)
+        print(queryset)
+        queryset.update(is_active=False)

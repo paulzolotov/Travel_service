@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "django_celery_beat",
     "drf_yasg",
     "django_filters",
     "api.apps.ApiConfig",
@@ -177,3 +178,5 @@ LOGIN_REDIRECT_URL = (
 
 CELERY_BROKER_URL = "redis://localhost:6379"
 CELERY_RESULT_BACKEND = "redis://localhost:6379"
+
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
