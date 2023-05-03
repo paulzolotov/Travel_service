@@ -174,3 +174,6 @@ ACCOUNT_EMAIL_VERIFICATION = (
 LOGIN_REDIRECT_URL = (
     "booking:index"  # Ресурс для перенаправления после успешной авторизации.
 )
+
+CELERY_BROKER_URL = "redis://localhost:6379"
+CELERY_RESULT_BACKEND = "redis://localhost:6379"

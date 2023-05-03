@@ -5,13 +5,13 @@ from typing import Any
 import pdfkit
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.mail import send_mail
 from django.http import HttpRequest, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.template.loader import get_template
 from django.urls import reverse
-from django.views.generic import CreateView
 from django.core.files.base import File
+from django.views.generic import CreateView
+from .tasks import send_tripticket
 
 from .forms import TripModelForm
 from .models import Direction, Trip
@@ -176,19 +176,14 @@ def booking_success(
     ticket = pdfkit.from_string(ticket_template, f"media/booking/{ticket_name}", css=css_path)
 
     # Считывание билета и сохранение в бд билета в формате pdf
+    # !!! Планировал передать данную функцию тоже в celery, но этому помешало передача объекта trip
+    # (не удавалась сериализовать данный тип объекта)
     with open(f'media/booking/{ticket_name}', 'rb') as f:
         trip.user_trip_ticket = File(f)
         trip.save()
 
-        # Тут будет отправка на почту
-        send_mail(
-            f"Билет на поездку {trip.date_of_the_trip}",  # тема письма
-            '',
-            "support@busby.by",  # от кого письмо
-            [request.user.email],  # кому письмо
-            html_message=f"{File(f)}",
-            fail_silently=False,  # чтобы не вызывалась ошибка, что email не удалось отправить(при возникновении ошибки)
-        )
+    # Задача в celery
+    send_tripticket.delay(request.user.email, ticket_name, str(trip.date_of_the_trip))
 
     context = {"ticket_template": ticket_template}
     return render(request, "booking/booking_success.html", context=context)
