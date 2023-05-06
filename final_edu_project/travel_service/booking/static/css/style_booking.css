@@ -363,7 +363,14 @@
     margin-bottom: 30px;
     text-align: center;
 }
-
+.account__userinfo {
+    font-family: "Raleway", sans-serif;
+    font-size: 20px;
+    color: white;
+    line-height: 22px;
+    font-weight: 300;
+    margin-bottom: 30px;
+}
 .account__table-wrap {
     max-width: 1000px;
     width: 100%;

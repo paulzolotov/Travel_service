@@ -3,7 +3,6 @@ asgiref==3.6.0
 async-timeout==4.0.2
 attrs==23.1.0
 Babel==2.12.1
-backports.zoneinfo==0.2.1;python_version<"3.9"
 billiard==3.6.4.0
 black==23.3.0
 celery==5.2.7
@@ -23,6 +22,7 @@ defusedxml==0.7.1
 Django==4.2
 django-allauth==0.54.0
 django-celery-beat==2.5.0
+django-debug-toolbar==4.0.0
 django-filter==23.1
 django-phonenumber-field==7.0.2
 django-timezone-field==5.0
