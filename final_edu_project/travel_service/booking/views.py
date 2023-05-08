@@ -61,9 +61,9 @@ def get_daytime_trip(
 
     # Получили список всех дат по которым возможна бронь поездки
     direction = get_object_or_404(Direction, slug=direction_slug)
-    date_routes = direction.dateroute_set.filter(
-        is_active=True
-    ).order_by("date_route").all()  # dateroute в dateroute_set взяли из модели
+    date_routes = (
+        direction.dateroute_set.filter(is_active=True).order_by("date_route").all()
+    )  # dateroute в dateroute_set взяли из модели
     # Получили список всех поездок сортированных по времени (с утра до вечера)
     day = get_object_or_404(date_routes, date_route=date_route)
     # timetrip в timetrip_set взяли из модели
@@ -132,7 +132,6 @@ class TripCreateView(LoginRequiredMixin, CreateView):
         time = get_object_or_404(trip_times, id=timetrip_id)
 
         return direction, day, time
-
 
     def form_valid(self, form: Any) -> HttpResponseRedirect:
         """Функция для проверки валидности"""
