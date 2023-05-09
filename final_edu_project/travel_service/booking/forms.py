@@ -26,7 +26,3 @@ class TripModelForm(forms.ModelForm):
                 attrs={"class": "booking__form-input booking__form-input__area"}
             ),
         }
-        labels = {
-            "text": "Comment text",
-        }
-        help_texts = {"text": "Please, rate this game for better experience"}

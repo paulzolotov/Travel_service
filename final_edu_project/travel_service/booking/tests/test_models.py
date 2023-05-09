@@ -1,6 +1,7 @@
 import datetime
 
-from booking.models import DateRoute, Direction
+from django.shortcuts import get_object_or_404
+from booking.models import DateRoute, Direction, TimeTrip
 from django.test import TestCase
 
 
@@ -66,6 +67,84 @@ class DirectionsTestsClass(TestCase):
         direction = Direction.objects.get(id=1)
         real_max_length = direction._meta.get_field('name').max_length
         self.assertEqual(real_max_length, 70)
+
+    def test_start_point_verbose_name(self):
+        """Функция, проверяющая название параметра verbose_name атрибута Direction - start_point"""
+
+        direction = Direction.objects.get(id=1)
+        real_verbose_name = direction._meta.get_field('start_point').verbose_name
+        expected_verbose_name = "Where does the route start?"
+        self.assertEqual(
+            real_verbose_name, expected_verbose_name
+        )  # assertEqual - предполагает, что аргументы одинаковы
+
+    def test_start_point_max_length(self):
+        """Функция, проверяющая длину параметра max_length атрибута Direction - start_point"""
+
+        direction = Direction.objects.get(id=1)
+        real_max_length = direction._meta.get_field('start_point').max_length
+        self.assertEqual(real_max_length, 40)
+
+    def test_end_point_verbose_name(self):
+        """Функция, проверяющая название параметра verbose_name атрибута Direction - end_point"""
+
+        direction = Direction.objects.get(id=1)
+        real_verbose_name = direction._meta.get_field('end_point').verbose_name
+        expected_verbose_name = "Where does the route end?"
+        self.assertEqual(
+            real_verbose_name, expected_verbose_name
+        )  # assertEqual - предполагает, что аргументы одинаковы
+
+    def test_end_point_max_length(self):
+        """Функция, проверяющая длину параметра max_length атрибута Direction - end_point"""
+
+        direction = Direction.objects.get(id=1)
+        real_max_length = direction._meta.get_field('end_point').max_length
+        self.assertEqual(real_max_length, 40)
+
+    def test_list_of_stops_verbose_name(self):
+        """Функция, проверяющая название параметра verbose_name атрибута Direction - list_of_stops"""
+
+        direction = Direction.objects.get(id=1)
+        real_verbose_name = direction._meta.get_field('list_of_stops').verbose_name
+        expected_verbose_name = "Enter stops separated by commas.(For example: Rest.1, Rest.2)"
+        self.assertEqual(
+            real_verbose_name, expected_verbose_name
+        )  # assertEqual - предполагает, что аргументы одинаковы
+
+    def test_list_of_stops_max_length(self):
+        """Функция, проверяющая длину параметра max_length атрибута Direction - list_of_stops"""
+
+        direction = Direction.objects.get(id=1)
+        real_max_length = direction._meta.get_field('list_of_stops').max_length
+        self.assertEqual(real_max_length, 200)
+
+    def test_list_of_stops_default(self):
+        """Функция, проверяющая название параметра default атрибута Direction - list_of_stops"""
+
+        direction = Direction.objects.get(id=1)
+        real_verbose_name = direction._meta.get_field('list_of_stops').default
+        expected_verbose_name = "Rest.1, Rest.2"
+        self.assertEqual(
+            real_verbose_name, expected_verbose_name
+        )  # assertEqual - предполагает, что аргументы одинаковы
+
+    def test_travel_time_verbose_name(self):
+        """Функция, проверяющая название параметра verbose_name атрибута Direction - travel_time"""
+
+        direction = Direction.objects.get(id=1)
+        real_verbose_name = direction._meta.get_field('travel_time').verbose_name
+        expected_verbose_name = "Travel time in minutes"
+        self.assertEqual(
+            real_verbose_name, expected_verbose_name
+        )  # assertEqual - предполагает, что аргументы одинаковы
+
+    def test_travel_time_default(self):
+        """Функция, проверяющая длину параметра default атрибута Direction - travel_time"""
+
+        direction = Direction.objects.get(id=1)
+        real_max_length = direction._meta.get_field('travel_time').default
+        self.assertEqual(real_max_length, 0)
 
     def test_object_name(self):
         """Функция, проверяющая название объекта"""
