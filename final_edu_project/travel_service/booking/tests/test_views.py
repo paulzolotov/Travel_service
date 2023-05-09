@@ -25,7 +25,7 @@ class DirectionsTestsClass(TestCase):
     def test_view_url_exists_at_desired_location(self):
         """Тестирование корректного перехода"""
 
-        resp = self.client.get("")
+        resp = self.client.get("/booking/")
         self.assertEqual(resp.status_code, 200)
 
     def test_view_url_accessible_by_name(self):

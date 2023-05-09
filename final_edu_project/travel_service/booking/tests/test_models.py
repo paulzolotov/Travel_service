@@ -11,7 +11,7 @@ class DirectionsTestsClass(TestCase):
     def setUpTestData(cls):
         """Выполняется перед запуском всех тестов конкретного класса"""
 
-        cls.direction = Direction.objects.create(
+        Direction.objects.create(
             slug="minsk_pinsk",
             name="Минск-Пинск",
             start_point="Минск",
@@ -35,7 +35,9 @@ class DirectionsTestsClass(TestCase):
     def test_slug_verbose_name(self):
         """Функция, проверяющая название параметра verbose_name атрибута Direction - slug"""
 
-        real_verbose_name = getattr(self.slug, "verbose_name")
+        direction = Direction.objects.get(id=1)
+        real_verbose_name = direction._meta.get_field('slug').verbose_name
+        # real_verbose_name = getattr(self.slug, "verbose_name")
         expected_verbose_name = "Short Name"
         self.assertEqual(
             real_verbose_name, expected_verbose_name
@@ -44,13 +46,15 @@ class DirectionsTestsClass(TestCase):
     def test_slug_max_length(self):
         """Функция, проверяющая длину параметра max_length атрибута Direction - slug"""
 
-        real_max_length = getattr(self.slug, "max_length")
+        direction = Direction.objects.get(id=1)
+        real_max_length = direction._meta.get_field('slug').max_length
         self.assertEqual(real_max_length, 70)
 
     def test_name_verbose_name(self):
         """Функция, проверяющая название параметра verbose_name атрибута Direction - name"""
 
-        real_verbose_name = getattr(self.name, "verbose_name")
+        direction = Direction.objects.get(id=1)
+        real_verbose_name = direction._meta.get_field('name').verbose_name
         expected_verbose_name = "Direction Name"
         self.assertEqual(
             real_verbose_name, expected_verbose_name
@@ -59,8 +63,16 @@ class DirectionsTestsClass(TestCase):
     def test_name_max_length(self):
         """Функция, проверяющая длину параметра max_length атрибута Direction - name"""
 
-        real_max_length = getattr(self.name, "max_length")
+        direction = Direction.objects.get(id=1)
+        real_max_length = direction._meta.get_field('name').max_length
         self.assertEqual(real_max_length, 70)
+
+    def test_object_name(self):
+        """Функция, проверяющая название объекта"""
+
+        direction = Direction.objects.get(id=1)
+        expected_object_name = f"{direction.name}"
+        self.assertEquals(expected_object_name, str(direction))
 
 
 class DateRoutesTestsClass(TestCase):
@@ -70,7 +82,7 @@ class DateRoutesTestsClass(TestCase):
     def setUpTestData(cls):
         """Выполняется перед запуском всех тестов конкретного класса"""
 
-        cls.dateroute = DateRoute.objects.create(
+        DateRoute.objects.create(
             date_route=datetime.datetime(2023, 4, 6).date(),
             is_active=True,
         )
@@ -89,7 +101,8 @@ class DateRoutesTestsClass(TestCase):
     def test_date_route_verbose_name(self):
         """Функция, проверяющая название параметра verbose_name атрибута DateRoute - date_route"""
 
-        real_verbose_name = getattr(self.date_route, "verbose_name")
+        date_route = DateRoute.objects.get(id=1)
+        real_verbose_name = date_route._meta.get_field('date_route').verbose_name
         expected_verbose_name = "Date of trip"
         self.assertEqual(
             real_verbose_name, expected_verbose_name
@@ -98,5 +111,13 @@ class DateRoutesTestsClass(TestCase):
     def test_date_route_auto_now_add(self):
         """Функция, проверяющая длину параметра max_length атрибута DateRoute - date_route"""
 
-        real_auto_now_add = getattr(self.date_route, "auto_now_add")
+        date_route = DateRoute.objects.get(id=1)
+        real_auto_now_add = date_route._meta.get_field('date_route').auto_now_add
         self.assertEqual(real_auto_now_add, False)
+
+    def test_object_name(self):
+        """Функция, проверяющая название объекта"""
+
+        date_route = DateRoute.objects.get(id=1)
+        expected_object_name = f"{date_route.date_route}"
+        self.assertEquals(expected_object_name, str(date_route))
