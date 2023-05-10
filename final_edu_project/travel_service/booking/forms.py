@@ -1,7 +1,6 @@
 from django import forms
-from django.shortcuts import get_object_or_404
 
-from .models import TimeTrip, Trip
+from .models import Trip
 
 
 class TripModelForm(forms.ModelForm):
@@ -25,4 +24,9 @@ class TripModelForm(forms.ModelForm):
             "user_comment": forms.Textarea(
                 attrs={"class": "booking__form-input booking__form-input__area"}
             ),
+        }
+        labels = {
+            "number_of_reserved_places": "Кол-во забронированных мест",
+            "landing_place": "Остановка",
+            "user_comment": "Комментарий",
         }
