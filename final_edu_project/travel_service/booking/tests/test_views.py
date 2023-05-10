@@ -1,7 +1,6 @@
 from booking.models import Direction
 from django.test import TestCase
 from django.urls import reverse
-
 from users.models import BookingUser
 
 
@@ -27,7 +26,9 @@ class DirectionsTestsClass(TestCase):
     def setUp(self):
         """Выполняется перед запуском каждого теста"""
 
-        self.user = BookingUser.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')
+        self.user = BookingUser.objects.create_user(
+            "john", "lennon@thebeatles.com", "johnpassword"
+        )
 
     def test_view_url_exists_at_desired_location_booking(self):
         """Тестирование корректного перехода"""
@@ -44,8 +45,8 @@ class DirectionsTestsClass(TestCase):
     def test_view_uses_correct_template_booking(self):
         """Тестирование корректности отображения шаблона"""
 
-        resp = self.client.get(reverse('booking:index'))
-        self.assertTemplateUsed(resp, 'booking/index.html')
+        resp = self.client.get(reverse("booking:index"))
+        self.assertTemplateUsed(resp, "booking/index.html")
 
     def test_view_url_exists_at_desired_location_contacts(self):
         """Тестирование корректного перехода"""
@@ -62,26 +63,26 @@ class DirectionsTestsClass(TestCase):
     def test_view_uses_correct_template_contacts(self):
         """Тестирование корректности отображения шаблона"""
 
-        resp = self.client.get(reverse('booking:contacts'))
-        self.assertTemplateUsed(resp, 'booking/contacts.html')
+        resp = self.client.get(reverse("booking:contacts"))
+        self.assertTemplateUsed(resp, "booking/contacts.html")
 
     def test_view_url_exists_at_desired_location_account(self):
         """Тестирование корректного перехода"""
 
-        self.client.login(username='john', password='johnpassword')
+        self.client.login(username="john", password="johnpassword")
         resp = self.client.get("/booking/account")
         self.assertEqual(resp.status_code, 200)
 
     def test_view_url_accessible_by_name_account(self):
         """Тестирование корректности названия представления"""
 
-        self.client.login(username='john', password='johnpassword')
+        self.client.login(username="john", password="johnpassword")
         resp = self.client.get(reverse("booking:account"))
         self.assertEqual(resp.status_code, 200)
 
     def test_view_uses_correct_template_account(self):
         """Тестирование корректности отображения шаблона"""
 
-        self.client.login(username='john', password='johnpassword')
-        resp = self.client.get(reverse('booking:account'))
-        self.assertTemplateUsed(resp, 'booking/account.html')
+        self.client.login(username="john", password="johnpassword")
+        resp = self.client.get(reverse("booking:account"))
+        self.assertTemplateUsed(resp, "booking/account.html")

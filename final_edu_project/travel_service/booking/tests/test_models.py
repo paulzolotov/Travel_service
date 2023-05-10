@@ -1,7 +1,7 @@
 import datetime
 
-from django.shortcuts import get_object_or_404
 from booking.models import DateRoute, Direction, TimeTrip
+from django.shortcuts import get_object_or_404
 from django.test import TestCase
 
 
@@ -37,7 +37,7 @@ class DirectionsTestsClass(TestCase):
         """Функция, проверяющая название параметра verbose_name атрибута Direction - slug"""
 
         direction = Direction.objects.get(id=1)
-        real_verbose_name = direction._meta.get_field('slug').verbose_name
+        real_verbose_name = direction._meta.get_field("slug").verbose_name
         # real_verbose_name = getattr(self.slug, "verbose_name")
         expected_verbose_name = "Short Name"
         self.assertEqual(
@@ -48,14 +48,14 @@ class DirectionsTestsClass(TestCase):
         """Функция, проверяющая длину параметра max_length атрибута Direction - slug"""
 
         direction = Direction.objects.get(id=1)
-        real_max_length = direction._meta.get_field('slug').max_length
+        real_max_length = direction._meta.get_field("slug").max_length
         self.assertEqual(real_max_length, 70)
 
     def test_name_verbose_name(self):
         """Функция, проверяющая название параметра verbose_name атрибута Direction - name"""
 
         direction = Direction.objects.get(id=1)
-        real_verbose_name = direction._meta.get_field('name').verbose_name
+        real_verbose_name = direction._meta.get_field("name").verbose_name
         expected_verbose_name = "Direction Name"
         self.assertEqual(
             real_verbose_name, expected_verbose_name
@@ -65,14 +65,14 @@ class DirectionsTestsClass(TestCase):
         """Функция, проверяющая длину параметра max_length атрибута Direction - name"""
 
         direction = Direction.objects.get(id=1)
-        real_max_length = direction._meta.get_field('name').max_length
+        real_max_length = direction._meta.get_field("name").max_length
         self.assertEqual(real_max_length, 70)
 
     def test_start_point_verbose_name(self):
         """Функция, проверяющая название параметра verbose_name атрибута Direction - start_point"""
 
         direction = Direction.objects.get(id=1)
-        real_verbose_name = direction._meta.get_field('start_point').verbose_name
+        real_verbose_name = direction._meta.get_field("start_point").verbose_name
         expected_verbose_name = "Where does the route start?"
         self.assertEqual(
             real_verbose_name, expected_verbose_name
@@ -82,14 +82,14 @@ class DirectionsTestsClass(TestCase):
         """Функция, проверяющая длину параметра max_length атрибута Direction - start_point"""
 
         direction = Direction.objects.get(id=1)
-        real_max_length = direction._meta.get_field('start_point').max_length
+        real_max_length = direction._meta.get_field("start_point").max_length
         self.assertEqual(real_max_length, 40)
 
     def test_end_point_verbose_name(self):
         """Функция, проверяющая название параметра verbose_name атрибута Direction - end_point"""
 
         direction = Direction.objects.get(id=1)
-        real_verbose_name = direction._meta.get_field('end_point').verbose_name
+        real_verbose_name = direction._meta.get_field("end_point").verbose_name
         expected_verbose_name = "Where does the route end?"
         self.assertEqual(
             real_verbose_name, expected_verbose_name
@@ -99,15 +99,17 @@ class DirectionsTestsClass(TestCase):
         """Функция, проверяющая длину параметра max_length атрибута Direction - end_point"""
 
         direction = Direction.objects.get(id=1)
-        real_max_length = direction._meta.get_field('end_point').max_length
+        real_max_length = direction._meta.get_field("end_point").max_length
         self.assertEqual(real_max_length, 40)
 
     def test_list_of_stops_verbose_name(self):
         """Функция, проверяющая название параметра verbose_name атрибута Direction - list_of_stops"""
 
         direction = Direction.objects.get(id=1)
-        real_verbose_name = direction._meta.get_field('list_of_stops').verbose_name
-        expected_verbose_name = "Enter stops separated by commas.(For example: Rest.1, Rest.2)"
+        real_verbose_name = direction._meta.get_field("list_of_stops").verbose_name
+        expected_verbose_name = (
+            "Enter stops separated by commas.(For example: Rest.1, Rest.2)"
+        )
         self.assertEqual(
             real_verbose_name, expected_verbose_name
         )  # assertEqual - предполагает, что аргументы одинаковы
@@ -116,14 +118,14 @@ class DirectionsTestsClass(TestCase):
         """Функция, проверяющая длину параметра max_length атрибута Direction - list_of_stops"""
 
         direction = Direction.objects.get(id=1)
-        real_max_length = direction._meta.get_field('list_of_stops').max_length
+        real_max_length = direction._meta.get_field("list_of_stops").max_length
         self.assertEqual(real_max_length, 200)
 
     def test_list_of_stops_default(self):
         """Функция, проверяющая название параметра default атрибута Direction - list_of_stops"""
 
         direction = Direction.objects.get(id=1)
-        real_verbose_name = direction._meta.get_field('list_of_stops').default
+        real_verbose_name = direction._meta.get_field("list_of_stops").default
         expected_verbose_name = "Rest.1, Rest.2"
         self.assertEqual(
             real_verbose_name, expected_verbose_name
@@ -133,7 +135,7 @@ class DirectionsTestsClass(TestCase):
         """Функция, проверяющая название параметра verbose_name атрибута Direction - travel_time"""
 
         direction = Direction.objects.get(id=1)
-        real_verbose_name = direction._meta.get_field('travel_time').verbose_name
+        real_verbose_name = direction._meta.get_field("travel_time").verbose_name
         expected_verbose_name = "Travel time in minutes"
         self.assertEqual(
             real_verbose_name, expected_verbose_name
@@ -143,7 +145,7 @@ class DirectionsTestsClass(TestCase):
         """Функция, проверяющая длину параметра default атрибута Direction - travel_time"""
 
         direction = Direction.objects.get(id=1)
-        real_max_length = direction._meta.get_field('travel_time').default
+        real_max_length = direction._meta.get_field("travel_time").default
         self.assertEqual(real_max_length, 0)
 
     def test_object_name(self):
@@ -181,7 +183,7 @@ class DateRoutesTestsClass(TestCase):
         """Функция, проверяющая название параметра verbose_name атрибута DateRoute - date_route"""
 
         date_route = DateRoute.objects.get(id=1)
-        real_verbose_name = date_route._meta.get_field('date_route').verbose_name
+        real_verbose_name = date_route._meta.get_field("date_route").verbose_name
         expected_verbose_name = "Date of trip"
         self.assertEqual(
             real_verbose_name, expected_verbose_name
@@ -191,7 +193,7 @@ class DateRoutesTestsClass(TestCase):
         """Функция, проверяющая длину параметра max_length атрибута DateRoute - date_route"""
 
         date_route = DateRoute.objects.get(id=1)
-        real_auto_now_add = date_route._meta.get_field('date_route').auto_now_add
+        real_auto_now_add = date_route._meta.get_field("date_route").auto_now_add
         self.assertEqual(real_auto_now_add, False)
 
     def test_object_name(self):

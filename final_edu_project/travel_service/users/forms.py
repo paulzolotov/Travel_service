@@ -13,8 +13,9 @@ class CustomUserCreationForm(UserCreationForm):
     phone = PhoneNumberField(
         label="Номер телефона",
         region="BY",
-        widget=PhoneNumberPrefixWidget(attrs={"class": "form__input"},
-                                       country_choices=[("BY", "375"), ("RU", "7"), ("UA", "380")],
+        widget=PhoneNumberPrefixWidget(
+            attrs={"class": "form__input"},
+            country_choices=[("BY", "375"), ("RU", "7"), ("UA", "380")],
         ),
     )
     username = forms.CharField(
@@ -30,8 +31,10 @@ class CustomUserCreationForm(UserCreationForm):
         label="Email", widget=forms.EmailInput(attrs={"class": "form__input"})
     )
     date_of_birth = forms.DateField(
-        label="Дата рождения", widget=SelectDateWidget(years=range(1940, 2010),
-                                                       attrs={"class": "form__input"})
+        label="Дата рождения",
+        widget=SelectDateWidget(
+            years=range(1940, 2010), attrs={"class": "form__input"}
+        ),
     )
     password1 = forms.CharField(
         label="Пароль", widget=forms.PasswordInput(attrs={"class": "form__input"})
@@ -68,7 +71,8 @@ class CustomPasswordChangeForm(PasswordChangeForm):
     """Класс для создания формы по смене пароля"""
 
     old_password = forms.CharField(
-        label="Старый пароль", widget=forms.PasswordInput(attrs={"class": "form__input"})
+        label="Старый пароль",
+        widget=forms.PasswordInput(attrs={"class": "form__input"}),
     )
     new_password1 = forms.CharField(
         label="Новый пароль", widget=forms.PasswordInput(attrs={"class": "form__input"})
