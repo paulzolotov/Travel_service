@@ -15,11 +15,13 @@
 .header {
     background-color: black;
 }
+/*Обертка для header*/
 .header__wrap {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
+/*Кнопка логотип в header*/
 .header__logotype-btn {
     width: 100px;
     height: 100px;
@@ -28,15 +30,18 @@
     align-items: center;
     cursor: pointer;
 }
+/*Картинка логотипа в header*/
 .header__logotype-img {
     width: 100%;
     height: 100%;
     object-fit: contain;
 }
+/*Обертка для Личн.каб в header*/
 .header__contacts {
     display: flex;
     column-gap: 30px;
 }
+/*Кнопка Личн.каб. в header*/
 .header__contacts-btn {
     font-family: "Raleway", sans-serif;
     font-size: 18px;
@@ -47,7 +52,6 @@
     color: #0E6038;
     text-decoration: NONE;
 }
-
 /*поле с пользователем*/
 .user {
     display: grid;
@@ -70,6 +74,7 @@
     justify-content: end;
     column-gap: 15px;
 }
+/*Кнопки входа,регистр. в header*/
 .user__btn-top {
     padding: 4px;
     border-radius: 10px;
@@ -99,7 +104,6 @@
     color: #0E6038;
     font-size: 26px;
 }
-
 /*Стили для страницы с информацией*/
 .main {
     background-image: url(../background.png);
@@ -121,26 +125,23 @@
     }
 /*Список всех направлений*/
 .main__list-wrap {
-    max-width: 700px;
+    max-width: 900px;
     width: 100%;
     margin: 0 auto;
 }
 /*Элементы списка-Строка с направлением*/
-.main__list-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    margin-bottom: 30px;
-    column-gap: 30px;
-}
+
 /*Направление*/
 .main__direction {
+    padding: 16.4px 15px;
+    text-align: center;
     font-family: "Raleway", sans-serif;
     font-size: 30px;
     color: white;
     line-height: 30px;
     font-weight: 400;
 }
+/*Кнопка Перейти*/
 .main__btn {
     display: block;
     padding: 3px 5px;
@@ -162,12 +163,14 @@
 .footer {
     background-color: black;
 }
+/*Обертка для кнопок в футере*/
 .footer_contacts{
     display: flex;
     justify-content: center;
     column-gap: 10px; /*расстояние между иконками*/
     margin-bottom: 10px; /*расстояние до текста*/
 }
+/*Кнопки в футере*/
 .footer_contacts-link{
     display: flex;
     justify-content: center;
@@ -175,6 +178,7 @@
     width: 35px;
     height: 35px;
 }
+/*Текст в футере*/
 .footer__text {
     max-width: 380px;
     width: 100%;
@@ -187,7 +191,6 @@
     text-transform: capitalize;
     color: white;
 }
-
 /*Стили для страницы с информацией*/
 .contacts {
     background-image: url(../background.png);
@@ -207,10 +210,12 @@
     left: 0;
     top: 0;
     }
+/*Обертка в контактах*/
 .contacts__info {
     margin: 0 auto; /* НЕ работает*/
     margin-bottom: 50px;
 }
+/*Заголовки в контактах*/
 .contacts__title {
     font-family: "Raleway", sans-serif;
     font-size: 30px;
@@ -219,6 +224,7 @@
     font-weight: 400;
     margin-bottom: 30px;
 }
+/*Осн. текст в контактах*/
 .contacts__text {
     font-family: "Raleway", sans-serif;
     font-weight: 400;
@@ -227,7 +233,6 @@
     color: white;
     margin-bottom: 5px;
 }
-
 /*Стили для страницы с датами и поездками*/
 .daytime {
     background-image: url(../background.png);
@@ -247,6 +252,7 @@
     left: 0;
     top: 0;
 }
+/*Заголовок*/
 .daytime__title {
     font-family: "Raleway", sans-serif;
     font-size: 48px;
@@ -256,6 +262,7 @@
     margin-bottom: 50px;
     text-align: center;
 }
+/*Обертка для дат*/
 .daytime__info{
    display: flex;
     align-items: center;
@@ -264,8 +271,8 @@
     row-gap: 20px;
     flex-wrap: wrap;
     margin-bottom: 50px;
-
 }
+/*Даты*/
 .daytime__date-btn {
     display: block;
     padding: 3px 5px;
@@ -282,6 +289,7 @@
     background-color: #0E6038;
     border: none;
 }
+/*Поездки определ. даты*/
 .daytime__date {
     font-family: "Raleway", sans-serif;
     font-size: 30px;
@@ -291,11 +299,13 @@
     margin-bottom: 30px;
     text-align: center;
 }
+/*Обертка для табл. с поездками определ. даты*/
 .daytime__list-wrap{
     max-width: 800px;
     width: 100%;
     margin: 0 auto;
 }
+/*Заголовки ячеки Табл. с поездками определ. даты*/
 .daytime__tabletop {
     padding: 10px 20px;
     text-align: center;
@@ -305,6 +315,7 @@
     line-height: 24px;
     font-weight: 500;
 }
+/*Ячейки Табл. с поездками определ. даты*/
 .daytime__trip {
     padding: 10px 20px;
     text-align: center;
@@ -314,6 +325,7 @@
     line-height: 22px;
     font-weight: 500;
 }
+/*Кнопка забронировать поездку определ. даты*/
 .daytime__trip-btn {
     display: block;
     padding: 3px 5px;
@@ -331,110 +343,7 @@
     background-color: #0E6038;
     border: none;
 }
-
-.account {
-    background-image: url(../background.png);
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    position: relative;
-    padding: 50px 10px 130px;
-}
-.account::before {
-    content: "";
-    display: block;
-    background: rgba(0, 0, 0, 0.5);
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-}
-.account__wrap {
-    display:grid;
-    grid-template-columns: 0.4fr 1fr;
-}
-.account__title {
-   font-family: "Raleway", sans-serif;
-    font-size: 30px;
-    color: white;
-    line-height: 30px;
-    font-weight: 400;
-    margin-bottom: 30px;
-    text-align: center;
-}
-.account__userinfo {
-    font-family: "Raleway", sans-serif;
-    font-size: 20px;
-    color: white;
-    line-height: 22px;
-    font-weight: 300;
-    margin-bottom: 30px;
-}
-.account__table-wrap {
-    max-width: 1000px;
-    width: 100%;
-    margin: 0 auto;
-    margin-bottom: 30px;
-}
-.account__tabletop {
-    padding: 10px 15px;
-    text-align: center;
-    font-family: "Raleway", sans-serif;
-    font-size: 22px;
-    color: #8e8d8a;
-    line-height: 24px;
-    font-weight: 500;
-}
-.account__text {
-    padding: 10px 20px;
-    text-align: center;
-    font-family: "Raleway", sans-serif;
-    font-size: 18px;
-    color: white;
-    line-height: 22px;
-    font-weight: 500;
-}
-.account__list {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
-.account__text-left_top{
-    margin-bottom: 20px;
-}
-.account__text-left {
-    font-family: "Raleway", sans-serif;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 21px;
-    color: white;
-}
-.account__btn-remove {
-    display: block;
-    padding: 3px 5px;
-    border-radius: 10px;
-    margin: 0 auto;
-    max-width: 110px;
-    width: 100%;
-    font-family: "Raleway", sans-serif;
-    font-size: 18px;
-    line-height: 20px;
-    font-weight: 500;
-    text-align: center;
-    text-decoration: none;
-    color: white;
-    background-color: #0E6038;
-    border: none;
-}
-.account__text-notrip{
-    text-align: center;
-    font-family: "Raleway", sans-serif;
-    font-size: 22px;
-    color: white;
-    line-height: 24px;
-    font-weight: 500;
-}
+/*Стили для страницы с бронированием поездки*/
 .booking {
     background-image: url(../background.png);
     background-size: cover;
@@ -453,6 +362,7 @@
     left: 0;
     top: 0;
     }
+/*Форма для бронирования поездки*/
 .booking__form {
   background-color: transparent;
   border: 3px solid white;
@@ -461,9 +371,11 @@
   width: 100%;
   margin: 0 auto;
 }
+/*Обертка для бронирования поездки*/
 .booking__form-wrap {
   padding: 20px 20px 0;
 }
+/*Название поездки для бронирования*/
 .booking__title {
     font-family: "Raleway", sans-serif;
     font-size: 30px;
@@ -473,17 +385,7 @@
     color: white;
     text-align: center;
 }
-.booking__text {
-    font-family: "Raleway", sans-serif;
-    font-size: 22px;
-    line-height: 24px;
-    font-weight: 500;
-    margin-bottom: 5px;
-    color: white;
- }
-.booking__form-group {
-    margin-bottom: 30px;
-}
+/*Текст известных полей для бронирования*/
 .booking__info {
     font-family: "Raleway", sans-serif;
     font-weight: 400;
@@ -496,6 +398,19 @@
 .booking__info:last-child {
     margin-bottom: 10px;
 }
+/*Текст формы полей для бронирования*/
+.booking__text {
+    font-family: "Raleway", sans-serif;
+    font-size: 22px;
+    line-height: 24px;
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: white;
+ }
+.booking__form-group {
+    margin-bottom: 30px;
+}
+/*Поля для ввода формы для бронирования*/
 .booking__form-input {
     background-color: rgb(255, 255, 255, 0.5);
 	vertical-align: top;
@@ -516,23 +431,27 @@
 	width: 150px;
 	margin-bottom: 15px;
 }
+/*Поле с цифрами формы для бронирования*/
 .booking__form-input__num {
 	height: 40px;
 	line-height: 40px;
 	text-indent: 10px;
 	width: 50px;
 }
+/*Поле с коммент. формы для бронирования*/
 .booking__form-input__area{
     width: 404px;
     height: 125px;
     resize: none;
     padding: 5px;
 }
+/*Фокусиравоние при нажатии формы для бронирования*/
 .booking__form-input:focus {
   box-shadow: 0 0 10px #0E6038;
   border: none;
   outline: none;
 }
+/*Кнопка забронировать формы для бронирования*/
 .booking__form-btn {
     display: block;
     padding: 20px 0;
@@ -550,14 +469,21 @@
     border: none;
     border-radius: 0 0 5px 5px;
 }
-
+/*Страница с билетом после бронирования*/
 .booking__info-wrap {
   margin: 0 auto;
-  margin-bottom: 250px;
+  margin-bottom: 50px;
 }
+/*Страница после неуспешного бронирования*/
+.booking__impossible-wrap{
+ margin: 0 auto;
+  margin-bottom: 242px;
+}
+/*Выделение слов в тексте после бронирования*/
 .booking__text-green {
 color: #0E6038;
 }
+/*Кнопка вернуться после бронирования*/
 .booking__text-btn {
     display: flex;
     align-items: center;
@@ -567,40 +493,139 @@ color: #0E6038;
     font-size: 18px;
     line-height: 21px;
 }
-
-
+/*Стили для страницы с аккаунтом*/
+.account {
+    background-image: url(../background.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+    padding: 50px 10px 130px;
+}
+.account::before {
+    content: "";
+    display: block;
+    background: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+}
+/*Обертка аккаунта*/
+.account__wrap {
+    display:grid;
+    grid-template-columns: 0.4fr 1fr;
+}
+/*Заголовок аккаунта*/
+.account__title {
+   font-family: "Raleway", sans-serif;
+    font-size: 30px;
+    color: white;
+    line-height: 30px;
+    font-weight: 400;
+    margin-bottom: 30px;
+    text-align: center;
+}
+/*Информация о польз. аккаунта*/
+.account__userinfo {
+    font-family: "Raleway", sans-serif;
+    font-size: 20px;
+    color: white;
+    line-height: 22px;
+    font-weight: 300;
+    margin-bottom: 30px;
+}
+/*Табл. аккаунта*/
+.account__table-wrap {
+    max-width: 1000px;
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: 30px;
+}
+/*Заголовок ячеек Табл. аккаунта*/
+.account__tabletop {
+    padding: 10px 15px;
+    text-align: center;
+    font-family: "Raleway", sans-serif;
+    font-size: 22px;
+    color: #8e8d8a;
+    line-height: 24px;
+    font-weight: 500;
+}
+/*Ячейка Табл. аккаунта*/
+.account__text {
+    padding: 10px 20px;
+    text-align: center;
+    font-family: "Raleway", sans-serif;
+    font-size: 18px;
+    color: white;
+    line-height: 22px;
+    font-weight: 500;
+}
+/*Отменить поездку в аккаунте*/
+.account__btn-remove {
+    display: block;
+    padding: 3px 5px;
+    border-radius: 10px;
+    margin: 0 auto;
+    max-width: 110px;
+    width: 100%;
+    font-family: "Raleway", sans-serif;
+    font-size: 18px;
+    line-height: 20px;
+    font-weight: 500;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    background-color: #0E6038;
+    border: none;
+}
+/*Если нет поездок в аккаунте*/
+.account__text-notrip{
+    text-align: center;
+    font-family: "Raleway", sans-serif;
+    font-size: 22px;
+    color: white;
+    line-height: 24px;
+    font-weight: 500;
+}
+/*Билет*/
 .ticket {
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  max-width: 24rem;
-  }
-
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    max-width: 24rem;
+}
+/*Заголовок билета*/
 .ticket__header {
     padding: 1.25rem;
     background-color: hsl(200, 0%, 100%);
     border: 1px solid hsl(200, 10%, 70%);
     box-shadow: 0 2px 4px hsla(200, 20%, 20%, 0.25);
-  }
- .ticket__body {
-     padding: 1.25rem;
+}
+/*Тело билета*/
+.ticket__body {
+    padding: 1.25rem;
     background-color: hsl(200, 0%, 100%);
     border: 1px solid hsl(200, 10%, 70%);
     box-shadow: 0 2px 4px hsla(200, 20%, 20%, 0.25);
-  }
- .ticket__footer {
+}
+/*Футер билета*/
+.ticket__footer {
     padding: 1.25rem;
     background-color: hsl(200, 0%, 100%);
     border: 0.25px solid hsl(200, 10%, 70%);
     box-shadow: 0 2px 4px hsla(200, 20%, 20%, 0.25);
-        font-weight: bold;
+    font-weight: bold;
     font-size: 1.25rem;
     display: flex;
     justify-content: space-between;
     border-radius: 0 0 0.325rem 0.325rem;
-  }
-  .ticket__header {
+}
+/*Хеадер билета*/
+.ticket__header {
     font-size: 1.5rem;
     border-top: 0.25rem solid red;
     border-bottom: none;
     box-shadow: none;
-  }
+}

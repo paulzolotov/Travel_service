@@ -12,7 +12,7 @@
                     <p class="account__userinfo">Username: {{ user.username }}</p>
                     <p class="account__userinfo">Моб. телефон: {{ user.phone }}</p>
                     <p class="account__userinfo">Дата рождения: {{ user.date_of_birth }}</p>
-                    <p class="account__userinfo">Email: {{ user.mail }}</p>
+                    <p class="account__userinfo">Email: {{ user.email }}</p>
                     <p class="account__userinfo">Дата регистрации: {{ user.date_joined }}</p>
                 </div>
             {% if user_trips %}
@@ -30,29 +30,29 @@
                             </tr>
                         {% for trip in user_trips %}
                             <tr class="account__table-item">
-                                <th class="account__text">{{ trip.get_direction }}</th>
-                                <th class="account__text">{{ trip.date_of_the_trip }}</th>
-                                <th class="account__text">{{ trip.departure_time }}</th>
-                                <th class="account__text">{{ trip.arrival_time_calculation }}</th>
-                                <th class="account__text">{{ trip.landing_place }}</th>
-                                <th class="account__text">{{ trip.number_of_reserved_places }}</th>
-                                <th class="account__text">{{ trip.get_full_price }} BYN</th>
+                                <td class="account__text">{{ trip.get_direction }}</td>
+                                <td class="account__text">{{ trip.date_of_the_trip }}</td>
+                                <td class="account__text">{{ trip.departure_time }}</td>
+                                <td class="account__text">{{ trip.arrival_time_calculation }}</td>
+                                <td class="account__text">{{ trip.landing_place }}</td>
+                                <td class="account__text">{{ trip.number_of_reserved_places }}</td>
+                                <td class="account__text">{{ trip.get_full_price }} BYN</td>
                             </tr>
+                            <tr class="account__table-item">
+                                <td class="account__text" colspan="6">Информация о перевозчике: {{ trip.car_info_in_trip.name }}, гос.номер {{ trip.car_info_in_trip.auto_number }}, {{ trip.car_info_in_trip.carrier_phone }}</td>
+                                <td class="account__text" rowspan="2"><a class="account__btn-remove" href="{% url 'booking:trip_remove' trip.id %}">Отменить поездку</a><td>
+                            </tr>
+                            <tr class="account__table-item">
+                                <td class="account__text" colspan="6">
+                                    {% if trip.user_comment %}
+                                        Комментарий: {{ trip.user_comment}}
+                                    {% else %}
+                                        Комментарий: &nbsp;
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
                         </table>
-                        <div class="account__list">
-                            <div class="account__list-item">
-                            <p class="account__text-left account__text-left_top">Информация о перевозчике: {{ trip.car_info_in_trip.name }}, гос.номер {{ trip.car_info_in_trip.auto_number }}, {{ trip.car_info_in_trip.carrier_phone }}</p>
-                        {% if trip.user_comment %}
-                            <p class="account__text-left">Комментарий: {{ trip.user_comment}}</p>
-                        {% else %}
-                            <p class="account__text-left">Комментарий: &nbsp;</p>
-                        {% endif %}
-                            </div>
-                            <div class="account__list-item">
-                                <a class="account__btn-remove" href="{% url 'booking:trip_remove' trip.id %}">Отменить поездку</a>
-                                {% endfor %}
-                            </div>
-                        </div>
                         {% else %}
                     <div class="account__info">
                         <h3 class="account__title">Информация о поездках</h3>

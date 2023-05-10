@@ -13,37 +13,38 @@ class CustomUserCreationForm(UserCreationForm):
     phone = PhoneNumberField(
         label="Номер телефона",
         region="BY",
-        widget=PhoneNumberPrefixWidget(
-            country_choices=[("BY", "375"), ("RU", "7"), ("UA", "380")],
+        widget=PhoneNumberPrefixWidget(attrs={"class": "form__input"},
+                                       country_choices=[("BY", "375"), ("RU", "7"), ("UA", "380")],
         ),
     )
     username = forms.CharField(
-        label="Логин", widget=forms.TextInput(attrs={"class": "form-input"})
+        label="Логин", widget=forms.TextInput(attrs={"class": "form__input"})
     )
     first_name = forms.CharField(
-        label="Имя", widget=forms.TextInput(attrs={"class": "form-input"})
+        label="Имя", widget=forms.TextInput(attrs={"class": "form__input"})
     )
     last_name = forms.CharField(
-        label="Фамилия", widget=forms.TextInput(attrs={"class": "form-input"})
+        label="Фамилия", widget=forms.TextInput(attrs={"class": "form__input"})
     )
     email = forms.EmailField(
-        label="Email", widget=forms.EmailInput(attrs={"class": "form-input"})
+        label="Email", widget=forms.EmailInput(attrs={"class": "form__input"})
     )
     date_of_birth = forms.DateField(
-        label="Дата рождения", widget=SelectDateWidget(years=range(1940, 2010))
+        label="Дата рождения", widget=SelectDateWidget(years=range(1940, 2010),
+                                                       attrs={"class": "form__input"})
     )
     password1 = forms.CharField(
-        label="Пароль", widget=forms.PasswordInput(attrs={"class": "form-input"})
+        label="Пароль", widget=forms.PasswordInput(attrs={"class": "form__input"})
     )
     password2 = forms.CharField(
         label="Подтверждение пароля",
-        widget=forms.PasswordInput(attrs={"class": "form-input"}),
+        widget=forms.PasswordInput(attrs={"class": "form__input"}),
     )
     cookie_consent = forms.BooleanField(
         label="Вы соглашаетесь с размещением файлов cookie на вашем компьютере, "
         "с целью анализа использования Веб-сайта?",
         initial=1,
-        widget=forms.CheckboxInput(attrs={"class": "form-input"}),
+        widget=forms.CheckboxInput(attrs={"class": "form__input form__input-check"}),
     )
 
     class Meta(UserCreationForm.Meta):
@@ -67,14 +68,14 @@ class CustomPasswordChangeForm(PasswordChangeForm):
     """Класс для создания формы по смене пароля"""
 
     old_password = forms.CharField(
-        label="Старый пароль", widget=forms.PasswordInput(attrs={"class": "form-input"})
+        label="Старый пароль", widget=forms.PasswordInput(attrs={"class": "form__input"})
     )
     new_password1 = forms.CharField(
-        label="Новый пароль", widget=forms.PasswordInput(attrs={"class": "form-input"})
+        label="Новый пароль", widget=forms.PasswordInput(attrs={"class": "form__input"})
     )
     new_password2 = forms.CharField(
         label="Подтверждение пароля",
-        widget=forms.PasswordInput(attrs={"class": "form-input"}),
+        widget=forms.PasswordInput(attrs={"class": "form__input"}),
     )
 
     def clean(self) -> None:

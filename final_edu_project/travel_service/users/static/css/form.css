@@ -1,35 +1,190 @@
 body {background-color: #eae7dc;}
 /*сброс стидей браузера*/
-* {
+/** {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 /*стили для всей стр*/
-.container {
+/*.container {
   max-width: 1700px;
   padding: 0 15px;
   margin: 0 auto;
 }
 /*блок 1*/
-.form__section {
+/*.form__section {
   padding: 50px 0 50px;
 }
 /*форма*/
-.form__comm {
+/*.form__comm {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.btn__sign-in {
+/*.btn__sign-in {
   margin: 0 auto;
   display: block;
   max-width: 100px;
   width: 100%;
 }
-.scale {
+/*.scale {
   width: 530px;
   height: 380px;
   margin-bottom: 10px;
+}
+
+
+
+/*сброс стидей браузера*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/*стили для всей стр*/
+.container {
+  max-width: 1900px;
+  padding: 50px 15px;
+  margin: 0 auto;
+  position: relative;
+}
+
+body {
+  background-image: url(../background.png);
+background-repeat: no-repeat;
+background-position: top center;
+background-attachment: fixed;
+  position: relative;
+}
+.form__title {
+  font-family: "Raleway", sans-serif;
+  font-size: 30px;
+  color: white;
+  line-height: 30px;
+  font-weight: 400;
+  align-items: center;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.form__link {
+    font-family: "Raleway", sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 21px;
+    color: white;
+    display: block;
+    background-color: transparent;
+    margin: 0 auto;
+    cursor: pointer;
+    max-width: 277px;
+    width: 100%;
+    text-align: center;
+}
+
+.form__image {
+  width: 400px;
+  height: 300px;
+  position: relative;
+  margin: 0 auto;
+  margin-bottom: 50px;
+}
+
+.form__image-png {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  -o-object-fit: cover;
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+
+.form__wrapper {
+  background-color: transparent;
+  border: 3px solid white;
+  border-radius: 5px;
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 30px;
+}
+.form__wrap-input {
+ display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  column-gap:10px;
+  margin-bottom: 15px;
+  }
+
+.form__input {
+  background-color: rgb(255, 255, 255, 0.5);
+  vertical-align: top;
+  outline: none;
+  padding: 0;
+  height: 40px;
+  line-height: 40px;
+  text-indent: 10px;
+  display: inline-block;
+  width: 100%;
+  box-sizing: border-box;
+  border: none;
+  font-family: "Raleway", sans-serif;
+  font-size: 18px;
+  line-height: 20px;
+  font-weight: 500;
+  border-radius: 3px;
+}
+
+.form__input:focus {
+  box-shadow: 0 0 10px #0E6038;
+  border: none;
+  outline: none;
+}
+.form__input-check {
+width:80px;
+}
+.form__input-check:focus {
+box-shadow: none;
+}
+.form__label {
+  font-family: "Raleway", sans-serif;
+  font-size: 22px;
+  line-height: 24px;
+  font-weight: 500;
+  color: white;
+  text-align:justify;
+}
+
+.form__btn {
+  display: block;
+  padding: 20px 0;
+  margin: 0 auto;
+  width: 100%;
+  font-family: "Raleway", sans-serif;
+  font-size: 18px;
+  line-height: 20px;
+  font-weight: 500;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  background-color: #0E6038;
+  color: white;
+  border: none;
+  border-radius: 0 0 5px 5px;
+  margin-bottom: 30px;
+}
+.form__text {
+    font-family: "Raleway", sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 21px;
+    color: white;
+    margin-bottom: 10px;
+
+}
+.form__wrap-text {
+    margin-bottom: 10px;
 }
