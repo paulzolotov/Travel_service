@@ -107,7 +107,7 @@ class DateRoute(BookingInfoMixin):
         return f"{self.date_route}"
 
 
-class TimeTrip(models.Model):
+class TimeTrip(BookingInfoMixin):
     """Класс для создания модели - Время начала поездки"""
 
     departure_time = models.TimeField(verbose_name="Departure time")

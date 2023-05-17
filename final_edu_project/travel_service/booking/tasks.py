@@ -5,7 +5,7 @@ from celery import shared_task
 from django.core.files.base import File
 from django.core.mail import send_mail
 
-from .models import DateRoute, Log
+from .models import DateRoute, TimeTrip, Log
 
 logger = logging.getLogger(__name__)  # необходимо для логгинга
 
@@ -47,5 +47,21 @@ def make_inactive_last_day_task():
     ]
     if today in all_dates:
         queryset = DateRoute.objects.filter(date_route=today)
-        print(queryset)
         queryset.update(is_active=False)
+
+
+@shared_task()
+def make_inactive_at_timetrip_task():
+    """Функция для проверки прошедших по времени поездок в сервисе. Идея такова: если поездка уже прошла и эта поездка
+    имела статус 'активен', переводим его в 'неактивный'
+    """
+
+    # time_now = datetime.time(9, 11)  # for debug
+    time_now = datetime.time()
+    all_timetrips = [
+        x["departure_time"] for x in TimeTrip.objects.filter(is_active=True).values()
+    ]
+    for timetrip in all_timetrips:
+        if timetrip < time_now:
+            queryset = TimeTrip.objects.filter(departure_time=timetrip)
+            queryset.update(is_active=False)

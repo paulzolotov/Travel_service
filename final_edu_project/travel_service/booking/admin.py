@@ -105,6 +105,7 @@ class TimeTripAdmin(admin.ModelAdmin):
         "departure_time",
         "date_of_the_trip",
         "direction",
+        "is_active",
         "view_trips_link",
         "number_of_seats",
         "number_of_reserved_places_in_trip",

@@ -11,6 +11,9 @@ class BookingUser(AbstractUser):
     cookie_consent = models.BooleanField(
         default=True, verbose_name="Do you agree to the use of cookies?"
     )
+    email = models.EmailField(
+        unique=True, verbose_name="Email address", null=True, blank=True
+    )
 
     class Meta:
         verbose_name = "User"

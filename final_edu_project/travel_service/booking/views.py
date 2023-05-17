@@ -67,8 +67,11 @@ def get_daytime_trip(
     # Получили список всех поездок сортированных по времени (с утра до вечера)
     day = get_object_or_404(date_routes, date_route=date_route)
     # timetrip в timetrip_set взяли из модели
-    trip_times = (
+    trip_times_all = (
         day.timetrip_set.filter(direction=direction).order_by("departure_time").all()
+    )
+    trip_times_active = (
+        day.timetrip_set.filter(direction=direction, is_active=True).order_by("departure_time").all()
     )
     return render(
         request,
@@ -77,7 +80,8 @@ def get_daytime_trip(
             "direction": direction,
             "direction_slug": direction_slug,
             "date_routes": date_routes,
-            "trip_times": trip_times,
+            "trip_times_all": trip_times_all,
+            "trip_times_active": trip_times_active,
         },
     )
 

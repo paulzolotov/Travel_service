@@ -18,5 +18,9 @@ app.conf.beat_schedule = {
     #     'task': 'booking.tasks.make_inactive_last_day_task',
     #     'schedule': 3,
     # },
+    'check_elapsed_trip_time': {
+        'task': 'booking.tasks.make_inactive_at_timetrip_task',
+        'schedule': crontab(),
+    },
 }
 app.conf.timezone = "UTC"
