@@ -71,7 +71,9 @@ def get_daytime_trip(
         day.timetrip_set.filter(direction=direction).order_by("departure_time").all()
     )
     trip_times_active = (
-        day.timetrip_set.filter(direction=direction, is_active=True).order_by("departure_time").all()
+        day.timetrip_set.filter(direction=direction, is_active=True)
+        .order_by("departure_time")
+        .all()
     )
     return render(
         request,

@@ -69,4 +69,5 @@ urlpatterns = [
         ),
         name="reset_complete",
     ),
+    path("info-edit", views.user_edit, name="user-info-edit"),
 ]

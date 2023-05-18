@@ -14,6 +14,7 @@
                     <p class="account__userinfo">Дата рождения: {{ user.date_of_birth }}</p>
                     <p class="account__userinfo">Email: {{ user.email }}</p>
                     <p class="account__userinfo">Дата регистрации: {{ user.date_joined }}</p>
+                    <a class="account__btn-remove" href="{% url 'users:user-info-edit' %}">Изменить</a>
                 </div>
             {% if user_trips %}
                 <div class="account__info">

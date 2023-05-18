@@ -1,5 +1,6 @@
 from django import forms
-from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm
+from django.contrib.auth.forms import (PasswordChangeForm, UserChangeForm,
+                                       UserCreationForm)
 from django.forms import SelectDateWidget, ValidationError
 from phonenumber_field.formfields import PhoneNumberField
 from phonenumber_field.widgets import PhoneNumberPrefixWidget
@@ -7,8 +8,8 @@ from phonenumber_field.widgets import PhoneNumberPrefixWidget
 from .models import BookingUser
 
 
-class CustomUserCreationForm(UserCreationForm):
-    """Класс для создания формы по регистрации пользователя"""
+class CustomUserFieldsMixinFrom(forms.Form):
+    """Класс Mixin, для повторяющихся полей пользователя, от которого затем наследуются классы с формами"""
 
     phone = PhoneNumberField(
         label="Номер телефона",
@@ -30,6 +31,17 @@ class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(
         label="Email", widget=forms.EmailInput(attrs={"class": "form__input"})
     )
+    cookie_consent = forms.BooleanField(
+        label="Вы соглашаетесь с размещением файлов cookie на вашем компьютере, "
+        "с целью анализа использования Веб-сайта?",
+        initial=1,
+        widget=forms.CheckboxInput(attrs={"class": "form__input form__input-check"}),
+    )
+
+
+class CustomUserCreationForm(UserCreationForm, CustomUserFieldsMixinFrom):
+    """Класс для создания формы по регистрации пользователя"""
+
     date_of_birth = forms.DateField(
         label="Дата рождения",
         widget=SelectDateWidget(
@@ -42,12 +54,6 @@ class CustomUserCreationForm(UserCreationForm):
     password2 = forms.CharField(
         label="Подтверждение пароля",
         widget=forms.PasswordInput(attrs={"class": "form__input"}),
-    )
-    cookie_consent = forms.BooleanField(
-        label="Вы соглашаетесь с размещением файлов cookie на вашем компьютере, "
-        "с целью анализа использования Веб-сайта?",
-        initial=1,
-        widget=forms.CheckboxInput(attrs={"class": "form__input form__input-check"}),
     )
 
     class Meta(UserCreationForm.Meta):
@@ -89,3 +95,23 @@ class CustomPasswordChangeForm(PasswordChangeForm):
         new = cleaned_data.get("new_password1")
         if user.check_password(new):
             raise ValidationError("Новый пароль совпадает со старым.")
+
+
+class CustomUserUpdateForm(UserChangeForm, CustomUserFieldsMixinFrom):
+    """Класс для создания формы по редактированию информации пользователя"""
+
+    password = None  # для того чтобы убрать отображение поля password в форме
+
+    class Meta(UserCreationForm.Meta):
+        """Добавляем доп. поле"""
+
+        model = BookingUser
+        fields = (
+            "phone",
+            "username",
+            "first_name",
+            "last_name",
+            "email",
+            "cookie_consent",
+        )
+        exclude = ("password",)

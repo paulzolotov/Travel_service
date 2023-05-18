@@ -5,7 +5,7 @@ from celery import shared_task
 from django.core.files.base import File
 from django.core.mail import send_mail
 
-from .models import DateRoute, TimeTrip, Log
+from .models import DateRoute, Log, TimeTrip
 
 logger = logging.getLogger(__name__)  # необходимо для логгинга
 
