@@ -31,4 +31,5 @@ urlpatterns = [
         name="trip_remove",
     ),
     path("account", views.account, name="account"),
+    path("history",  views.trips_history, name="trips-history")
 ]

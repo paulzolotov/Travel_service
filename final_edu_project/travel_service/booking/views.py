@@ -225,14 +225,30 @@ def booking_impossible(
     return render(request, "booking/booking_impossible.html")
 
 
+def trips_history(request):
+    """Функция предназначена для перехода к странице с информацией о поездках, которые уже прошли и попали
+    в историю поездок пользователя
+
+    Идея такая, что как только день время поездки проходит, т.е с помощью celery становится неактивным, то поездки
+    переходит в историю поездок пользователя.
+    """
+
+    user_inactive_trips = [
+        x for x in Trip.objects.filter(username=request.user) if not x.departure_time.is_active
+    ]
+
+    return render(request, "booking/user_trip_history.html", context={"user_trips": user_inactive_trips})
+
+
 @login_required(login_url="users:login", redirect_field_name="next")
 @decorator_log
 def account(request: HttpRequest) -> HttpRequest:
-    """Функция предназначена для перехода к странице с контактной информацией"""
+    """Функция предназначена для перехода к странице с контактной информацией и отображением все активных
+    поездок пользователя"""
 
-    user_trips = None
-    if request.user.is_authenticated:
-        user_trips = Trip.objects.filter(username=request.user)
+    user_trips = [
+        x for x in Trip.objects.filter(username=request.user) if x.departure_time.is_active
+    ]
 
     return render(request, "booking/account.html", context={"user_trips": user_trips})
 

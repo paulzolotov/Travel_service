@@ -7,7 +7,7 @@ class BookingUser(AbstractUser):
     """Пользовательский класс User, необходимый для расширения возможностей базового User"""
 
     phone = PhoneNumberField(null=True)
-    date_of_birth = models.DateTimeField(verbose_name="Date of birth", null=True)
+    date_of_birth = models.DateField(verbose_name="Date of birth", null=True)
     cookie_consent = models.BooleanField(
         default=True, verbose_name="Do you agree to the use of cookies?"
     )

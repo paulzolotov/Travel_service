@@ -36,6 +36,7 @@ class DirectionAdmin(admin.ModelAdmin):
         "start_point",
         "end_point",
         "travel_time",
+        "list_of_stops"
     )
     actions = ("make_inactive", "make_active")
 

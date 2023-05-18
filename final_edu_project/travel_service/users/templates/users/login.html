@@ -34,6 +34,20 @@
             <div class="form__error">{{ f.errors }}</div>
             {% endfor %}
             <input class="form__btn" type="submit" value="Sign In">
+
+            {% load socialaccount %}
+            {% get_providers as socialaccount_providers %}
+
+            {% for provider in socialaccount_providers %}
+                {% if provider.id == "openid" %}
+                    {% for brand in provider.get_brands %}
+                      <a title="{{brand.name}}" class="{{provider.id}} {{brand.id}}" href="{% provider_login_url provider.id openid=brand.openid_url process=process %}">{{brand.name}}</a>
+                    {% endfor %}
+                {% endif %}
+                <a class="form__link" title="{{provider.name}}" class="{{provider.id}}" href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}">{{provider.name}}</a>
+            {% endfor %}
+            <br>
+
             <a class="form__link" href="{% url 'users:pass-reset' %}">Забыли пароль?</a>
             <a class="form__link" href="{% url 'users:register' %}">Регистрация</a>
             <a class="form__link" href="{% url 'booking:index' %}">Вернуться на главную страницу</a>
