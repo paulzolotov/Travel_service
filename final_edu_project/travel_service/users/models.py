@@ -22,5 +22,4 @@ class BookingUser(AbstractUser):
     def get_full_name(self) -> str:
         """Возвращает first_name и last_name с пробелом между ними."""
 
-        full_name = "%s %s" % (self.first_name, self.last_name)
-        return full_name.strip()
+        return "%s %s" % (self.first_name, self.last_name)

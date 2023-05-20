@@ -81,11 +81,7 @@ class Direction(BookingInfoMixin):
             ).all()
             for timetrip in timetrips_from_dateroute:
                 price_list.append(timetrip.price)
-        if price_list:
-            min_price = min(price_list)
-        else:
-            min_price = 0
-        return min_price
+        return min(price_list, default=0)
 
 
 class DateRoute(BookingInfoMixin):
@@ -144,6 +140,7 @@ class TimeTrip(BookingInfoMixin):
 
         return f"{self.departure_time}"
 
+    @property
     def number_of_reserved_places_in_trip(self) -> int:
         """Функция для подсчета количества зарезервированных мест в данной поездке"""
 
@@ -159,17 +156,14 @@ class TimeTrip(BookingInfoMixin):
         """Функция, предназначенная для подсчета количества свободных мест
         на определенное дату и время"""
 
-        count_free_places = self.number_of_seats - int(
-            self.number_of_reserved_places_in_trip()
-        )
-        return count_free_places
+        return self.number_of_seats - self.number_of_reserved_places_in_trip
 
     def arrival_time_calculation(self) -> time:
         """Функция, предназначенная для подсчета времени прибытия"""
 
         minutes = self.direction.travel_time
         result = datetime.combine(date.today(), self.departure_time) + timedelta(
-            minutes=int(minutes)
+            minutes=minutes
         )
         return result.time()
 

@@ -1,7 +1,9 @@
 import datetime
 import logging
+from typing import Any
 
 from celery import shared_task
+from django.core import serializers
 from django.core.files.base import File
 from django.core.mail import send_mail
 
@@ -20,18 +22,26 @@ def booking_logger_task(path: str, user: str, time: datetime):
 
 
 @shared_task()
-def send_tripticket_task(user_email: str, ticket_name: str, date: str) -> None:
-    """Функция предназначена для отправления билета на поездку в pdf формате на почту пользователя"""
+def send_tripticket_task(user_email: str, ticket_name: str, trip: Any) -> None:
+    """Функция предназначена для отправления билета на поездку в pdf формате на почту пользователя, также для
+    соохранения билета в БД"""
+
+    # десериализуем объект
+    trip_d = list(serializers.deserialize("json", trip))[0].object
 
     with open(f"media/booking/{ticket_name}", "rb") as f:
+        # отправка билета на почту
         send_mail(
-            f"Билет на поездку {date}",  # тема письма
+            f"Билет на поездку {trip_d.date_of_the_trip}",  # тема письма
             "",
             "support@busby.by",  # от кого письмо
             [user_email],  # кому письмо
             html_message=f"{File(f)}",
             fail_silently=False,  # чтобы не вызывалась ошибка, что email не удалось отправить(при возникновении ошибки)
         )
+        # Сохранение в бд билета в формате pdf
+        trip_d.user_trip_ticket = File(f)
+        trip_d.save()
 
 
 @shared_task()

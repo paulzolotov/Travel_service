@@ -5,6 +5,7 @@ from typing import Any
 import pdfkit
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core import serializers
 from django.core.files.base import File
 from django.http import HttpRequest, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
@@ -14,25 +15,11 @@ from django.views.generic import CreateView
 
 from .forms import TripModelForm
 from .models import Direction, Trip
-from .tasks import booking_logger_task, send_tripticket_task
+from .tasks import send_tripticket_task
+from .utils import decorator_log
+
 
 # Create your views here.
-
-
-def decorator_log(func):
-    """Декоратор для логгинга."""
-
-    def wrapper(*args, **kwargs):
-        """Обертка"""
-        request = args[0]
-        booking_logger_task.delay(
-            request.path, request.user.username, datetime.datetime.now()
-        )
-        return func(*args, **kwargs)
-
-    return wrapper
-
-
 @decorator_log
 def index(request: HttpRequest) -> HttpRequest:
     """Функция предназначена для перехода к странице со списком направлений"""
@@ -165,9 +152,8 @@ class TripCreateView(LoginRequiredMixin, CreateView):
 
         # Необходимо для валидации поля number_of_reserved_places модели Trip. Достаем значение о количестве свободных
         # мест в поездке
-        direction, day, time = self.get_path_params()
-        number_of_seats = int(form.instance.number_of_reserved_places)
-        number_of_free_seats = int(time.number_of_free_places_in_trip())
+        number_of_seats = form.instance.number_of_reserved_places
+        number_of_free_seats = time.number_of_free_places_in_trip()
 
         if number_of_seats > number_of_free_seats:
             form.add_error(
@@ -200,16 +186,9 @@ def booking_success(
     css_path = os.path.join(os.path.dirname(__file__), "static/css/style_booking.css")
     pdfkit.from_string(ticket_template, f"media/booking/{ticket_name}", css=css_path)
 
-    # Считывание билета и сохранение в бд билета в формате pdf
-    # !!! Планировал передать данную функцию тоже в celery, но этому помешало передача объекта trip
-    # (не удавалась сериализовать данный тип объекта)
-    with open(f"media/booking/{ticket_name}", "rb") as f:
-        trip.user_trip_ticket = File(f)
-        trip.save()
-
     # Задача в celery
     send_tripticket_task.delay(
-        request.user.email, ticket_name, str(trip.date_of_the_trip)
+        request.user.email, ticket_name, serializers.serialize("json", [trip])
     )
 
     context = {"ticket_template": ticket_template}
@@ -225,6 +204,8 @@ def booking_impossible(
     return render(request, "booking/booking_impossible.html")
 
 
+@login_required(login_url="users:login", redirect_field_name="next")
+@decorator_log
 def trips_history(request):
     """Функция предназначена для перехода к странице с информацией о поездках, которые уже прошли и попали
     в историю поездок пользователя
@@ -234,10 +215,16 @@ def trips_history(request):
     """
 
     user_inactive_trips = [
-        x for x in Trip.objects.filter(username=request.user) if not x.departure_time.is_active
+        x
+        for x in Trip.objects.filter(username=request.user)
+        if not x.departure_time.is_active
     ]
 
-    return render(request, "booking/user_trip_history.html", context={"user_trips": user_inactive_trips})
+    return render(
+        request,
+        "booking/user_trip_history.html",
+        context={"user_trips": user_inactive_trips},
+    )
 
 
 @login_required(login_url="users:login", redirect_field_name="next")
@@ -247,7 +234,9 @@ def account(request: HttpRequest) -> HttpRequest:
     поездок пользователя"""
 
     user_trips = [
-        x for x in Trip.objects.filter(username=request.user) if x.departure_time.is_active
+        x
+        for x in Trip.objects.filter(username=request.user)
+        if x.departure_time.is_active
     ]
 
     return render(request, "booking/account.html", context={"user_trips": user_trips})

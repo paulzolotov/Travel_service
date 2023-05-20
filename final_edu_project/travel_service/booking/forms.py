@@ -6,7 +6,7 @@ from .models import Trip
 class TripModelForm(forms.ModelForm):
     """Форма для модели Trip"""
 
-    def __int__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         """Изменение параметров формы при инициализации"""
 
         super().__init__(*args, **kwargs)
