@@ -131,7 +131,7 @@ class TripCreateView(LoginRequiredMixin, CreateView):
 
         direction, day, time = self.get_path_params()
 
-        # Проверка того, имеет ли пользователь запись на данную поездку пользователь.
+        # Проверка того, имеет ли пользователь запись на данную поездку.
         # Идея такая: 1 пользователь - 1 заказ на данную поездку
         trip = time.trip_set.filter(username=self.request.user)
         if trip:

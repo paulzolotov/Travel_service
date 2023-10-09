@@ -1,0 +1,72 @@
+version: "3"
+
+services:
+  django_db:
+    image: postgres:12.14
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=hello_django
+      - POSTGRES_PASSWORD=hello_django
+      - POSTGRES_DB=hello_django_dev
+    expose:
+      - 5432
+
+  django_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: paulzolotov/travel_service_django_app
+    # Запускаем тестовый сервер
+    command: python3 manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/my_app_directory
+      # Проброс портов
+    ports:
+      - "8080:8000"
+    env_file:
+      - ./.env.dev
+    depends_on:
+      - django_db
+      - redis
+
+  celery:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: paulzolotov/travel_service_celery
+    command: python3 -m celery -A travel_service worker
+    volumes:
+      - .:/my_app_directory
+    env_file:
+      - ./.env.dev
+    depends_on:
+      - django_app
+      - redis
+
+  redis:
+    restart: always
+    container_name: redis
+    image: "redis:alpine"
+    hostname: redis
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+
+    ports:
+      - "6378:6379"
+
+  smtp-server:
+    image: mailhog/mailhog
+    expose:
+      - 1025
+      - 8025
+      - 1024
+      - 8024
+    ports:
+      - '1024:1025'
+      - '8024:8025'
+
+
+volumes:
+  postgres_data:
