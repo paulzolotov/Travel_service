@@ -55,3 +55,7 @@ celery -A travel_service beat
 + создать суперпользователя  `python3 manage.py createsuperuser`
 + перейти по адресу [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/)
 
+## Запуск с помощью docker-compose
+
+- `docker-compose up -d --build`
+
